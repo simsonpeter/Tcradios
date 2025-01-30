@@ -79,6 +79,20 @@
         .theme-toggle:active {
             transform: scale(0.9);
         }
+        .sort-select {
+            padding: 8px;
+            border-radius: 8px;
+            border: 1px solid var(--text-secondary);
+            background: var(--surface);
+            color: var(--text-primary);
+            margin-right: 12px;
+            cursor: pointer;
+            outline: none;
+        }
+        .sort-select option {
+            background: var(--surface);
+            color: var(--text-primary);
+        }
         .app-container {
             max-width: 500px;
             margin: 0 auto;
@@ -272,7 +286,15 @@
     </script>
     <div class="header">
         <div class="app-title">TC RADIOS</div>
-        <button class="theme-toggle" id="themeToggle">🌓</button>
+        <div>
+            <select id="sortSelect" class="sort-select">
+                <option value="name-asc">Sort by Name (A-Z)</option>
+                <option value="name-desc">Sort by Name (Z-A)</option>
+                <option value="genre-asc">Sort by Genre (A-Z)</option>
+                <option value="genre-desc">Sort by Genre (Z-A)</option>
+            </select>
+            <button class="theme-toggle" id="themeToggle">🌓</button>
+        </div>
     </div>
     <div class="app-container">
         <div class="tabs">
@@ -449,6 +471,36 @@
             );
             renderStations(filteredStations);
         });
+
+        // Sorting Functionality
+        const sortSelect = document.getElementById('sortSelect');
+        sortSelect.addEventListener('change', () => {
+            const sortValue = sortSelect.value;
+            sortStations(sortValue);
+        });
+
+        function sortStations(sortValue) {
+            let sortedStations = [...customStations]; // Create a copy of the stations array
+
+            switch (sortValue) {
+                case 'name-asc':
+                    sortedStations.sort((a, b) => a.name.localeCompare(b.name));
+                    break;
+                case 'name-desc':
+                    sortedStations.sort((a, b) => b.name.localeCompare(a.name));
+                    break;
+                case 'genre-asc':
+                    sortedStations.sort((a, b) => a.genre.localeCompare(b.genre));
+                    break;
+                case 'genre-desc':
+                    sortedStations.sort((a, b) => b.genre.localeCompare(a.genre));
+                    break;
+                default:
+                    break;
+            }
+
+            renderStations(sortedStations);
+        }
 
         // Station Management
         function createStationItem(station) {
