@@ -1,0 +1,22 @@
+﻿{
+  "short_name": "TC Radios",
+  "name": "TC Radios - Tamil Christian Radio Stations",
+  "description": "Listen to Tamil Christian radio stations anytime, anywhere.",
+  "icons": [
+    {
+      "src": "icons/icon-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "icons/icon-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#121212",
+  "display": "standalone",
+  "scope": "/",
+  "theme_color": "#1DB954"
+}
