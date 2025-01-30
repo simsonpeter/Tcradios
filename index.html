@@ -216,6 +216,7 @@
             padding: 16px;
             border-radius: 16px 16px 0 0;
             box-shadow: 0 -4px 24px rgba(0,0,0,0.3);
+            z-index: 100; /* Ensure player is above other elements */
         }
         .player-content {
             display: flex;
@@ -259,9 +260,9 @@
         }
         .floating-timer {
             position: fixed;
-            bottom: 20px;
+            bottom: 80px; /* Position above the player */
             right: 20px;
-            z-index: 1000;
+            z-index: 1000; /* Ensure timer is above the player */
         }
         .timer-icon {
             width: 48px;
@@ -282,7 +283,7 @@
         }
         .timer-menu {
             position: absolute;
-            bottom: 60px;
+            bottom: 60px; /* Position above the timer icon */
             right: 0;
             background: var(--surface);
             padding: 12px;
