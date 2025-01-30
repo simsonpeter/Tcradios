@@ -654,4 +654,17 @@
                 navigator.share({
                     title: `Listen to ${station.name}`,
                     text: "Check out this radio station on TC Radios",
-                    url:
+                    url: window.location.href
+                });
+            } else {
+                prompt("Copy link to share:", window.location.href);
+            }
+        }
+
+
+        // Initialize
+        document.getElementById('playPauseBtn').addEventListener('click', togglePlayback);
+        initStations();
+    </script>
+</body>
+</html>
