@@ -4,25 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>TC Radios</title>
-<!-- Link to the manifest file -->
-<link rel="manifest" href="/manifest.json">
-
-
-<!-- Theme color for the address bar -->
-<meta name="theme-color" content="#1DB954">
-
-
-<!-- Icons for different devices -->
-<link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192x192.png">
-<link rel="icon" type="image/png" sizes="512x512" href="/icons/icon-512x512.png">
-<link rel="apple-touch-icon" href="/icons/icon-192x192.png">
-
-
-<!-- Enable PWA installation -->
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <!-- Link to the manifest file -->
+    <link rel="manifest" href="/manifest.json">
+    <!-- Theme color for the address bar -->
+    <meta name="theme-color" content="#1DB954">
+    <!-- Icons for different devices -->
+    <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/icons/icon-512x512.png">
+    <link rel="apple-touch-icon" href="/icons/icon-192x192.png">
+    <!-- Enable PWA installation -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <style>
+        /* Your existing CSS styles */
         :root {
             --primary: #1DB954;
             --background: #121212;
@@ -30,24 +25,18 @@
             --text-primary: #FFFFFF;
             --text-secondary: #B3B3B3;
         }
-
-
         .light-theme {
             --background: #ffffff;
             --surface: #f5f5f5;
             --text-primary: #000000;
             --text-secondary: #666666;
         }
-
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, sans-serif;
         }
-
-
         body {
             background: var(--background);
             color: var(--text-primary);
@@ -56,8 +45,6 @@
             -webkit-tap-highlight-color: transparent;
             transition: background 0.3s, color 0.3s;
         }
-
-
         .header {
             position: fixed;
             top: 0;
@@ -71,14 +58,10 @@
             background: var(--surface);
             border-bottom: 1px solid rgba(255,255,255,0.1);
         }
-
-
         .app-title {
             font-size: 20px;
             font-weight: 600;
         }
-
-
         .theme-toggle {
             background: var(--surface);
             border: none;
@@ -93,13 +76,9 @@
             transition: transform 0.2s;
             font-size: 20px;
         }
-
-
         .theme-toggle:active {
             transform: scale(0.9);
         }
-
-
         .app-container {
             max-width: 500px;
             margin: 0 auto;
@@ -107,8 +86,6 @@
             position: relative;
             padding-top: 80px;
         }
-
-
         .tabs {
             display: flex;
             gap: 8px;
@@ -118,8 +95,6 @@
             background: var(--background);
             z-index: 999;
         }
-
-
         .tab-button {
             flex: 1;
             padding: 12px;
@@ -131,19 +106,13 @@
             cursor: pointer;
             transition: all 0.2s;
         }
-
-
         .tab-button.active {
             background: var(--primary);
             color: white;
         }
-
-
         .search-bar {
             padding: 0 16px 16px;
         }
-
-
         .search-bar input {
             width: 100%;
             padding: 12px;
@@ -154,57 +123,41 @@
             font-size: 16px;
             outline: none;
         }
-
-
         .station-list {
             padding: 0 16px 16px;
             height: calc(100vh - 260px);
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
         }
-
-
         .about-content {
             padding: 16px;
             display: none;
             line-height: 1.6;
-            height: calc(100vh - 220px); /* Adjusted height */
-            overflow-y: auto; /* Enable scrolling */
+            height: calc(100vh - 220px);
+            overflow-y: auto;
             -webkit-overflow-scrolling: touch;
         }
-
-
         .contact-section {
             background: var(--surface);
             padding: 20px;
             border-radius: 12px;
             margin-bottom: 20px;
         }
-
-
         .contact-section h3 {
             color: var(--primary);
             margin-bottom: 15px;
         }
-
-
         .contact-details p {
             margin: 10px 0;
         }
-
-
         .social-links a {
             color: var(--primary);
             text-decoration: none;
             margin-right: 15px;
         }
-
-
         .social-links a:hover {
             text-decoration: underline;
         }
-
-
         .station-item {
             display: flex;
             align-items: center;
@@ -214,13 +167,9 @@
             border-radius: 12px;
             transition: transform 0.2s;
         }
-
-
         .station-item:active {
             transform: scale(0.98);
         }
-
-
         .station-artwork {
             width: 60px;
             height: 60px;
@@ -229,33 +178,23 @@
             object-fit: cover;
             box-shadow: 0 4px 12px rgba(0,0,0,0.3);
         }
-
-
         .station-info {
             flex: 1;
         }
-
-
         .station-name {
             font-weight: 500;
             margin-bottom: 4px;
         }
-
-
         .station-genre {
             color: var(--text-secondary);
             font-size: 14px;
         }
-
-
         .station-actions {
             display: flex;
             gap: 12px;
             margin-left: auto;
             padding-left: 16px;
         }
-
-
         .action-btn {
             background: none;
             border: none;
@@ -263,13 +202,9 @@
             cursor: pointer;
             transition: color 0.2s;
         }
-
-
         .action-btn.active {
             color: var(--primary);
         }
-
-
         .player-container {
             position: fixed;
             bottom: 0;
@@ -280,37 +215,34 @@
             border-radius: 16px 16px 0 0;
             box-shadow: 0 -4px 24px rgba(0,0,0,0.3);
         }
-
-
         .player-content {
             display: flex;
             align-items: center;
             gap: 16px;
         }
-
-
         .player-artwork {
             width: 56px;
             height: 56px;
             border-radius: 8px;
             object-fit: cover;
         }
-
-
         .player-info {
             flex: 1;
             min-width: 0;
         }
-
-
         .player-title {
             font-weight: 500;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
-
-
+        .player-metadata {
+            font-size: 14px;
+            color: var(--text-secondary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
         .control-button {
             width: 48px;
             height: 48px;
@@ -326,51 +258,40 @@
     </style>
 </head>
 <body>
-<script>
-  // Register the service worker
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/service-worker.js')
-      .then((registration) => {
-        console.log('Service Worker registered with scope:', registration.scope);
-      })
-      .catch((error) => {
-        console.error('Service Worker registration failed:', error);
-      });
-  }
-</script>
+    <script>
+        // Register the service worker
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/service-worker.js')
+                .then((registration) => {
+                    console.log('Service Worker registered with scope:', registration.scope);
+                })
+                .catch((error) => {
+                    console.error('Service Worker registration failed:', error);
+                });
+        }
+    </script>
     <div class="header">
         <div class="app-title">TC RADIOS</div>
         <button class="theme-toggle" id="themeToggle">🌓</button>
     </div>
-
-
     <div class="app-container">
         <div class="tabs">
             <button class="tab-button active" id="allTab">All Stations</button>
             <button class="tab-button" id="favoritesTab">Favorites</button>
             <button class="tab-button" id="aboutTab">About</button>
         </div>
-
-
         <div class="search-bar">
             <input type="text" id="searchInput" placeholder="Search stations..." />
         </div>
-
-
         <div class="station-list" id="stationList"></div>
-
-
         <div class="about-content" id="aboutContent">
             <div class="contact-section">
                 <h3>Contact Information</h3>
                 <div class="contact-details">
                     <p>📧 Email: simsonpeter@gmail.com</p>
-                    
                     <p>📍 Address: Antwerp, Belgium</p>
                 </div>
             </div>
-
-
             <div class="contact-section">
                 <h3>Connect With Us</h3>
                 <div class="social-links">
@@ -379,8 +300,6 @@
                     <a href="https://github.com" target="_blank">GitHub</a>
                 </div>
             </div>
-
-
             <div class="contact-section">
                 <h3>About TC Radios</h3>
                 <p>TC Radio is a passion project dedicated to bringing all Tamil Christian radio stations to listeners worldwide. 
@@ -388,13 +307,12 @@
                 <p>Version: 1.0.0</p>
             </div>
         </div>
-
-
         <div class="player-container">
             <div class="player-content">
                 <img src="" class="player-artwork" id="playerArtwork">
                 <div class="player-info">
                     <div class="player-title" id="playerTitle">Select a station</div>
+                    <div class="player-metadata" id="playerMetadata">No metadata available</div>
                 </div>
                 <button class="control-button" id="playPauseBtn">
                     <svg width="24" height="24" viewBox="0 0 24 24" id="playIcon">
@@ -407,15 +325,13 @@
             </div>
         </div>
     </div>
-
-
     <script>
         const customStations = [
             {
                 name: "Amen FM",
                 url: "https://ice7.securenetsystems.net/AMENFM",
                 logo: "https://i.ibb.co/JWW8zWHy/download-1.jpg",
-                genre: "Tamil Christian" 
+                genre: "Tamil Christian"
             },
             {   
                 name: "Arulvakku FM",
@@ -479,12 +395,11 @@
             },
         ];
 
-
         const audio = new Audio();
         let currentStation = null;
         let favorites = JSON.parse(localStorage.getItem('radioFavorites')) || [];
         let currentView = 'all';
-
+        let metadataInterval = null;
 
         // Theme Toggle
         const themeToggle = document.getElementById('themeToggle');
@@ -495,12 +410,10 @@
             themeToggle.textContent = isLight ? '🌙' : '☀️';
         });
 
-
         if(localStorage.getItem('theme') === 'light') {
             document.body.classList.add('light-theme');
             themeToggle.textContent = '🌙';
         }
-
 
         // Tab Handling
         document.getElementById('allTab').addEventListener('click', () => {
@@ -508,17 +421,14 @@
             initStations();
         });
 
-
         document.getElementById('favoritesTab').addEventListener('click', () => {
             showTab('favorites');
             showFavorites();
         });
 
-
         document.getElementById('aboutTab').addEventListener('click', () => {
             showTab('about');
         });
-
 
         function showTab(tab) {
             document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
@@ -528,7 +438,6 @@
             document.getElementById('aboutContent').style.display = tab === 'about' ? 'block' : 'none';
             document.getElementById('searchInput').style.display = tab === 'about' ? 'none' : 'block';
         }
-
 
         // Search Functionality
         const searchInput = document.getElementById('searchInput');
@@ -540,7 +449,6 @@
             );
             renderStations(filteredStations);
         });
-
 
         // Station Management
         function createStationItem(station) {
@@ -566,7 +474,6 @@
                 </div>
             `;
 
-
             const favoriteBtn = stationItem.querySelector('.favorite-btn');
             favoriteBtn.addEventListener('click', () => toggleFavorite(station));
             stationItem.querySelector('.share-btn').addEventListener('click', () => shareStation(station));
@@ -574,7 +481,6 @@
             
             return stationItem;
         }
-
 
         function renderStations(stations) {
             const stationList = document.getElementById('stationList');
@@ -585,16 +491,13 @@
             updateFavoriteButtons();
         }
 
-
         function initStations() {
             renderStations(customStations);
         }
 
-
         function showFavorites() {
             renderStations(favorites);
         }
-
 
         // Favorites System
         function toggleFavorite(station) {
@@ -612,14 +515,12 @@
             }
         }
 
-
         function updateFavoriteButtons() {
             document.querySelectorAll('.favorite-btn').forEach(btn => {
                 const stationUrl = btn.dataset.station;
                 btn.classList.toggle('active', favorites.some(fav => fav.url === stationUrl));
             });
         }
-
 
         // Player Controls
         function playStation(station) {
@@ -634,8 +535,12 @@
             updatePlayButton(true);
             document.getElementById('playerArtwork').src = station.logo;
             document.getElementById('playerTitle').textContent = station.name;
-        }
+            document.getElementById('playerMetadata').textContent = 'Loading metadata...';
 
+            // Start fetching metadata
+            if (metadataInterval) clearInterval(metadataInterval);
+            metadataInterval = setInterval(extractMetadata, 5000); // Fetch metadata every 5 seconds
+        }
 
         function togglePlayback() {
             if(audio.paused) {
@@ -647,12 +552,77 @@
             }
         }
 
-
         function updatePlayButton(playing) {
             document.getElementById('playIcon').style.display = playing ? 'none' : 'block';
             document.getElementById('pauseIcon').style.display = playing ? 'block' : 'none';
         }
 
+        // Metadata Extraction
+        function extractMetadata() {
+            if (audio.src && audio.readyState > 0) {
+                fetch(audio.src, {
+                    method: 'GET',
+                    headers: {
+                        'Icy-MetaData': '1' // Request metadata from the server
+                    }
+                })
+                .then(response => {
+                    const icyMetaInt = response.headers.get('icy-metaint');
+                    if (icyMetaInt) {
+                        const reader = response.body.getReader();
+                        let buffer = new Uint8Array();
+                        let metadataLength = 0;
+
+                        const processData = ({ done, value }) => {
+                            if (done) return;
+
+                            buffer = new Uint8Array([...buffer, ...value]);
+
+                            if (metadataLength === 0 && buffer.length >= icyMetaInt) {
+                                metadataLength = buffer[icyMetaInt] * 16;
+                                buffer = buffer.slice(icyMetaInt + 1);
+                            }
+
+                            if (metadataLength > 0 && buffer.length >= metadataLength) {
+                                const metadataBytes = buffer.slice(0, metadataLength);
+                                const metadataText = new TextDecoder().decode(metadataBytes);
+                                const metadata = parseMetadata(metadataText);
+                                updateMetadataDisplay(metadata);
+                                buffer = buffer.slice(metadataLength);
+                                metadataLength = 0;
+                            }
+
+                            reader.read().then(processData);
+                        };
+
+                        reader.read().then(processData);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching metadata:', error);
+                });
+            }
+        }
+
+        function parseMetadata(metadataText) {
+            const metadata = {};
+            metadataText.split(';').forEach(part => {
+                const [key, value] = part.split('=');
+                if (key && value) {
+                    metadata[key.trim()] = value.trim().replace(/'/g, '');
+                }
+            });
+            return metadata;
+        }
+
+        function updateMetadataDisplay(metadata) {
+            const metadataElement = document.getElementById('playerMetadata');
+            if (metadata.StreamTitle) {
+                metadataElement.textContent = metadata.StreamTitle;
+            } else {
+                metadataElement.textContent = 'No metadata available';
+            }
+        }
 
         // Sharing
         function shareStation(station) {
@@ -666,7 +636,6 @@
                 prompt("Copy link to share:", window.location.href);
             }
         }
-
 
         // Initialize
         document.getElementById('playPauseBtn').addEventListener('click', togglePlayback);
