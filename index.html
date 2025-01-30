@@ -16,6 +16,8 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         /* Your existing CSS styles */
         :root {
@@ -255,20 +257,42 @@
             justify-content: center;
             box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
-        .timer-container {
+        .floating-timer {
             position: fixed;
-            bottom: 100px;
-            left: 0;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        .timer-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s;
+        }
+        .timer-icon:active {
+            transform: scale(0.9);
+        }
+        .timer-menu {
+            position: absolute;
+            bottom: 60px;
             right: 0;
             background: var(--surface);
-            padding: 16px;
-            border-radius: 16px 16px 0 0;
-            box-shadow: 0 -4px 24px rgba(0,0,0,0.3);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            padding: 12px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            display: none;
+            flex-direction: column;
+            gap: 8px;
         }
-        .timer-container select {
+        .timer-menu select {
             padding: 8px;
             border-radius: 8px;
             border: 1px solid var(--text-secondary);
@@ -277,14 +301,20 @@
             cursor: pointer;
             outline: none;
         }
-        .timer-container button {
-            padding: 8px 16px;
+        .timer-menu button {
+            padding: 8px;
             border-radius: 8px;
             border: none;
             background: var(--primary);
             color: white;
             cursor: pointer;
             outline: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .timer-menu button i {
+            font-size: 16px;
         }
     </style>
 </head>
@@ -355,16 +385,23 @@
                 </button>
             </div>
         </div>
-        <div class="timer-container" id="timerContainer">
-            <select id="timerSelect">
-                <option value="0">Off</option>
-                <option value="5">5 minutes</option>
-                <option value="10">10 minutes</option>
-                <option value="15">15 minutes</option>
-                <option value="30">30 minutes</option>
-                <option value="60">60 minutes</option>
-            </select>
-            <button id="setTimerBtn">Set Timer</button>
+        <div class="floating-timer" id="floatingTimer">
+            <div class="timer-icon" id="timerIcon">
+                <i class="fas fa-clock"></i>
+            </div>
+            <div class="timer-menu" id="timerMenu">
+                <select id="timerSelect">
+                    <option value="0">Off</option>
+                    <option value="5">5 minutes</option>
+                    <option value="10">10 minutes</option>
+                    <option value="15">15 minutes</option>
+                    <option value="30">30 minutes</option>
+                    <option value="60">60 minutes</option>
+                </select>
+                <button id="setTimerBtn">
+                    <i class="fas fa-check"></i>
+                </button>
+            </div>
         </div>
     </div>
     <script>
@@ -667,7 +704,25 @@
             }
         }
 
-        // Sleep Timer
+        // Floating Timer
+        const floatingTimer = document.getElementById('floatingTimer');
+        const timerIcon = document.getElementById('timerIcon');
+        const timerMenu = document.getElementById('timerMenu');
+
+        // Toggle timer menu
+        timerIcon.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevent the click from reaching the document
+            timerMenu.style.display = timerMenu.style.display === 'flex' ? 'none' : 'flex';
+        });
+
+        // Close timer menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!floatingTimer.contains(e.target)) {
+                timerMenu.style.display = 'none';
+            }
+        });
+
+        // Set timer functionality
         const timerSelect = document.getElementById('timerSelect');
         const setTimerBtn = document.getElementById('setTimerBtn');
 
@@ -678,6 +733,7 @@
             } else {
                 clearTimer();
             }
+            timerMenu.style.display = 'none'; // Close the menu after setting the timer
         });
 
         function setTimer(minutes) {
