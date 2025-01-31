@@ -319,6 +319,20 @@
         .timer-menu button i {
             font-size: 16px;
         }
+
+        /* Spinning Logo Animation */
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .spin-logo {
+            animation: spin 2s linear infinite; /* Adjust the duration (2s) for faster/slower spinning */
+        }
     </style>
 </head>
 <body>
@@ -633,18 +647,24 @@
             document.getElementById('playerTitle').textContent = station.name;
             document.getElementById('playerMetadata').textContent = 'Loading metadata...';
 
+            // Add spinning animation
+            document.getElementById('playerArtwork').classList.add('spin-logo');
+
             // Start fetching metadata
             if (metadataInterval) clearInterval(metadataInterval);
             metadataInterval = setInterval(extractMetadata, 5000); // Fetch metadata every 5 seconds
         }
 
         function togglePlayback() {
-            if(audio.paused) {
+            const playerArtwork = document.getElementById('playerArtwork');
+            if (audio.paused) {
                 audio.play();
                 updatePlayButton(true);
+                playerArtwork.classList.add('spin-logo'); // Add spinning animation
             } else {
                 audio.pause();
                 updatePlayButton(false);
+                playerArtwork.classList.remove('spin-logo'); // Remove spinning animation
             }
         }
 
