@@ -216,7 +216,7 @@
             padding: 16px;
             border-radius: 16px 16px 0 0;
             box-shadow: 0 -4px 24px rgba(0,0,0,0.3);
-            z-index: 100; /* Ensure player is above other elements */
+            z-index: 100;
         }
         .player-content {
             display: flex;
@@ -260,9 +260,11 @@
         }
         .floating-timer {
             position: fixed;
-            bottom: 80px; /* Position above the player */
+            bottom: 80px;
             right: 20px;
-            z-index: 1000; /* Ensure timer is above the player */
+            z-index: 1000;
+            cursor: grab;
+            user-select: none;
         }
         .timer-icon {
             width: 48px;
@@ -283,7 +285,7 @@
         }
         .timer-menu {
             position: absolute;
-            bottom: 60px; /* Position above the timer icon */
+            bottom: 60px;
             right: 0;
             background: var(--surface);
             padding: 12px;
@@ -406,6 +408,7 @@
         </div>
     </div>
     <script>
+        // Define the list of radio stations
         const customStations = [
             {
                 name: "Amen FM",
@@ -465,18 +468,6 @@
                 name: "HOJ Tamil",
                 url: "https://dc1.serverse.com/proxy/hojtamil/stream",
                 logo: "https://i.ibb.co/jk49VdTX/hand-of-jesus.jpg",
-                genre: "Tamil Christian"
-            },
-            {
-                name: "Inbam FM",
-                url: "http://stream.radio.co/sf55ced545/listen",
-                logo: "https://i.ibb.co/v6QtbHL5/download-2.jpg",
-                genre: "Tamil Christian"
-            },
-            {
-                name: "Thuthi FM",
-                url: "https://streams.radio.co/s790fe269d/listen",
-                logo: "https://i.ibb.co/pvchM6w4/images.jpg",
                 genre: "Tamil Christian"
             },
             {
@@ -781,6 +772,62 @@
         // Initialize
         document.getElementById('playPauseBtn').addEventListener('click', togglePlayback);
         initStations();
+
+        // Make the floating timer button draggable
+        let isDragging = false;
+        let offsetX, offsetY;
+
+        floatingTimer.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            offsetX = e.clientX - floatingTimer.getBoundingClientRect().left;
+            offsetY = e.clientY - floatingTimer.getBoundingClientRect().top;
+            floatingTimer.style.cursor = 'grabbing';
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+                const x = e.clientX - offsetX;
+                const y = e.clientY - offsetY;
+
+                const maxX = window.innerWidth - floatingTimer.offsetWidth;
+                const maxY = window.innerHeight - floatingTimer.offsetHeight;
+
+                floatingTimer.style.left = `${Math.min(Math.max(x, 0), maxX)}px`;
+                floatingTimer.style.top = `${Math.min(Math.max(y, 0), maxY)}px`;
+            }
+        });
+
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+            floatingTimer.style.cursor = 'grab';
+        });
+
+        floatingTimer.addEventListener('touchstart', (e) => {
+            isDragging = true;
+            const touch = e.touches[0];
+            offsetX = touch.clientX - floatingTimer.getBoundingClientRect().left;
+            offsetY = touch.clientY - floatingTimer.getBoundingClientRect().top;
+            floatingTimer.style.cursor = 'grabbing';
+        });
+
+        document.addEventListener('touchmove', (e) => {
+            if (isDragging) {
+                const touch = e.touches[0];
+                const x = touch.clientX - offsetX;
+                const y = touch.clientY - offsetY;
+
+                const maxX = window.innerWidth - floatingTimer.offsetWidth;
+                const maxY = window.innerHeight - floatingTimer.offsetHeight;
+
+                floatingTimer.style.left = `${Math.min(Math.max(x, 0), maxX)}px`;
+                floatingTimer.style.top = `${Math.min(Math.max(y, 0), maxY)}px`;
+            }
+        });
+
+        document.addEventListener('touchend', () => {
+            isDragging = false;
+            floatingTimer.style.cursor = 'grab';
+        });
     </script>
 </body>
 </html>
