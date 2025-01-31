@@ -740,7 +740,7 @@
             }
         }
 
-        // Floating Timer
+        // Floating Timer with Notifications
         const floatingTimer = document.getElementById('floatingTimer');
         const timerIcon = document.getElementById('timerIcon');
         const timerMenu = document.getElementById('timerMenu');
@@ -758,7 +758,7 @@
             }
         });
 
-        // Set timer functionality
+        // Set timer functionality with notifications
         const timerSelect = document.getElementById('timerSelect');
         const setTimerBtn = document.getElementById('setTimerBtn');
 
@@ -777,7 +777,12 @@
             timer = setTimeout(() => {
                 audio.pause();
                 updatePlayButton(false);
-                alert("Sleep timer: Playback stopped.");
+                if (Notification.permission === 'granted') {
+                    new Notification('Sleep Timer', {
+                        body: 'Playback has stopped.',
+                        icon: currentStation.logo
+                    });
+                }
             }, minutes * 60 * 1000); // Convert minutes to milliseconds
         }
 
@@ -786,6 +791,11 @@
                 clearTimeout(timer);
                 timer = null;
             }
+        }
+
+        // Request notification permission
+        if (Notification.permission !== 'granted') {
+            Notification.requestPermission();
         }
 
         // Sharing
