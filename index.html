@@ -18,6 +18,8 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Cast SDK -->
+    <script src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js"></script>
     <style>
         /* Your existing CSS styles */
         :root {
@@ -328,6 +330,17 @@
         .timer-menu button i {
             font-size: 16px;
         }
+        .cast-button {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 24px;
+            margin-left: 16px;
+        }
+        .cast-button.active {
+            color: var(--primary);
+        }
     </style>
 </head>
 <body>
@@ -345,7 +358,12 @@
     </script>
     <div class="header">
         <div class="app-title">TC RADIOS</div>
-        <button class="theme-toggle" id="themeToggle">🌓</button>
+        <div>
+            <button class="cast-button" id="castButton">
+                <i class="fas fa-cast"></i>
+            </button>
+            <button class="theme-toggle" id="themeToggle">🌓</button>
+        </div>
     </div>
     <div class="app-container">
         <div class="tabs">
@@ -512,6 +530,77 @@
         let metadataInterval = null;
         let timer = null;
 
+        // Initialize Cast API
+        let castContext = null;
+        let castSession = null;
+
+        function initializeCastApi() {
+            cast.framework.CastContext.getInstance().setOptions({
+                receiverApplicationId: chrome.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID,
+                autoJoinPolicy: chrome.cast.AutoJoinPolicy.ORIGIN_SCOPED,
+            });
+
+            castContext = cast.framework.CastContext.getInstance();
+            castContext.addEventListener(
+                cast.framework.CastContextEventType.SESSION_STATE_CHANGED,
+                (event) => {
+                    if (event.sessionState === 'SESSION_STARTED') {
+                        castSession = castContext.getCurrentSession();
+                        startCasting();
+                    } else if (event.sessionState === 'SESSION_ENDED') {
+                        castSession = null;
+                        stopCasting();
+                    }
+                }
+            );
+        }
+
+        function startCasting() {
+            if (!castSession || !currentStation) return;
+
+            const mediaInfo = new chrome.cast.media.MediaInfo(
+                currentStation.url,
+                'audio/mpeg'
+            );
+            mediaInfo.metadata = new chrome.cast.media.MusicTrackMediaMetadata();
+            mediaInfo.metadata.title = currentStation.name;
+            mediaInfo.metadata.artist = currentStation.genre;
+            mediaInfo.metadata.images = [new chrome.cast.Image(currentStation.logo)];
+
+            const request = new chrome.cast.media.LoadRequest(mediaInfo);
+            castSession.loadMedia(request).then(
+                () => {
+                    console.log('Casting started successfully');
+                },
+                (error) => {
+                    console.error('Error casting:', error);
+                }
+            );
+        }
+
+        function stopCasting() {
+            if (castSession) {
+                castSession.endSession(true);
+            }
+        }
+
+        // Cast Button
+        const castButton = document.getElementById('castButton');
+        castButton.addEventListener('click', () => {
+            if (castSession) {
+                stopCasting();
+            } else {
+                castContext.requestSession().then(
+                    () => {
+                        console.log('Casting session started');
+                    },
+                    (error) => {
+                        console.error('Error starting casting session:', error);
+                    }
+                );
+            }
+        });
+
         // Theme Toggle
         const themeToggle = document.getElementById('themeToggle');
         themeToggle.addEventListener('click', () => {
@@ -654,6 +743,11 @@
             // Start fetching metadata
             if (metadataInterval) clearInterval(metadataInterval);
             metadataInterval = setInterval(extractMetadata, 5000); // Fetch metadata every 5 seconds
+
+            // Start casting if a session is active
+            if (castSession) {
+                startCasting();
+            }
         }
 
         function togglePlayback() {
@@ -861,6 +955,7 @@
 
                 const maxX = window.innerWidth - floatingTimer.offsetWidth;
                 const maxY = window.innerHeight - floatingTimer.offsetHeight;
+
                 floatingTimer.style.left = `${Math.min(Math.max(x, 0), maxX)}px`;
                 floatingTimer.style.top = `${Math.min(Math.max(y, 0), maxY)}px`;
             }
@@ -870,6 +965,13 @@
             isDragging = false;
             floatingTimer.style.cursor = 'grab';
         });
+
+        // Initialize Cast API
+        window['__onGCastApiAvailable'] = (isAvailable) => {
+            if (isAvailable) {
+                initializeCastApi();
+            }
+        };
     </script>
 </body>
 </html>
