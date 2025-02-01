@@ -382,7 +382,7 @@
         </div>
         <div class="player-container">
             <div class="player-content">
-                <img src="" class="player-artwork" id="playerArtwork">
+                <img src="/icons/default-artwork.jpg" class="player-artwork" id="playerArtwork">
                 <div class="player-info">
                     <div class="player-title" id="playerTitle">Select a station</div>
                     <div class="player-metadata" id="playerMetadata">No metadata available</div>
@@ -656,12 +656,16 @@
             audio.src = station.url;
             audio.play();
             updatePlayButton(true);
-            document.getElementById('playerArtwork').src = station.logo;
+
+            // Set the player artwork
+            const playerArtwork = document.getElementById('playerArtwork');
+            playerArtwork.src = station.logo || '/icons/default-artwork.jpg'; // Fallback to default image
+
             document.getElementById('playerTitle').textContent = station.name;
             document.getElementById('playerMetadata').textContent = 'Loading metadata...';
 
             // Start spinning the logo
-            document.getElementById('playerArtwork').classList.add('playing');
+            playerArtwork.classList.add('playing');
 
             // Start fetching metadata
             if (metadataInterval) clearInterval(metadataInterval);
@@ -684,83 +688,84 @@
             document.getElementById('playIcon').style.display = playing ? 'none' : 'block';
             document.getElementById('pauseIcon').style.display = playing ? 'block' : 'none';
         }
-// Metadata Extraction
-function extractMetadata() {
-    if (!audio.src || audio.readyState === 0) return;
 
-    fetch(audio.src, {
-        method: 'GET',
-        headers: {
-            'Icy-MetaData': '1' // Request metadata
+        // Metadata Extraction
+        function extractMetadata() {
+            if (!audio.src || audio.readyState === 0) return;
+
+            fetch(audio.src, {
+                method: 'GET',
+                headers: {
+                    'Icy-MetaData': '1' // Request metadata
+                }
+            })
+            .then(response => {
+                const icyMetaInt = response.headers.get('icy-metaint');
+                if (!icyMetaInt) {
+                    console.error('Metadata not supported by this stream.');
+                    return;
+                }
+
+                const reader = response.body.getReader();
+                let buffer = new Uint8Array();
+                let metadataLength = 0;
+
+                const processData = ({ done, value }) => {
+                    if (done) return;
+
+                    buffer = new Uint8Array([...buffer, ...value]);
+
+                    if (metadataLength === 0 && buffer.length >= icyMetaInt) {
+                        // Extract metadata length
+                        metadataLength = buffer[icyMetaInt] * 16;
+                        buffer = buffer.slice(icyMetaInt + 1); // Skip metadata length byte
+                    }
+
+                    if (metadataLength > 0 && buffer.length >= metadataLength) {
+                        // Extract metadata
+                        const metadataBytes = buffer.slice(0, metadataLength);
+                        const metadataText = new TextDecoder().decode(metadataBytes);
+                        const metadata = parseMetadata(metadataText);
+                        updateMetadataDisplay(metadata);
+
+                        // Remove processed metadata from buffer
+                        buffer = buffer.slice(metadataLength);
+                        metadataLength = 0;
+                    }
+
+                    // Continue reading the stream
+                    reader.read().then(processData);
+                };
+
+                // Start reading the stream
+                reader.read().then(processData);
+            })
+            .catch(error => {
+                console.error('Error fetching metadata:', error);
+            });
         }
-    })
-    .then(response => {
-        const icyMetaInt = response.headers.get('icy-metaint');
-        if (!icyMetaInt) {
-            console.error('Metadata not supported by this stream.');
-            return;
+
+        // Parse Metadata
+        function parseMetadata(metadataText) {
+            const metadata = {};
+            metadataText.split(';').forEach(part => {
+                const [key, value] = part.split('=');
+                if (key && value) {
+                    metadata[key.trim()] = value.trim().replace(/'/g, '');
+                }
+            });
+            return metadata;
         }
 
-        const reader = response.body.getReader();
-        let buffer = new Uint8Array();
-        let metadataLength = 0;
-
-        const processData = ({ done, value }) => {
-            if (done) return;
-
-            buffer = new Uint8Array([...buffer, ...value]);
-
-            if (metadataLength === 0 && buffer.length >= icyMetaInt) {
-                // Extract metadata length
-                metadataLength = buffer[icyMetaInt] * 16;
-                buffer = buffer.slice(icyMetaInt + 1); // Skip metadata length byte
+        // Update Metadata Display
+        function updateMetadataDisplay(metadata) {
+            const metadataElement = document.getElementById('playerMetadata');
+            if (metadata.StreamTitle) {
+                metadataElement.textContent = metadata.StreamTitle;
+            } else {
+                metadataElement.textContent = 'No metadata available';
             }
-
-            if (metadataLength > 0 && buffer.length >= metadataLength) {
-                // Extract metadata
-                const metadataBytes = buffer.slice(0, metadataLength);
-                const metadataText = new TextDecoder().decode(metadataBytes);
-                const metadata = parseMetadata(metadataText);
-                updateMetadataDisplay(metadata);
-
-                // Remove processed metadata from buffer
-                buffer = buffer.slice(metadataLength);
-                metadataLength = 0;
-            }
-
-            // Continue reading the stream
-            reader.read().then(processData);
-        };
-
-        // Start reading the stream
-        reader.read().then(processData);
-    })
-    .catch(error => {
-        console.error('Error fetching metadata:', error);
-    });
-}
-
-// Parse Metadata
-function parseMetadata(metadataText) {
-    const metadata = {};
-    metadataText.split(';').forEach(part => {
-        const [key, value] = part.split('=');
-        if (key && value) {
-            metadata[key.trim()] = value.trim().replace(/'/g, '');
         }
-    });
-    return metadata;
-}
-
-// Update Metadata Display
-function updateMetadataDisplay(metadata) {
-    const metadataElement = document.getElementById('playerMetadata');
-    if (metadata.StreamTitle) {
-        metadataElement.textContent = metadata.StreamTitle;
-    } else {
-        metadataElement.textContent = 'No metadata available';
-    }
-}
 
         // Floating Timer
         const floatingTimer = document.getElementById('floatingTimer');
