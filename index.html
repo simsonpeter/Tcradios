@@ -18,8 +18,6 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Google Cast SDK -->
-    <script src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js"></script>
     <style>
         /* Your existing CSS styles */
         :root {
@@ -330,17 +328,6 @@
         .timer-menu button i {
             font-size: 16px;
         }
-        .cast-button {
-            background: none;
-            border: none;
-            color: var(--text-secondary);
-            cursor: pointer;
-            font-size: 24px;
-            margin-left: 16px;
-        }
-        .cast-button.active {
-            color: var(--primary);
-        }
     </style>
 </head>
 <body>
@@ -358,12 +345,7 @@
     </script>
     <div class="header">
         <div class="app-title">TC RADIOS</div>
-        <div>
-            <button class="cast-button" id="castButton">
-                <i class="fas fa-cast"></i>
-            </button>
-            <button class="theme-toggle" id="themeToggle">🌓</button>
-        </div>
+        <button class="theme-toggle" id="themeToggle">🌓</button>
     </div>
     <div class="app-container">
         <div class="tabs">
@@ -530,77 +512,6 @@
         let metadataInterval = null;
         let timer = null;
 
-        // Initialize Cast API
-        let castContext = null;
-        let castSession = null;
-
-        function initializeCastApi() {
-            cast.framework.CastContext.getInstance().setOptions({
-                receiverApplicationId: chrome.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID,
-                autoJoinPolicy: chrome.cast.AutoJoinPolicy.ORIGIN_SCOPED,
-            });
-
-            castContext = cast.framework.CastContext.getInstance();
-            castContext.addEventListener(
-                cast.framework.CastContextEventType.SESSION_STATE_CHANGED,
-                (event) => {
-                    if (event.sessionState === 'SESSION_STARTED') {
-                        castSession = castContext.getCurrentSession();
-                        startCasting();
-                    } else if (event.sessionState === 'SESSION_ENDED') {
-                        castSession = null;
-                        stopCasting();
-                    }
-                }
-            );
-        }
-
-        function startCasting() {
-            if (!castSession || !currentStation) return;
-
-            const mediaInfo = new chrome.cast.media.MediaInfo(
-                currentStation.url,
-                'audio/mpeg'
-            );
-            mediaInfo.metadata = new chrome.cast.media.MusicTrackMediaMetadata();
-            mediaInfo.metadata.title = currentStation.name;
-            mediaInfo.metadata.artist = currentStation.genre;
-            mediaInfo.metadata.images = [new chrome.cast.Image(currentStation.logo)];
-
-            const request = new chrome.cast.media.LoadRequest(mediaInfo);
-            castSession.loadMedia(request).then(
-                () => {
-                    console.log('Casting started successfully');
-                },
-                (error) => {
-                    console.error('Error casting:', error);
-                }
-            );
-        }
-
-        function stopCasting() {
-            if (castSession) {
-                castSession.endSession(true);
-            }
-        }
-
-        // Cast Button
-        const castButton = document.getElementById('castButton');
-        castButton.addEventListener('click', () => {
-            if (castSession) {
-                stopCasting();
-            } else {
-                castContext.requestSession().then(
-                    () => {
-                        console.log('Casting session started');
-                    },
-                    (error) => {
-                        console.error('Error starting casting session:', error);
-                    }
-                );
-            }
-        });
-
         // Theme Toggle
         const themeToggle = document.getElementById('themeToggle');
         themeToggle.addEventListener('click', () => {
@@ -743,11 +654,6 @@
             // Start fetching metadata
             if (metadataInterval) clearInterval(metadataInterval);
             metadataInterval = setInterval(extractMetadata, 5000); // Fetch metadata every 5 seconds
-
-            // Start casting if a session is active
-            if (castSession) {
-                startCasting();
-            }
         }
 
         function togglePlayback() {
@@ -766,84 +672,83 @@
             document.getElementById('playIcon').style.display = playing ? 'none' : 'block';
             document.getElementById('pauseIcon').style.display = playing ? 'block' : 'none';
         }
+// Metadata Extraction
+function extractMetadata() {
+    if (!audio.src || audio.readyState === 0) return;
 
-        // Metadata Extraction
-        function extractMetadata() {
-            if (!audio.src || audio.readyState === 0) return;
-
-            fetch(audio.src, {
-                method: 'GET',
-                headers: {
-                    'Icy-MetaData': '1' // Request metadata
-                }
-            })
-            .then(response => {
-                const icyMetaInt = response.headers.get('icy-metaint');
-                if (!icyMetaInt) {
-                    console.error('Metadata not supported by this stream.');
-                    return;
-                }
-
-                const reader = response.body.getReader();
-                let buffer = new Uint8Array();
-                let metadataLength = 0;
-
-                const processData = ({ done, value }) => {
-                    if (done) return;
-
-                    buffer = new Uint8Array([...buffer, ...value]);
-
-                    if (metadataLength === 0 && buffer.length >= icyMetaInt) {
-                        // Extract metadata length
-                        metadataLength = buffer[icyMetaInt] * 16;
-                        buffer = buffer.slice(icyMetaInt + 1); // Skip metadata length byte
-                    }
-
-                    if (metadataLength > 0 && buffer.length >= metadataLength) {
-                        // Extract metadata
-                        const metadataBytes = buffer.slice(0, metadataLength);
-                        const metadataText = new TextDecoder().decode(metadataBytes);
-                        const metadata = parseMetadata(metadataText);
-                        updateMetadataDisplay(metadata);
-
-                        // Remove processed metadata from buffer
-                        buffer = buffer.slice(metadataLength);
-                        metadataLength = 0;
-                    }
-
-                    // Continue reading the stream
-                    reader.read().then(processData);
-                };
-
-                // Start reading the stream
-                reader.read().then(processData);
-            })
-            .catch(error => {
-                console.error('Error fetching metadata:', error);
-            });
+    fetch(audio.src, {
+        method: 'GET',
+        headers: {
+            'Icy-MetaData': '1' // Request metadata
+        }
+    })
+    .then(response => {
+        const icyMetaInt = response.headers.get('icy-metaint');
+        if (!icyMetaInt) {
+            console.error('Metadata not supported by this stream.');
+            return;
         }
 
-        // Parse Metadata
-        function parseMetadata(metadataText) {
-            const metadata = {};
-            metadataText.split(';').forEach(part => {
-                const [key, value] = part.split('=');
-                if (key && value) {
-                    metadata[key.trim()] = value.trim().replace(/'/g, '');
-                }
-            });
-            return metadata;
-        }
+        const reader = response.body.getReader();
+        let buffer = new Uint8Array();
+        let metadataLength = 0;
 
-        // Update Metadata Display
-        function updateMetadataDisplay(metadata) {
-            const metadataElement = document.getElementById('playerMetadata');
-            if (metadata.StreamTitle) {
-                metadataElement.textContent = metadata.StreamTitle;
-            } else {
-                metadataElement.textContent = 'No metadata available';
+        const processData = ({ done, value }) => {
+            if (done) return;
+
+            buffer = new Uint8Array([...buffer, ...value]);
+
+            if (metadataLength === 0 && buffer.length >= icyMetaInt) {
+                // Extract metadata length
+                metadataLength = buffer[icyMetaInt] * 16;
+                buffer = buffer.slice(icyMetaInt + 1); // Skip metadata length byte
             }
+
+            if (metadataLength > 0 && buffer.length >= metadataLength) {
+                // Extract metadata
+                const metadataBytes = buffer.slice(0, metadataLength);
+                const metadataText = new TextDecoder().decode(metadataBytes);
+                const metadata = parseMetadata(metadataText);
+                updateMetadataDisplay(metadata);
+
+                // Remove processed metadata from buffer
+                buffer = buffer.slice(metadataLength);
+                metadataLength = 0;
+            }
+
+            // Continue reading the stream
+            reader.read().then(processData);
+        };
+
+        // Start reading the stream
+        reader.read().then(processData);
+    })
+    .catch(error => {
+        console.error('Error fetching metadata:', error);
+    });
+}
+
+// Parse Metadata
+function parseMetadata(metadataText) {
+    const metadata = {};
+    metadataText.split(';').forEach(part => {
+        const [key, value] = part.split('=');
+        if (key && value) {
+            metadata[key.trim()] = value.trim().replace(/'/g, '');
         }
+    });
+    return metadata;
+}
+
+// Update Metadata Display
+function updateMetadataDisplay(metadata) {
+    const metadataElement = document.getElementById('playerMetadata');
+    if (metadata.StreamTitle) {
+        metadataElement.textContent = metadata.StreamTitle;
+    } else {
+        metadataElement.textContent = 'No metadata available';
+    }
+}
 
         // Floating Timer
         const floatingTimer = document.getElementById('floatingTimer');
@@ -965,13 +870,6 @@
             isDragging = false;
             floatingTimer.style.cursor = 'grab';
         });
-
-        // Initialize Cast API
-        window['__onGCastApiAvailable'] = (isAvailable) => {
-            if (isAvailable) {
-                initializeCastApi();
-            }
-        };
     </script>
 </body>
 </html>
