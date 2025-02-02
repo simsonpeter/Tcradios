@@ -364,59 +364,7 @@
                 });
         }
     </script>
-    // Now Playing Screen
-const nowPlaying = document.getElementById('nowPlaying');
-const nowPlayingArtwork = document.getElementById('nowPlayingArtwork');
-const nowPlayingTitle = document.getElementById('nowPlayingTitle');
-const nowPlayingMetadata = document.getElementById('nowPlayingMetadata');
-const nowPlayingPlayPauseBtn = document.getElementById('nowPlayingPlayPauseBtn');
-const nowPlayingPlayIcon = document.getElementById('nowPlayingPlayIcon');
-const nowPlayingPauseIcon = document.getElementById('nowPlayingPauseIcon');
-const nowPlayingCloseBtn = document.getElementById('nowPlayingCloseBtn');
-
-// Open Now Playing Screen
-document.getElementById('playerArtwork').addEventListener('click', () => {
-    if (!currentStation) return; // Do nothing if no station is playing
-    nowPlaying.style.display = 'flex';
-    updateNowPlayingScreen();
-});
-
-// Close Now Playing Screen
-nowPlayingCloseBtn.addEventListener('click', () => {
-    nowPlaying.style.display = 'none';
-});
-
-// Update Now Playing Screen
-function updateNowPlayingScreen() {
-    nowPlayingArtwork.src = currentStation.logo || '/icons/default-artwork.jpg';
-    nowPlayingTitle.textContent = currentStation.name;
-    nowPlayingMetadata.textContent = document.getElementById('playerMetadata').textContent;
-
-    if (audio.paused) {
-        nowPlayingPlayIcon.style.display = 'block';
-        nowPlayingPauseIcon.style.display = 'none';
-        nowPlayingArtwork.classList.remove('playing');
-    } else {
-        nowPlayingPlayIcon.style.display = 'none';
-        nowPlayingPauseIcon.style.display = 'block';
-        nowPlayingArtwork.classList.add('playing');
-    }
-}
-
-// Play/Pause in Now Playing Screen
-nowPlayingPlayPauseBtn.addEventListener('click', () => {
-    togglePlayback();
-    updateNowPlayingScreen();
-});
-
-// Sync Now Playing Screen with Player
-audio.addEventListener('play', () => {
-    updateNowPlayingScreen();
-});
-
-audio.addEventListener('pause', () => {
-    updateNowPlayingScreen();
-});
+    
     <div class="header">
         <div class="app-title">TC RADIOS</div>
         <button class="theme-toggle" id="themeToggle">🌓</button>
