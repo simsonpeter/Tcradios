@@ -331,6 +331,27 @@
     </style>
 </head>
 <body>
+    <!-- Now Playing Screen -->
+<div class="now-playing" id="nowPlaying">
+    <div class="now-playing-content">
+        <img src="" id="nowPlayingArtwork" alt="Now Playing" class="now-playing-artwork">
+        <div class="now-playing-info">
+            <div id="nowPlayingTitle" class="now-playing-title">Select a station</div>
+            <div id="nowPlayingMetadata" class="now-playing-metadata">No metadata available</div>
+        </div>
+        <div class="now-playing-controls">
+            <button class="control-button" id="nowPlayingPlayPauseBtn">
+                <svg width="24" height="24" viewBox="0 0 24 24" id="nowPlayingPlayIcon">
+                    <path fill="currentColor" d="M8 5v14l11-7z"/>
+                </svg>
+                <svg width="24" height="24" viewBox="0 0 24 24" id="nowPlayingPauseIcon" style="display: none;">
+                    <path fill="currentColor" d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+                </svg>
+            </button>
+            <button class="control-button" id="nowPlayingCloseBtn">Close</button>
+        </div>
+    </div>
+</div>
     <script>
         // Register the service worker
         if ('serviceWorker' in navigator) {
@@ -343,6 +364,59 @@
                 });
         }
     </script>
+    // Now Playing Screen
+const nowPlaying = document.getElementById('nowPlaying');
+const nowPlayingArtwork = document.getElementById('nowPlayingArtwork');
+const nowPlayingTitle = document.getElementById('nowPlayingTitle');
+const nowPlayingMetadata = document.getElementById('nowPlayingMetadata');
+const nowPlayingPlayPauseBtn = document.getElementById('nowPlayingPlayPauseBtn');
+const nowPlayingPlayIcon = document.getElementById('nowPlayingPlayIcon');
+const nowPlayingPauseIcon = document.getElementById('nowPlayingPauseIcon');
+const nowPlayingCloseBtn = document.getElementById('nowPlayingCloseBtn');
+
+// Open Now Playing Screen
+document.getElementById('playerArtwork').addEventListener('click', () => {
+    if (!currentStation) return; // Do nothing if no station is playing
+    nowPlaying.style.display = 'flex';
+    updateNowPlayingScreen();
+});
+
+// Close Now Playing Screen
+nowPlayingCloseBtn.addEventListener('click', () => {
+    nowPlaying.style.display = 'none';
+});
+
+// Update Now Playing Screen
+function updateNowPlayingScreen() {
+    nowPlayingArtwork.src = currentStation.logo || '/icons/default-artwork.jpg';
+    nowPlayingTitle.textContent = currentStation.name;
+    nowPlayingMetadata.textContent = document.getElementById('playerMetadata').textContent;
+
+    if (audio.paused) {
+        nowPlayingPlayIcon.style.display = 'block';
+        nowPlayingPauseIcon.style.display = 'none';
+        nowPlayingArtwork.classList.remove('playing');
+    } else {
+        nowPlayingPlayIcon.style.display = 'none';
+        nowPlayingPauseIcon.style.display = 'block';
+        nowPlayingArtwork.classList.add('playing');
+    }
+}
+
+// Play/Pause in Now Playing Screen
+nowPlayingPlayPauseBtn.addEventListener('click', () => {
+    togglePlayback();
+    updateNowPlayingScreen();
+});
+
+// Sync Now Playing Screen with Player
+audio.addEventListener('play', () => {
+    updateNowPlayingScreen();
+});
+
+audio.addEventListener('pause', () => {
+    updateNowPlayingScreen();
+});
     <div class="header">
         <div class="app-title">TC RADIOS</div>
         <button class="theme-toggle" id="themeToggle">🌓</button>
