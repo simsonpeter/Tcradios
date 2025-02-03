@@ -365,7 +365,7 @@
     
     <div class="header">
         <div class="app-title">TC RADIOS</div>
-        <button class="theme-toggle" id="themeToggle">🌓</button>
+        <button class="theme-toggle" id="themeToggle">ðŸŒ“</button>
     </div>
     <div class="app-container">
         <div class="tabs">
@@ -381,8 +381,8 @@
             <div class="contact-section">
                 <h3>Contact Information</h3>
                 <div class="contact-details">
-                    <p>📧 Email: simsonpeter@gmail.com</p>
-                    <p>📍 Address: Antwerp, Belgium</p>
+                    <p>ðŸ“§ Email: simsonpeter@gmail.com</p>
+                    <p>ðŸ“ Address: Antwerp, Belgium</p>
                 </div>
             </div>
             <div class="contact-section">
@@ -580,12 +580,12 @@
             document.body.classList.toggle('light-theme');
             const isLight = document.body.classList.contains('light-theme');
             localStorage.setItem('theme', isLight ? 'light' : 'dark');
-            themeToggle.textContent = isLight ? '🌙' : '☀️';
+            themeToggle.textContent = isLight ? 'ðŸŒ™' : 'â˜€ï¸';
         });
 
         if(localStorage.getItem('theme') === 'light') {
             document.body.classList.add('light-theme');
-            themeToggle.textContent = '🌙';
+            themeToggle.textContent = 'ðŸŒ™';
         }
 
         // Tab Handling
@@ -756,136 +756,66 @@
                     return;
                 }
 
-// Player Controls
-function playStation(station) {
-    if (currentStation?.url === station.url) {
-        togglePlayback();
-        return;
-    }
+                const reader = response.body.getReader();
+                let buffer = new Uint8Array();
+                let metadataLength = 0;
 
-    currentStation = station;
-    audio.src = station.url;
-    audio.play();
-    updatePlayButton(true);
+                const processData = ({ done, value }) => {
+                    if (done) return;
 
-    // Set the player artwork
-    const playerArtwork = document.getElementById('playerArtwork');
-    playerArtwork.src = station.logo || '/icons/default-artwork.jpg'; // Fallback to default image
+                    buffer = new Uint8Array([...buffer, ...value]);
 
-    document.getElementById('playerTitle').textContent = station.name;
-    document.getElementById('playerMetadata').textContent = 'Loading metadata...';
+                    if (metadataLength === 0 && buffer.length >= icyMetaInt) {
+                        // Extract metadata length
+                        metadataLength = buffer[icyMetaInt] * 16;
+                        buffer = buffer.slice(icyMetaInt + 1); // Skip metadata length byte
+                    }
 
-    // Start spinning the logo
-    playerArtwork.classList.add('playing');
+                    if (metadataLength > 0 && buffer.length >= metadataLength) {
+                        // Extract metadata
+                        const metadataBytes = buffer.slice(0, metadataLength);
+                        const metadataText = new TextDecoder().decode(metadataBytes);
+                        const metadata = parseMetadata(metadataText);
+                        updateMetadataDisplay(metadata);
 
-    // Fetch metadata
-    extractMetadata();
-}
+                        // Remove processed metadata from buffer
+                        buffer = buffer.slice(metadataLength);
+                        metadataLength = 0;
+                    }
 
-// Listen for metadata updates
-audio.addEventListener('loadedmetadata', () => {
-    console.log("Metadata loaded:", audio);
-    updateMetadataDisplay({
-        StreamTitle: audio.title || 'No metadata available'
-    });
-});
+                    // Continue reading the stream
+                    reader.read().then(processData);
+                };
 
-audio.addEventListener('playing', () => {
-    console.log("Currently playing:", audio.title, audio.artist);
-});
-
-// Extract metadata function
-function extractMetadata() {
-    if (!audio.src || audio.readyState === 0) return;
-
-    fetch(audio.src, {
-        method: 'GET',
-        headers: {
-            'Icy-MetaData': '1' // Request metadata
-        }
-    })
-    .then(response => {
-        console.log("ICY Metadata headers:", response.headers);
-        const icyMetaInt = response.headers.get('icy-metaint');
-        if (!icyMetaInt) {
-            console.error('Metadata not supported by this stream.');
-            return;
+                // Start reading the stream
+                reader.read().then(processData);
+            })
+            .catch(error => {
+                console.error('Error fetching metadata:', error);
+            });
         }
 
-        return response.body.getReader();
-    })
-    .then(reader => {
-        if (!reader) return;
+        // Parse Metadata
+        function parseMetadata(metadataText) {
+            const metadata = {};
+            metadataText.split(';').forEach(part => {
+                const [key, value] = part.split('=');
+                if (key && value) {
+                    metadata[key.trim()] = value.trim().replace(/'/g, '');
+                }
+            });
+            return metadata;
+        }
 
-        let buffer = new Uint8Array();
-        let metadataLength = 0;
-
-        const processData = ({ done, value }) => {
-            if (done) return;
-
-            buffer = new Uint8Array([...buffer, ...value]);
-
-            if (metadataLength === 0 && buffer.length >= icyMetaInt) {
-                // Extract metadata length
-                metadataLength = buffer[icyMetaInt] * 16;
-                buffer = buffer.slice(icyMetaInt + 1);
+        // Update Metadata Display
+        function updateMetadataDisplay(metadata) {
+            const metadataElement = document.getElementById('playerMetadata');
+            if (metadata.StreamTitle) {
+                metadataElement.textContent = metadata.StreamTitle;
+            } else {
+                metadataElement.textContent = 'No metadata available';
             }
-
-            if (metadataLength > 0 && buffer.length >= metadataLength) {
-                // Extract metadata
-                const metadataBytes = buffer.slice(0, metadataLength);
-                const metadataText = new TextDecoder().decode(metadataBytes);
-                const metadata = parseMetadata(metadataText);
-                updateMetadataDisplay(metadata);
-
-                buffer = buffer.slice(metadataLength);
-                metadataLength = 0;
-            }
-
-            reader.read().then(processData);
-        };
-
-        reader.read().then(processData);
-    })
-    .catch(error => {
-        console.error('Error fetching metadata:', error);
-    });
-}
-
-// Parse metadata from ICY stream
-function parseMetadata(metadataText) {
-    const metadata = {};
-    metadataText.split(';').forEach(part => {
-        const [key, value] = part.split('=');
-        if (key && value) {
-            metadata[key.trim()] = value.trim().replace(/'/g, '');
         }
-    });
-    return metadata;
-}
-
-// Update metadata display
-function updateMetadataDisplay(metadata) {
-    const metadataElement = document.getElementById('playerMetadata');
-    if (metadata.StreamTitle) {
-        metadataElement.textContent = metadata.StreamTitle;
-    } else {
-        metadataElement.textContent = 'No metadata available';
-    }
-}
-
- OPTIONAL: Fetch metadata via a server proxy (Uncomment this if needed)
-
-function fetchMetadataViaProxy(stationUrl) {
-    fetch(`/proxy.php?stream=${encodeURIComponent(stationUrl)}`)
-        .then(response => response.json())
-        .then(data => {
-            console.log("Proxy Metadata:", data);
-            updateMetadataDisplay(data);
-        })
-        .catch(error => console.error("Error fetching metadata via proxy:", error));
-}
-
 
         // Floating Timer
         const floatingTimer = document.getElementById('floatingTimer');
