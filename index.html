@@ -580,12 +580,12 @@
             document.body.classList.toggle('light-theme');
             const isLight = document.body.classList.contains('light-theme');
             localStorage.setItem('theme', isLight ? 'light' : 'dark');
-            themeToggle.textContent = isLight ? 'ðŸŒ™' : 'â˜€ï¸';
+            themeToggle.textContent = isLight ? '🌓' : '🌓';
         });
 
         if(localStorage.getItem('theme') === 'light') {
             document.body.classList.add('light-theme');
-            themeToggle.textContent = 'ðŸŒ™';
+            themeToggle.textContent = '>🌓<';
         }
 
         // Tab Handling
