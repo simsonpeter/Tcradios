@@ -1,133 +1,4 @@
-// Define the list of radio stations
-const customStations = [
-    {
-        name: "Amen FM",
-        url: "https://ice7.securenetsystems.net/AMENFM",
-        logo: "https://i.ibb.co/JWW8zWHy/download-1.jpg",
-        genre: "Tamil Christian"
-    },
-    {   
-        name: "Arulvakku FM",
-        url: "https://stream.arulvakku.com/radio/8000/radio.mp3",
-        logo: "https://i.ibb.co/KYdcq0T/arulvakku-fm.jpg",
-        genre: "Tamil Christian"
-    },
-    {
-        name: "Comforter Radio",
-        url: "https://s4.radio.co/sd9738032b/listen",
-        logo: "https://i.ibb.co/BHpkzR1z/download.webp",
-        genre: "Tamil Christian"
-    },
-    {
-        name: "Devaprasannam Radio",
-        url: "https://devaprasannam-a9media.radioca.st/stream",
-        logo: "https://i.ibb.co/s9nn2W9n/devaprasannam.jpg",
-        genre: "Tamil Christian"
-    },
-    {
-        name: "Fgpc FM",
-        url: "https://dc1.serverse.com/proxy/fgpcfm/stream",
-        logo: "https://i.ibb.co/s9mWj1wD/fgpcfm.jpg",
-        genre: "Tamil Christian"
-    },
-    {
-        name: "FM fmkondattam",
-        url: "https://dc1.serverse.com/proxy/fgpcfm/stream",
-        logo: "https://i.ibb.co/jZwBxd3P/fmkondattam.jpg",
-        genre: "Tamil Christian"
-    },
-    {
-        name: "Galeed FM",
-        url: "https://eu2.fastcast4u.com/proxy/arunmedi?mp=/1",
-        logo: "https://i.ibb.co/ZpYQnpwL/galeed-fm-radio.jpg",
-        genre: "Tamil Christian"
-    },
-    {
-        name: "GBTC",
-        url: "http://s2.voscast.com:10438/listen",
-        logo: "https://i.ibb.co/LDdh50XD/blessing.jpg",
-        genre: "Tamil Christian"
-    },
-    {
-        name: "Good News FM",
-        url: "https://radio.christvisionmedia.com:8500/stream",
-        logo: "https://i.ibb.co/wFKJH6Vr/logo.png",
-        genre: "Tamil Christian"
-    },
-    {
-        name: "HOJ Tamil",
-        url: "https://dc1.serverse.com/proxy/hojtamil/stream",
-        logo: "https://i.ibb.co/jk49VdTX/hand-of-jesus.jpg",
-        genre: "Tamil Christian"
-    },
-    {
-        name: "Inbam FM",
-        url: "http://stream.radio.co/sf55ced545/listen",
-        logo: "https://i.ibb.co/v6QtbHL5/download-2.jpg",
-        genre: "Tamil Christian"
-    },
-    {
-        name: "Jehova Rapha",
-        url: "https://c22.radioboss.fm:8532/jehovahrapha?1728418667563",
-        logo: "https://i.ibb.co/9k1dmv7s/jehovarapha-fm-4-01.jpg",
-        genre: "Tamil Christian"
-    },
-    {
-        name: "Kirubai FM",
-        url: "http://s4.voscast.com:7110/;stream.mp3",
-        logo: "https://i.ibb.co/bRWVDRKn/download-3.jpg",
-        genre: "Tamil Christian"
-    },
-    {
-        name: "Lord's Radio",
-        url: "https://lordsradio.radioca.st/stream",
-        logo: "https://i.ibb.co/mrn9b9S6/Lordradio.png",
-        genre: "Tamil Christian"
-    },
-    {
-        name: "O'Zion",
-        url: "https://s2.radio.co/sd4968cb05/listen",
-        logo: "https://i.ibb.co/8Dbwfhyf/ozionfm.jpg",
-        genre: "Tamil Christian"
-    },
-    {
-        name: "Sangamum Radio",
-        url: "https://centova71.instainternet.com/proxy/sangamum?mp=/stream",
-        logo: "https://i.ibb.co/LhsrfQ4x/f1693f87337881d9dcd102af94ae8c61.jpg",
-        genre: "Tamil Christian"
-    },
-    {
-        name: "Theophony Radio",
-        url: "https://mediatechnica.com:8002/theophony_tamil.mp3",
-        logo: "https://i.ibb.co/Q359qxRV/logo.webp",
-        genre: "Tamil Christian"
-    },
-    {
-        name: "Thuthi Fm",
-        url: "https://streams.radio.co/s790fe269d/listen",
-        logo: "https://i.ibb.co/pvchM6w4/images.jpg",
-        genre: "Tamil Christian"
-    },
-    {
-        name: "Uthamiyee",
-        url: "https://ssl.aloncast.com:1595/",
-        logo: "https://i.ibb.co/qfHdFzv/cropped-600-X600-LOGO-UTHAMIYAE-FM.png",
-        genre: "Tamil Christian"
-    },
-    {
-        name: "Vaanmalar FM",
-        url: "https://dc1.serverse.com/proxy/vaanmalar2/stream",
-        logo: "https://i.ibb.co/fdLCQFzD/vaan-malarfm-thumb.jpg",
-        genre: "Tamil Christian"
-    },
-    {
-        name: "Waves of Power",
-        url: "https://radio.pixelinmedia.com/vallamai",
-        logo: "https://i.ibb.co/8DRtQGTJ/cropped-Logo-vallamai-4.png",
-        genre: "Tamil Christian"
-    },
-];
-
+let customStations = []; // This will hold the stations after loading
 const audio = new Audio();
 let currentStation = null;
 let favorites = JSON.parse(localStorage.getItem('radioFavorites')) || [];
@@ -135,6 +6,24 @@ let currentView = 'all';
 let metadataInterval = null;
 let timer = null;
 
+// Load stations from JSON file
+async function loadStations() {
+    try {
+        const response = await fetch('stations.json');
+        if (!response.ok) {
+            throw new Error('Failed to load stations');
+        }
+        customStations = await response.json();
+        initStations(); // Initialize the app after loading stations
+    } catch (error) {
+        console.error('Error loading stations:', error);
+    }
+}
+
+// Call loadStations to start the app
+loadStations();
+
+// Rest of your existing code...
 // Theme Toggle
 const themeToggle = document.getElementById('themeToggle');
 themeToggle.addEventListener('click', () => {
