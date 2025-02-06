@@ -1,10 +1,7 @@
 let customStations = []; // This will hold the stations after loading
 const audio = new Audio();
 let currentStation = null;
-let favorites = JSON.parse(localStorage.getItem('radioFavorites')) || [];
-let currentView = 'all';
-let metadataInterval = null;
-let timer = null;
+let favorites = JSON.parse(localStorage.getItem('radioFavori
 
 // Load stations from JSON file
 async function loadStations() {
