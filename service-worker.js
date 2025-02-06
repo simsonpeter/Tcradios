@@ -1,27 +1,41 @@
-﻿const CACHE_NAME = 'tc-radios-v1';
+const CACHE_NAME = 'tc-radio-v3';
 const ASSETS = [
   '/',
   '/index.html',
-  '/styles.css',
-  '/app.js',
+  '/manifest.json',
   '/icons/icon-192x192.png',
-  '/icons/icon-512x512.png'
+  '/icons/icon-512x512.png',
+  '/icons/default-artwork.jpg'
 ];
 
-
-// Install the service worker and cache assets
+// Install event
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
-      .then((cache) => cache.addAll(ASSETS))
+      .then(cache => cache.addAll(ASSETS))
+      .then(() => self.skipWaiting())
   );
 });
 
+// Activate event
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
+    caches.keys().then(cacheNames => {
+      return Promise.all(
+        cacheNames.map(cache => {
+          if (cache !== CACHE_NAME) {
+            return caches.delete(cache);
+          }
+        })
+      );
+    })
+  );
+});
 
-// Fetch cached assets or make a network request
+// Fetch event
 self.addEventListener('fetch', (event) => {
   event.respondWith(
     caches.match(event.request)
-      .then((response) => response || fetch(event.request))
+      .then(response => response || fetch(event.request))
   );
 });
