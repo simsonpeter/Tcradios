@@ -2,14 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TC Radios</title>
-    <meta name="theme-color" content="#1DB954">
-    <link rel="manifest" href="/manifest.json">
-    <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192x192.png">
-    <link rel="apple-touch-icon" href="/icons/icon-192x192.png">
-    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TC Radios - Working Version</title>
     <style>
         :root {
             --primary: #1DB954;
@@ -17,147 +11,40 @@
             --surface: #181818;
             --text-primary: #FFFFFF;
             --text-secondary: #B3B3B3;
-            --error: #ff4444;
-            --success: #00C851;
-        }
-
-        .light-theme {
-            --background: #ffffff;
-            --surface: #f5f5f5;
-            --text-primary: #000000;
-            --text-secondary: #666666;
-            --error: #cc0000;
-            --success: #007E33;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Roboto', sans-serif;
         }
 
         body {
+            margin: 0;
+            padding: 0;
             background: var(--background);
             color: var(--text-primary);
-            height: 100vh;
-            overflow: hidden;
-            transition: background 0.3s, color 0.3s;
+            font-family: Arial, sans-serif;
         }
 
-        /* Header Styles */
         .header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
             padding: 1rem;
             background: var(--surface);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            z-index: 1000;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
 
-        .app-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-        }
-
-        .theme-toggle {
-            background: none;
-            border: none;
-            padding: 0.5rem;
-            cursor: pointer;
-            font-size: 1.5rem;
-            transition: transform 0.2s;
-        }
-
-        /* Main Content */
-        .app-container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding-top: 5rem;
-            height: calc(100vh - 120px);
-        }
-
-        .tabs {
-            display: flex;
-            gap: 0.5rem;
-            padding: 0 1rem 1rem;
-            position: sticky;
-            top: 4rem;
-            background: var(--background);
-            z-index: 999;
-        }
-
-        .tab-button {
-            flex: 1;
-            padding: 0.75rem;
-            border: none;
-            border-radius: 0.5rem;
-            background: var(--surface);
-            color: var(--text-primary);
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .tab-button.active {
-            background: var(--primary);
-            color: white;
-        }
-
-        /* Station List */
         .station-list {
-            padding: 0 1rem;
-            height: calc(100vh - 16rem);
+            padding: 1rem;
+            height: calc(100vh - 160px);
             overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
         }
 
         .station-item {
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            background: var(--surface);
+            border-radius: 8px;
+            cursor: pointer;
             display: flex;
             align-items: center;
-            padding: 1rem;
-            margin-bottom: 0.75rem;
-            background: var(--surface);
-            border-radius: 0.75rem;
-            cursor: pointer;
-            transition: transform 0.2s;
         }
 
-        .station-item:active {
-            transform: scale(0.98);
-        }
-
-        .station-artwork {
-            width: 3.5rem;
-            height: 3.5rem;
-            border-radius: 0.5rem;
-            margin-right: 1rem;
-            object-fit: cover;
-        }
-
-        .station-info {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .station-name {
-            font-weight: 500;
-            margin-bottom: 0.25rem;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .station-genre {
-            color: var(--text-secondary);
-            font-size: 0.875rem;
-        }
-
-        /* Player Controls */
         .player-container {
             position: fixed;
             bottom: 0;
@@ -165,318 +52,122 @@
             right: 0;
             background: var(--surface);
             padding: 1rem;
-            border-radius: 1rem 1rem 0 0;
-            box-shadow: 0 -4px 24px rgba(0,0,0,0.2);
-            z-index: 1000;
-        }
-
-        .player-content {
             display: flex;
             align-items: center;
             gap: 1rem;
         }
 
-        .player-artwork {
-            width: 3.5rem;
-            height: 3.5rem;
-            border-radius: 0.5rem;
-            animation: spin 20s linear infinite;
-            animation-play-state: paused;
-        }
-
-        .player-artwork.playing {
-            animation-play-state: running;
-        }
-
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        /* Utility Classes */
-        .error-message {
-            color: var(--error);
-            padding: 1rem;
-            text-align: center;
-            animation: slideIn 0.3s ease-out;
-        }
-
-        .no-favorites {
-            text-align: center;
-            padding: 2rem;
-            color: var(--text-secondary);
-        }
-
-        .loading-spinner {
-            animation: spin 1s linear infinite;
-            width: 24px;
-            height: 24px;
-            border: 3px solid var(--text-secondary);
-            border-top-color: var(--primary);
-            border-radius: 50%;
-        }
-
-        @keyframes slideIn {
-            from { transform: translateY(-20px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
+        button {
+            padding: 0.5rem 1rem;
+            background: var(--primary);
+            border: none;
+            border-radius: 4px;
+            color: white;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
     <div class="header">
-        <div class="app-title">TC RADIOS</div>
-        <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">🌙</button>
+        <h1>TC RADIOS</h1>
+        <button id="themeToggle">🌙</button>
     </div>
 
-    <div class="app-container">
-        <div class="tabs">
-            <button class="tab-button active" id="allTab">All</button>
-            <button class="tab-button" id="favoritesTab">Favorites</button>
-            <button class="tab-button" id="aboutTab">About</button>
-        </div>
+    <div class="station-list" id="stationList"></div>
 
-        <div class="station-list" id="stationList"></div>
-
-        <div class="player-container">
-            <div class="player-content">
-                <img src="/icons/default-artwork.jpg" alt="Album Art" class="player-artwork" id="playerArtwork">
-                <div class="player-info">
-                    <div class="player-title" id="playerTitle">Select a station</div>
-                    <div class="player-metadata" id="playerMetadata">TC Radios</div>
-                </div>
-                <button class="control-button" id="playPauseBtn" aria-label="Play/Pause">
-                    <i class="fas fa-play" id="playIcon"></i>
-                    <i class="fas fa-pause" id="pauseIcon" hidden></i>
-                </button>
-            </div>
+    <div class="player-container">
+        <div id="playerInfo">
+            <div id="playerTitle">Select a station</div>
+            <div id="playerMetadata"></div>
         </div>
+        <button id="playPauseBtn">Play</button>
     </div>
 
     <script>
-        // Service Worker Registration
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/service-worker.js')
-                .catch(err => console.error('SW registration failed:', err));
-        }
+        // Sample radio stations
+        const stations = [
+            {
+                name: "Amen FM",
+                url: "https://ice7.securenetsystems.net/AMENFM",
+                logo: "https://i.ibb.co/JWW8zWHy/download-1.jpg"
+            },
+            {
+                name: "Arulvakku FM",
+                url: "https://stream.arulvakku.com/radio/8000/radio.mp3",
+                logo: "https://i.ibb.co/KYdcq0T/arulvakku-fm.jpg"
+            }
+        ];
 
-        // OneSignal Initialization
-        window.OneSignal = window.OneSignal || [];
-        OneSignal.push(function() {
-            OneSignal.init({
-                appId: "a71d9878-20e6-4edb-9da7-5e41e2648c8c",
-                safari_web_id: "web.onesignal.auto.5c6acdd7-2576-4d7e-9cb0-efba7bf8602e",
-                allowLocalhostAsSecureOrigin: true,
-            });
+        let currentAudio = null;
+        let isPlaying = false;
+
+        // Theme handling
+        document.getElementById('themeToggle').addEventListener('click', () => {
+            document.body.classList.toggle('light-theme');
+            localStorage.setItem('theme', 
+                document.body.classList.contains('light-theme') ? 'light' : 'dark');
         });
 
-        // App State
-        const state = {
-            stations: [],
-            favorites: JSON.parse(localStorage.getItem('favorites')) || [],
-            currentStation: null,
-            isPlaying: false,
-            metadataInterval: null,
-            timer: null,
-            theme: localStorage.getItem('theme') || 'dark'
-        };
-
-        // DOM Elements
-        const elements = {
-            stationList: document.getElementById('stationList'),
-            playPauseBtn: document.getElementById('playPauseBtn'),
-            playerArtwork: document.getElementById('playerArtwork'),
-            playerTitle: document.getElementById('playerTitle'),
-            playerMetadata: document.getElementById('playerMetadata'),
-            themeToggle: document.getElementById('themeToggle')
-        };
-
-        // Audio Controller
-        const audio = new Audio();
-        audio.addEventListener('error', handleAudioError);
-        audio.addEventListener('play', () => updatePlayState(true));
-        audio.addEventListener('pause', () => updatePlayState(false));
-
-        // Event Listeners
-        document.getElementById('allTab').addEventListener('click', () => showTab('all'));
-        document.getElementById('favoritesTab').addEventListener('click', () => showTab('favorites'));
-        document.getElementById('aboutTab').addEventListener('click', () => showTab('about'));
-        elements.playPauseBtn.addEventListener('click', togglePlayback);
-        elements.themeToggle.addEventListener('click', toggleTheme);
-
-        // Initialization
-        initializeApp();
-
-        async function initializeApp() {
-            try {
-                const response = await fetch('/stations.json');
-                state.stations = await response.json();
-                renderStations(state.stations);
-                applyTheme(state.theme);
-            } catch (error) {
-                showError('Failed to load stations');
-                console.error('Initialization error:', error);
-            }
-        }
-
-        function renderStations(stations) {
-            elements.stationList.innerHTML = stations.length > 0 
-                ? stations.map(createStationItem).join('')
-                : '<div class="no-favorites">No stations found</div>';
-            
-            addStationEventListeners();
-        }
-
-        function createStationItem(station) {
-            return `
-                <div class="station-item" data-id="${station.id}">
-                    <img src="${station.logo}" alt="${station.name}" class="station-artwork">
-                    <div class="station-info">
-                        <div class="station-name">${station.name}</div>
-                        <div class="station-genre">${station.genre}</div>
-                    </div>
-                    <button class="favorite-btn" aria-label="${state.favorites.includes(station.id) ? 'Remove from favorites' : 'Add to favorites'}">
-                        <i class="fas fa-heart ${state.favorites.includes(station.id) ? 'active' : ''}"></i>
-                    </button>
+        // Initialize stations
+        function initStations() {
+            const stationList = document.getElementById('stationList');
+            stationList.innerHTML = stations.map(station => `
+                <div class="station-item" data-url="${station.url}">
+                    <img src="${station.logo}" width="40" height="40" style="margin-right: 1rem;">
+                    <div>${station.name}</div>
                 </div>
-            `;
-        }
+            `).join('');
 
-        function addStationEventListeners() {
             document.querySelectorAll('.station-item').forEach(item => {
-                item.addEventListener('click', () => playStation(
-                    state.stations.find(s => s.id === item.dataset.id)
-                ));
-            });
-
-            document.querySelectorAll('.favorite-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    toggleFavorite(btn.closest('.station-item').dataset.id);
-                });
+                item.addEventListener('click', () => playStation(item.dataset.url));
             });
         }
 
-        async function playStation(station) {
-            try {
-                if (state.currentStation?.id === station.id) {
-                    return togglePlayback();
-                }
-
-                state.currentStation = station;
-                audio.src = station.url;
-                await audio.play();
-                
-                updatePlayerDisplay(station);
-                startMetadataPolling();
-                updateMediaSession(station);
-            } catch (error) {
-                showError(`Can't play ${station.name}`);
-                console.error('Playback error:', error);
+        // Audio control
+        function playStation(url) {
+            if (currentAudio) {
+                currentAudio.pause();
             }
+
+            currentAudio = new Audio(url);
+            currentAudio.play();
+            isPlaying = true;
+            updatePlayerUI(url);
         }
 
-        function updatePlayerDisplay(station) {
-            elements.playerArtwork.src = station.logo;
-            elements.playerTitle.textContent = station.name;
-            elements.playerMetadata.textContent = 'Loading...';
-        }
-
-        function updateMediaSession(station) {
-            if ('mediaSession' in navigator) {
-                navigator.mediaSession.metadata = new MediaMetadata({
-                    title: station.name,
-                    artist: 'TC Radios',
-                    artwork: [{ src: station.logo, sizes: '512x512' }]
-                });
-
-                navigator.mediaSession.setActionHandler('play', () => audio.play());
-                navigator.mediaSession.setActionHandler('pause', () => audio.pause());
-            }
-        }
-
-        function startMetadataPolling() {
-            clearInterval(state.metadataInterval);
-            state.metadataInterval = setInterval(async () => {
-                try {
-                    const metadata = await fetchMetadata(state.currentStation);
-                    elements.playerMetadata.textContent = metadata || 'Live Broadcast';
-                } catch (error) {
-                    console.error('Metadata fetch error:', error);
-                }
-            }, 10000);
-        }
-
-        async function fetchMetadata(station) {
-            try {
-                const response = await fetch(station.metadataUrl || station.url);
-                const data = await response.text();
-                return parseMetadata(data);
-            } catch (error) {
-                throw new Error('Metadata unavailable');
-            }
-        }
-
-        function parseMetadata(data) {
-            // Implement metadata parsing logic
-            return data.match(/StreamTitle='(.*?)';/)?.[1] || null;
-        }
-
-        function togglePlayback() {
-            audio[audio.paused ? 'play' : 'pause']();
-        }
-
-        function updatePlayState(playing) {
-            elements.playPauseBtn.querySelectorAll('i').forEach(icon => icon.hidden = true);
-            elements.playPauseBtn.querySelector(`#${playing ? 'pause' : 'play'}Icon`).hidden = false;
-            elements.playerArtwork.classList.toggle('playing', playing);
-        }
-
-        function toggleFavorite(stationId) {
-            state.favorites = state.favorites.includes(stationId)
-                ? state.favorites.filter(id => id !== stationId)
-                : [...state.favorites, stationId];
-
-            localStorage.setItem('favorites', JSON.stringify(state.favorites));
-            renderStations(getCurrentViewStations());
-        }
-
-        function showTab(tab) {
-            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
-            document.getElementById(`${tab}Tab`).classList.add('active');
+        // Player controls
+        document.getElementById('playPauseBtn').addEventListener('click', () => {
+            if (!currentAudio) return;
             
-            const stations = tab === 'favorites' 
-                ? state.stations.filter(s => state.favorites.includes(s.id))
-                : state.stations;
+            if (isPlaying) {
+                currentAudio.pause();
+            } else {
+                currentAudio.play();
+            }
+            isPlaying = !isPlaying;
+            updatePlayerUI();
+        });
 
-            renderStations(stations);
+        function updatePlayerUI(url) {
+            const station = stations.find(s => s.url === url);
+            document.getElementById('playerTitle').textContent = 
+                station ? station.name : 'Select a station';
+            document.getElementById('playPauseBtn').textContent = 
+                isPlaying ? 'Pause' : 'Play';
         }
 
-        function toggleTheme() {
-            state.theme = state.theme === 'dark' ? 'light' : 'dark';
-            localStorage.setItem('theme', state.theme);
-            applyTheme(state.theme);
+        // Initialize app
+        function initializeApp() {
+            // Load saved theme
+            if (localStorage.getItem('theme') === 'light') {
+                document.body.classList.add('light-theme');
+            }
+            
+            initStations();
         }
 
-        function applyTheme(theme) {
-            document.body.classList.toggle('light-theme', theme === 'light');
-            elements.themeToggle.textContent = theme === 'light' ? '🌞' : '🌙';
-            elements.themeToggle.setAttribute('aria-label', 
-                `${theme === 'light' ? 'Switch to dark' : 'Switch to light'} mode`);
-        }
-
-        function showError(message) {
-            const errorDiv = document.createElement('div');
-            errorDiv.className = 'error-message';
-            errorDiv.textContent = message;
-            document.body.prepend(errorDiv);
-            setTimeout(() => errorDiv.remove(), 5000);
-        }
-
-        function handleAudioError(event) {
-            console.error('Audio error:', event);
-            showError('Playback failed. Please try another station.');
-            updatePlayState(false);
-        }
+        // Start the app
+        initializeApp();
     </script>
 </body>
 </html>
