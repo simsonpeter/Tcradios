@@ -11,113 +11,24 @@ let timer = null;
 async function loadStations() {
     try {
         const response = await fetch('stations.json');
-        if (!response.ok) throw new Error('Failed to load stations');
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
         customStations = await response.json();
         initStations();
     } catch (error) {
-        showError('Failed to load stations. Please refresh the page.');
+        showError(`Failed to load stations: ${error.message}`);
     }
 }
 
 // Initialize stations
 function initStations() {
-    renderStations(customStations);
+    renderStations(currentView === 'favorites' ? favorites : customStations);
 }
 
-// Tab handling
-document.querySelectorAll('.tab-button').forEach(button => {
-    button.addEventListener('click', (e) => {
-        const tab = e.target.id.replace('Tab', '').toLowerCase();
-        showTab(tab);
-    });
-});
-
-function showTab(tab) {
-    currentView = tab;
-    
-    // Update active tab
-    document.querySelectorAll('.tab-button').forEach(btn => 
-        btn.classList.toggle('active', btn.id === `${tab}Tab`)
-    );
-
-    // Update content visibility
-    document.getElementById('stationList').style.display = 
-        tab === 'about' ? 'none' : 'block';
-    document.getElementById('aboutContent').style.display = 
-        tab === 'about' ? 'block' : 'none';
-    document.getElementById('searchInput').style.display = 
-        tab === 'about' ? 'none' : 'block';
-
-    // Load appropriate content
-    if (tab === 'favorites') showFavorites();
-    if (tab === 'all') initStations();
-}
-
-// Timer functionality
-const timerIcon = document.getElementById('timerIcon');
-const timerMenu = document.getElementById('timerMenu');
-const timerSelect = document.getElementById('timerSelect');
-const setTimerBtn = document.getElementById('setTimerBtn');
-
-timerIcon.addEventListener('click', (e) => {
-    e.stopPropagation();
-    timerMenu.style.display = timerMenu.style.display === 'flex' ? 'none' : 'flex';
-});
-
-document.addEventListener('click', (e) => {
-    if (!e.target.closest('.floating-timer')) {
-        timerMenu.style.display = 'none';
-    }
-});
-
-setTimerBtn.addEventListener('click', () => {
-    const minutes = parseInt(timerSelect.value);
-    if (minutes > 0) {
-        setTimer(minutes);
-    } else {
-        clearTimer();
-    }
-    timerMenu.style.display = 'none';
-});
-
-function setTimer(minutes) {
-    clearTimer();
-    timer = setTimeout(() => {
-        audio.pause();
-        updatePlayButton(false);
-        showNotification(`Sleep timer: Stopped after ${minutes} minutes`);
-    }, minutes * 60 * 1000);
-    showNotification(`Sleep timer set for ${minutes} minutes`);
-}
-
-function clearTimer() {
-    if (timer) {
-        clearTimeout(timer);
-        timer = null;
-    }
-}
-
-// Station list rendering
-function renderStations(stations) {
-    const stationList = document.getElementById('stationList');
-    stationList.innerHTML = '';
-    
-    if (stations.length === 0) {
-        stationList.innerHTML = '<div class="no-stations">No stations found</div>';
-        return;
-    }
-
-    stations.forEach(station => {
-        stationList.appendChild(createStationItem(station));
-    });
-
-    updateFavoriteButtons();
-}
-
+// Create station element
 function createStationItem(station) {
     const div = document.createElement('div');
     div.className = 'station-item';
-    div.dataset.stationUrl = station.url;
+    div.dataset.stationId = station.url;
     div.innerHTML = `
         <img src="${station.logo}" class="station-artwork" alt="${station.name}">
         <div class="station-info">
@@ -126,10 +37,14 @@ function createStationItem(station) {
         </div>
         <div class="station-actions">
             <button class="action-btn favorite-btn">
-                <!-- SVG code -->
+                <svg width="24" height="24" viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                </svg>
             </button>
             <button class="action-btn share-btn">
-                <!-- SVG code -->
+                <svg width="24" height="24" viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92c0-1.61-1.31-2.92-2.92-2.92z"/>
+                </svg>
             </button>
         </div>
     `;
@@ -141,19 +56,27 @@ document.getElementById('stationList').addEventListener('click', (e) => {
     const stationItem = e.target.closest('.station-item');
     if (!stationItem) return;
 
-    const station = customStations.find(s => s.url === stationItem.dataset.stationUrl);
+    const station = customStations.find(s => s.url === stationItem.dataset.stationId);
     
     if (e.target.closest('.favorite-btn')) {
+        e.preventDefault();
         toggleFavorite(station);
     } else if (e.target.closest('.share-btn')) {
+        e.preventDefault();
         shareStation(station);
     } else {
         playStation(station);
     }
 });
 
-// Player controls
+// Improved playback handling
 function playStation(station) {
+    if (!station?.url) {
+        showError('Invalid station URL');
+        return;
+    }
+
+    // Stop previous playback
     if (currentStation?.url === station.url) {
         togglePlayback();
         return;
@@ -161,62 +84,101 @@ function playStation(station) {
 
     currentStation = station;
     audio.src = station.url;
-    
+
     audio.play()
         .then(() => {
             updatePlayerDisplay(station);
             startMetadataFetch();
         })
-        .catch(error => showError('Error playing station'));
+        .catch(error => {
+            console.error('Playback error details:', error);
+            showError(`Couldn't play station: ${error.message}`);
+        });
 }
 
+// Favorite system
+function toggleFavorite(station) {
+    const index = favorites.findIndex(f => f.url === station.url);
+    
+    if (index === -1) {
+        favorites.push(station);
+        showNotification('Added to favorites');
+    } else {
+        favorites.splice(index, 1);
+        showNotification('Removed from favorites');
+    }
+    
+    localStorage.setItem('radioFavorites', JSON.stringify(favorites));
+    updateFavoriteButtons();
+    
+    if (currentView === 'favorites') {
+        renderStations(favorites);
+    }
+}
+
+function updateFavoriteButtons() {
+    document.querySelectorAll('.station-item').forEach(item => {
+        const btn = item.querySelector('.favorite-btn');
+        const isFavorite = favorites.some(f => f.url === item.dataset.stationId);
+        btn.classList.toggle('active', isFavorite);
+        btn.querySelector('path').style.fill = isFavorite ? 'var(--primary)' : 'currentColor';
+    });
+}
+
+// Tab system
+document.querySelectorAll('.tab-button').forEach(button => {
+    button.addEventListener('click', () => {
+        const tab = button.id.replace('Tab', '').toLowerCase();
+        showTab(tab);
+    });
+});
+
+function showTab(tab) {
+    currentView = tab;
+    document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+    document.getElementById(`${tab}Tab`).classList.add('active');
+
+    document.getElementById('stationList').style.display = tab === 'about' ? 'none' : 'block';
+    document.getElementById('aboutContent').style.display = tab === 'about' ? 'block' : 'none';
+    document.getElementById('searchInput').style.display = tab === 'about' ? 'none' : 'block';
+
+    if (tab === 'favorites') renderStations(favorites);
+    if (tab === 'all') renderStations(customStations);
+}
+
+// Render stations
+function renderStations(stations) {
+    const stationList = document.getElementById('stationList');
+    stationList.innerHTML = '';
+    
+    if (stations.length === 0) {
+        stationList.innerHTML = '<div class="no-results">No stations found</div>';
+        return;
+    }
+
+    stations.forEach(station => {
+        stationList.appendChild(createStationItem(station));
+    });
+
+    updateFavoriteButtons();
+}
+
+// Player controls
 function togglePlayback() {
     if (audio.paused) {
-        audio.play().catch(error => showError('Playback failed'));
-        updatePlayButton(true);
+        audio.play()
+            .then(() => updatePlayButton(true))
+            .catch(error => showError(`Resume failed: ${error.message}`));
     } else {
         audio.pause();
         updatePlayButton(false);
     }
 }
 
-function updatePlayerDisplay(station) {
-    document.getElementById('playerArtwork').src = station.logo || 'default-artwork.jpg';
-    document.getElementById('playerTitle').textContent = station.name;
-    document.getElementById('playerArtwork').classList.add('playing');
-    updatePlayButton(true);
-}
-
 function updatePlayButton(playing) {
     document.getElementById('playIcon').style.display = playing ? 'none' : 'block';
     document.getElementById('pauseIcon').style.display = playing ? 'block' : 'none';
-    const playerArtwork = document.getElementById('playerArtwork');
-    playerArtwork.style.animationPlayState = playing ? 'running' : 'paused';
-}
-
-// Favorites system
-function toggleFavorite(station) {
-    const index = favorites.findIndex(fav => fav.url === station.url);
-    if (index === -1) {
-        favorites.push(station);
-    } else {
-        favorites.splice(index, 1);
-    }
-    localStorage.setItem('radioFavorites', JSON.stringify(favorites));
-    updateFavoriteButtons();
-    
-    if (currentView === 'favorites') showFavorites();
-}
-
-function showFavorites() {
-    renderStations(favorites);
-}
-
-function updateFavoriteButtons() {
-    document.querySelectorAll('.favorite-btn').forEach(btn => {
-        const stationUrl = btn.closest('.station-item').dataset.stationUrl;
-        btn.classList.toggle('active', favorites.some(fav => fav.url === stationUrl));
-    });
+    document.getElementById('playerArtwork').classList.toggle('playing', playing);
 }
 
 // Initialization
@@ -227,7 +189,10 @@ loadStations();
 function showError(message) {
     const errorDiv = document.createElement('div');
     errorDiv.className = 'notification error';
-    errorDiv.textContent = message;
+    errorDiv.innerHTML = `
+        <i class="fas fa-exclamation-circle"></i>
+        ${message}
+    `;
     document.body.appendChild(errorDiv);
     setTimeout(() => errorDiv.remove(), 5000);
 }
@@ -235,7 +200,10 @@ function showError(message) {
 function showNotification(message) {
     const notification = document.createElement('div');
     notification.className = 'notification';
-    notification.textContent = message;
+    notification.innerHTML = `
+        <i class="fas fa-check-circle"></i>
+        ${message}
+    `;
     document.body.appendChild(notification);
     setTimeout(() => notification.remove(), 3000);
 }
