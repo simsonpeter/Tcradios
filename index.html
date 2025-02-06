@@ -335,33 +335,35 @@
     
     <script>
         // Register the service worker
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/service-worker.js')
-                .then((registration) => {
-                    console.log('Service Worker registered with scope:', registration.scope);
-                })
-                .catch((error) => {
-                    console.error('Service Worker registration failed:', error);
-                });
-        }
-        / Initialize OneSignal
-        const OneSignal = window.OneSignal || [];
-        OneSignal.push(function() {
-            OneSignal.init({
-                appId: "a71d9878-20e6-4edb-9da7-5e41e2648c8c", // Replace with your OneSignal App ID
-                safari_web_id: "web.onesignal.auto.5c6acdd7-2576-4d7e-9cb0-efba7bf8602e", // Optional: For Safari push notifications
-                notifyButton: {
-                    enable: true, // Show the notification bell icon
-                },
-                allowLocalhostAsSecureOrigin: true, // For testing on localhost
+    <script>
+    // Register the service worker
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/service-worker.js')
+            .then((registration) => {
+                console.log('Service Worker registered with scope:', registration.scope);
+            })
+            .catch((error) => {
+                console.error('Service Worker registration failed:', error);
             });
+    }
 
-            // Optional: Handle subscription changes
-            OneSignal.on('subscriptionChange', function(isSubscribed) {
-                console.log("User subscription state changed:", isSubscribed);
-            });
+    // Initialize OneSignal (fixed comment syntax)
+    const OneSignal = window.OneSignal || [];
+    OneSignal.push(function() {
+        OneSignal.init({
+            appId: "a71d9878-20e6-4edb-9da7-5e41e2648c8c",
+            safari_web_id: "web.onesignal.auto.5c6acdd7-2576-4d7e-9cb0-efba7bf8602e",
+            notifyButton: {
+                enable: true,
+            },
+            allowLocalhostAsSecureOrigin: true,
         });
-    </script>
+
+        OneSignal.on('subscriptionChange', function(isSubscribed) {
+            console.log("User subscription state changed:", isSubscribed);
+        });
+    });
+</script>
     
     <div class="header">
         <div class="app-title">TC RADIOS</div>
