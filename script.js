@@ -1,26 +1,27 @@
-let customStations = []; // This will hold the stations after loading
+// Initialize global variables
+let customStations = []; // Will be populated from stations.json
 const audio = new Audio();
 let currentStation = null;
-let favorites = JSON.parse(localStorage.getItem('radioFavori
+let favorites = JSON.parse(localStorage.getItem('radioFavorites')) || [];
+let currentView = 'all';
+let metadataInterval = null;
+let timer = null;
 
 // Load stations from JSON file
 async function loadStations() {
     try {
         const response = await fetch('stations.json');
-        if (!response.ok) {
-            throw new Error('Failed to load stations');
-        }
+        if (!response.ok) throw new Error('Failed to load stations');
         customStations = await response.json();
-        initStations(); // Initialize the app after loading stations
+        initStations();
     } catch (error) {
         console.error('Error loading stations:', error);
+        // Display error to user
+        document.getElementById('stationList').innerHTML = 
+            '<div class="error">Failed to load radio stations. Please try again later.</div>';
     }
 }
 
-// Call loadStations to start the app
-loadStations();
-
-// Rest of your existing code...
 // Theme Toggle
 const themeToggle = document.getElementById('themeToggle');
 themeToggle.addEventListener('click', () => {
@@ -30,6 +31,7 @@ themeToggle.addEventListener('click', () => {
     themeToggle.textContent = isLight ? '🌓' : '🌓';
 });
 
+// Initialize theme from localStorage
 if(localStorage.getItem('theme') === 'light') {
     document.body.classList.add('light-theme');
     themeToggle.textContent = '🌓';
@@ -54,15 +56,18 @@ function showTab(tab) {
     document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
     document.getElementById(`${tab}Tab`).classList.add('active');
     
-    document.getElementById('stationList').style.display = tab === 'about' ? 'none' : 'block';
-    document.getElementById('aboutContent').style.display = tab === 'about' ? 'block' : 'none';
-    document.getElementById('searchInput').style.display = tab === 'about' ? 'none' : 'block';
+    const stationList = document.getElementById('stationList');
+    const aboutContent = document.getElementById('aboutContent');
+    const searchInput = document.getElementById('searchInput');
+    
+    stationList.style.display = tab === 'about' ? 'none' : 'block';
+    aboutContent.style.display = tab === 'about' ? 'block' : 'none';
+    searchInput.style.display = tab === 'about' ? 'none' : 'block';
 }
 
 // Search Functionality
-const searchInput = document.getElementById('searchInput');
-searchInput.addEventListener('input', () => {
-    const query = searchInput.value.toLowerCase();
+document.getElementById('searchInput').addEventListener('input', (e) => {
+    const query = e.target.value.toLowerCase();
     const filteredStations = customStations.filter(station => 
         station.name.toLowerCase().includes(query) || 
         station.genre.toLowerCase().includes(query)
@@ -95,8 +100,16 @@ function createStationItem(station) {
     `;
 
     const favoriteBtn = stationItem.querySelector('.favorite-btn');
-    favoriteBtn.addEventListener('click', () => toggleFavorite(station));
-    stationItem.querySelector('.share-btn').addEventListener('click', () => shareStation(station));
+    favoriteBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleFavorite(station);
+    });
+    
+    stationItem.querySelector('.share-btn').addEventListener('click', (e) => {
+        e.stopPropagation();
+        shareStation(station);
+    });
+    
     stationItem.addEventListener('click', () => playStation(station));
     
     return stationItem;
@@ -104,10 +117,10 @@ function createStationItem(station) {
 
 function renderStations(stations) {
     const stationList = document.getElementById('stationList');
-    stationList.innerHTML = '';
-    stations.forEach(station => {
-        stationList.appendChild(createStationItem(station));
-    });
+    stationList.innerHTML = stations.length > 0 
+        ? stations.map(station => createStationItem(station).outerHTML).join('')
+        : '<div class="no-results">No stations found</div>';
+    
     updateFavoriteButtons();
 }
 
@@ -130,9 +143,7 @@ function toggleFavorite(station) {
     localStorage.setItem('radioFavorites', JSON.stringify(favorites));
     updateFavoriteButtons();
     
-    if(currentView === 'favorites') {
-        showFavorites();
-    }
+    if(currentView === 'favorites') showFavorites();
 }
 
 function updateFavoriteButtons() {
@@ -151,33 +162,26 @@ function playStation(station) {
     
     currentStation = station;
     audio.src = station.url;
-    audio.play();
+    audio.play().catch(error => {
+        console.error('Error playing station:', error);
+        alert('Error playing station. Please try another one.');
+    });
+    
     updatePlayButton(true);
-
-    // Set the player artwork
-    const playerArtwork = document.getElementById('playerArtwork');
-    playerArtwork.src = station.logo || '/icons/default-artwork.jpg'; // Fallback to default image
-
-    document.getElementById('playerTitle').textContent = station.name;
-    document.getElementById('playerMetadata').textContent = 'Loading metadata...';
-
-    // Start spinning the logo
-    playerArtwork.classList.add('playing');
-
-    // Start fetching metadata
-    if (metadataInterval) clearInterval(metadataInterval);
-    metadataInterval = setInterval(extractMetadata, 5000); // Fetch metadata every 5 seconds
+    updatePlayerArtwork(station.logo);
+    updatePlayerInfo(station.name);
+    startMetadataFetch();
 }
 
 function togglePlayback() {
     if(audio.paused) {
-        audio.play();
+        audio.play().catch(error => console.error('Playback error:', error));
         updatePlayButton(true);
-        document.getElementById('playerArtwork').classList.add('playing'); // Resume spinning
+        document.getElementById('playerArtwork').classList.add('playing');
     } else {
         audio.pause();
         updatePlayButton(false);
-        document.getElementById('playerArtwork').classList.remove('playing'); // Stop spinning
+        document.getElementById('playerArtwork').classList.remove('playing');
     }
 }
 
@@ -186,22 +190,33 @@ function updatePlayButton(playing) {
     document.getElementById('pauseIcon').style.display = playing ? 'block' : 'none';
 }
 
-// Metadata Extraction
-function extractMetadata() {
+function updatePlayerArtwork(logoUrl) {
+    const playerArtwork = document.getElementById('playerArtwork');
+    playerArtwork.src = logoUrl || '/icons/default-artwork.jpg';
+    playerArtwork.classList.add('playing');
+}
+
+function updatePlayerInfo(stationName) {
+    document.getElementById('playerTitle').textContent = stationName;
+    document.getElementById('playerMetadata').textContent = 'Loading metadata...';
+}
+
+// Metadata Handling
+function startMetadataFetch() {
+    if (metadataInterval) clearInterval(metadataInterval);
+    metadataInterval = setInterval(extractMetadata, 5000);
+}
+
+async function extractMetadata() {
     if (!audio.src || audio.readyState === 0) return;
 
-    fetch(audio.src, {
-        method: 'GET',
-        headers: {
-            'Icy-MetaData': '1' // Request metadata
-        }
-    })
-    .then(response => {
+    try {
+        const response = await fetch(audio.src, {
+            headers: { 'Icy-MetaData': '1' }
+        });
+        
         const icyMetaInt = response.headers.get('icy-metaint');
-        if (!icyMetaInt) {
-            console.error('Metadata not supported by this stream.');
-            return;
-        }
+        if (!icyMetaInt) return;
 
         const reader = response.body.getReader();
         let buffer = new Uint8Array();
@@ -209,100 +224,73 @@ function extractMetadata() {
 
         const processData = ({ done, value }) => {
             if (done) return;
-
             buffer = new Uint8Array([...buffer, ...value]);
 
             if (metadataLength === 0 && buffer.length >= icyMetaInt) {
-                // Extract metadata length
                 metadataLength = buffer[icyMetaInt] * 16;
-                buffer = buffer.slice(icyMetaInt + 1); // Skip metadata length byte
+                buffer = buffer.slice(icyMetaInt + 1);
             }
 
             if (metadataLength > 0 && buffer.length >= metadataLength) {
-                // Extract metadata
                 const metadataBytes = buffer.slice(0, metadataLength);
                 const metadataText = new TextDecoder().decode(metadataBytes);
-                const metadata = parseMetadata(metadataText);
-                updateMetadataDisplay(metadata);
-
-                // Remove processed metadata from buffer
+                updateMetadataDisplay(parseMetadata(metadataText));
                 buffer = buffer.slice(metadataLength);
                 metadataLength = 0;
             }
 
-            // Continue reading the stream
             reader.read().then(processData);
         };
 
-        // Start reading the stream
         reader.read().then(processData);
-    })
-    .catch(error => {
-        console.error('Error fetching metadata:', error);
-    });
-}
-
-// Parse Metadata
-function parseMetadata(metadataText) {
-    const metadata = {};
-    metadataText.split(';').forEach(part => {
-        const [key, value] = part.split('=');
-        if (key && value) {
-            metadata[key.trim()] = value.trim().replace(/'/g, '');
-        }
-    });
-    return metadata;
-}
-
-// Update Metadata Display
-function updateMetadataDisplay(metadata) {
-    const metadataElement = document.getElementById('playerMetadata');
-    if (metadata.StreamTitle) {
-        metadataElement.textContent = metadata.StreamTitle;
-    } else {
-        metadataElement.textContent = 'No metadata available';
+    } catch (error) {
+        console.error('Metadata fetch error:', error);
     }
 }
 
-// Floating Timer
-const floatingTimer = document.getElementById('floatingTimer');
+function parseMetadata(metadataText) {
+    return metadataText.split(';').reduce((acc, part) => {
+        const [key, value] = part.split('=');
+        if (key && value) acc[key.trim()] = value.trim().replace(/'/g, '');
+        return acc;
+    }, {});
+}
+
+function updateMetadataDisplay(metadata) {
+    const metadataElement = document.getElementById('playerMetadata');
+    metadataElement.textContent = metadata.StreamTitle || 'No metadata available';
+}
+
+// Sleep Timer
 const timerIcon = document.getElementById('timerIcon');
 const timerMenu = document.getElementById('timerMenu');
+const timerSelect = document.getElementById('timerSelect');
+const setTimerBtn = document.getElementById('setTimerBtn');
 
-// Toggle timer menu
 timerIcon.addEventListener('click', (e) => {
-    e.stopPropagation(); // Prevent the click from reaching the document
+    e.stopPropagation();
     timerMenu.style.display = timerMenu.style.display === 'flex' ? 'none' : 'flex';
 });
 
-// Close timer menu when clicking outside
 document.addEventListener('click', (e) => {
-    if (!floatingTimer.contains(e.target)) {
+    if (!e.target.closest('.floating-timer')) {
         timerMenu.style.display = 'none';
     }
 });
 
-// Set timer functionality
-const timerSelect = document.getElementById('timerSelect');
-const setTimerBtn = document.getElementById('setTimerBtn');
-
 setTimerBtn.addEventListener('click', () => {
     const minutes = parseInt(timerSelect.value);
-    if (minutes > 0) {
-        setTimer(minutes);
-    } else {
-        clearTimer();
-    }
-    timerMenu.style.display = 'none'; // Close the menu after setting the timer
+    minutes > 0 ? setTimer(minutes) : clearTimer();
+    timerMenu.style.display = 'none';
 });
 
 function setTimer(minutes) {
-    clearTimer(); // Clear any existing timer
+    clearTimer();
     timer = setTimeout(() => {
         audio.pause();
         updatePlayButton(false);
         alert("Sleep timer: Playback stopped.");
-    }, minutes * 60 * 1000); // Convert minutes to milliseconds
+    }, minutes * 60 * 1000);
 }
 
 function clearTimer() {
@@ -314,73 +302,85 @@ function clearTimer() {
 
 // Sharing
 function shareStation(station) {
-    if(navigator.share) {
+    if (navigator.share) {
         navigator.share({
             title: `Listen to ${station.name}`,
             text: "Check out this radio station on TC Radios",
             url: window.location.href
         });
     } else {
-        prompt("Copy link to share:", window.location.href);
+        const shareUrl = window.location.href;
+        navigator.clipboard.writeText(shareUrl).then(() => {
+            alert('Link copied to clipboard!');
+        });
     }
+}
+
+// Draggable Timer
+let isDragging = false;
+let offsetX, offsetY;
+const floatingTimer = document.getElementById('floatingTimer');
+
+floatingTimer.addEventListener('mousedown', startDrag);
+floatingTimer.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    startDrag(e.touches[0]);
+});
+
+document.addEventListener('mousemove', drag);
+document.addEventListener('touchmove', (e) => drag(e.touches[0]));
+
+document.addEventListener('mouseup', endDrag);
+document.addEventListener('touchend', endDrag);
+
+function startDrag(e) {
+    isDragging = true;
+    offsetX = e.clientX - floatingTimer.offsetLeft;
+    offsetY = e.clientY - floatingTimer.offsetTop;
+    floatingTimer.style.cursor = 'grabbing';
+}
+
+function drag(e) {
+    if (!isDragging) return;
+    const x = e.clientX - offsetX;
+    const y = e.clientY - offsetY;
+    
+    const maxX = window.innerWidth - floatingTimer.offsetWidth;
+    const maxY = window.innerHeight - floatingTimer.offsetHeight;
+    
+    floatingTimer.style.left = `${Math.min(Math.max(x, 0), maxX)}px`;
+    floatingTimer.style.top = `${Math.min(Math.max(y, 0), maxY)}px`;
+}
+
+function endDrag() {
+    isDragging = false;
+    floatingTimer.style.cursor = 'grab';
 }
 
 // Initialize
 document.getElementById('playPauseBtn').addEventListener('click', togglePlayback);
-initStations();
+loadStations();
 
-// Make the floating timer button draggable
-let isDragging = false;
-let offsetX, offsetY;
+// Service Worker Registration
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js')
+            .then(registration => {
+                console.log('ServiceWorker registered:', registration);
+            })
+            .catch(error => {
+                console.log('ServiceWorker registration failed:', error);
+            });
+    });
+}
 
-floatingTimer.addEventListener('mousedown', (e) => {
-    isDragging = true;
-    offsetX = e.clientX - floatingTimer.getBoundingClientRect().left;
-    offsetY = e.clientY - floatingTimer.getBoundingClientRect().top;
-    floatingTimer.style.cursor = 'grabbing';
-});
-
-document.addEventListener('mousemove', (e) => {
-    if (isDragging) {
-        const x = e.clientX - offsetX;
-        const y = e.clientY - offsetY;
-
-        const maxX = window.innerWidth - floatingTimer.offsetWidth;
-        const maxY = window.innerHeight - floatingTimer.offsetHeight;
-
-        floatingTimer.style.left = `${Math.min(Math.max(x, 0), maxX)}px`;
-        floatingTimer.style.top = `${Math.min(Math.max(y, 0), maxY)}px`;
-    }
-});
-
-document.addEventListener('mouseup', () => {
-    isDragging = false;
-    floatingTimer.style.cursor = 'grab';
-});
-
-floatingTimer.addEventListener('touchstart', (e) => {
-    isDragging = true;
-    const touch = e.touches[0];
-    offsetX = touch.clientX - floatingTimer.getBoundingClientRect().left;
-    offsetY = touch.clientY - floatingTimer.getBoundingClientRect().top;
-    floatingTimer.style.cursor = 'grabbing';
-});
-
-document.addEventListener('touchmove', (e) => {
-    if (isDragging) {
-        const touch = e.touches[0];
-        const x = touch.clientX - offsetX;
-        const y = touch.clientY - offsetY;
-
-        const maxX = window.innerWidth - floatingTimer.offsetWidth;
-        const maxY = window.innerHeight - floatingTimer.offsetHeight;
-
-        floatingTimer.style.left = `${Math.min(Math.max(x, 0), maxX)}px`;
-        floatingTimer.style.top = `${Math.min(Math.max(y, 0), maxY)}px`;
-    }
-});
-
-document.addEventListener('touchend', () => {
-    isDragging = false;
-    floatingTimer.style.cursor = 'grab';
+// OneSignal Initialization
+window.OneSignal = window.OneSignal || [];
+OneSignal.push(function() {
+    OneSignal.init({
+        appId: "a71d9878-20e6-4edb-9da7-5e41e2648c8c",
+        safari_web_id: "web.onesignal.auto.5c6acdd7-2576-4d7e-9cb0-efba7bf8602e",
+        notifyButton: { enable: true },
+        allowLocalhostAsSecureOrigin: true,
+    });
 });
