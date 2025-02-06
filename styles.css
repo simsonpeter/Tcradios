@@ -390,6 +390,20 @@ body {
     box-shadow: 0 4px 12px rgba(0,0,0,0.3);
     animation: slideIn 0.3s ease-out;
 }
+/* Add to styles.css */
+.favorite-btn.active path {
+    fill: var(--primary) !important;
+}
+
+.no-results {
+    text-align: center;
+    padding: 20px;
+    color: var(--text-secondary);
+}
+
+.notification i {
+    margin-right: 8px;
+}
 
 .notification.error {
     background: #ff4444;
