@@ -21,13 +21,99 @@ async function loadStations() {
 
 // Initialize stations
 function initStations() {
+    renderStations(customStations);
+}
+
+// Tab handling
+document.querySelectorAll('.tab-button').forEach(button => {
+    button.addEventListener('click', (e) => {
+        const tab = e.target.id.replace('Tab', '').toLowerCase();
+        showTab(tab);
+    });
+});
+
+function showTab(tab) {
+    currentView = tab;
+    
+    // Update active tab
+    document.querySelectorAll('.tab-button').forEach(btn => 
+        btn.classList.toggle('active', btn.id === `${tab}Tab`)
+    );
+
+    // Update content visibility
+    document.getElementById('stationList').style.display = 
+        tab === 'about' ? 'none' : 'block';
+    document.getElementById('aboutContent').style.display = 
+        tab === 'about' ? 'block' : 'none';
+    document.getElementById('searchInput').style.display = 
+        tab === 'about' ? 'none' : 'block';
+
+    // Load appropriate content
+    if (tab === 'favorites') showFavorites();
+    if (tab === 'all') initStations();
+}
+
+// Timer functionality
+const timerIcon = document.getElementById('timerIcon');
+const timerMenu = document.getElementById('timerMenu');
+const timerSelect = document.getElementById('timerSelect');
+const setTimerBtn = document.getElementById('setTimerBtn');
+
+timerIcon.addEventListener('click', (e) => {
+    e.stopPropagation();
+    timerMenu.style.display = timerMenu.style.display === 'flex' ? 'none' : 'flex';
+});
+
+document.addEventListener('click', (e) => {
+    if (!e.target.closest('.floating-timer')) {
+        timerMenu.style.display = 'none';
+    }
+});
+
+setTimerBtn.addEventListener('click', () => {
+    const minutes = parseInt(timerSelect.value);
+    if (minutes > 0) {
+        setTimer(minutes);
+    } else {
+        clearTimer();
+    }
+    timerMenu.style.display = 'none';
+});
+
+function setTimer(minutes) {
+    clearTimer();
+    timer = setTimeout(() => {
+        audio.pause();
+        updatePlayButton(false);
+        showNotification(`Sleep timer: Stopped after ${minutes} minutes`);
+    }, minutes * 60 * 1000);
+    showNotification(`Sleep timer set for ${minutes} minutes`);
+}
+
+function clearTimer() {
+    if (timer) {
+        clearTimeout(timer);
+        timer = null;
+    }
+}
+
+// Station list rendering
+function renderStations(stations) {
     const stationList = document.getElementById('stationList');
     stationList.innerHTML = '';
-    customStations.forEach(station => stationList.appendChild(createStationItem(station)));
+    
+    if (stations.length === 0) {
+        stationList.innerHTML = '<div class="no-stations">No stations found</div>';
+        return;
+    }
+
+    stations.forEach(station => {
+        stationList.appendChild(createStationItem(station));
+    });
+
     updateFavoriteButtons();
 }
 
-// Create station element
 function createStationItem(station) {
     const div = document.createElement('div');
     div.className = 'station-item';
@@ -40,17 +126,17 @@ function createStationItem(station) {
         </div>
         <div class="station-actions">
             <button class="action-btn favorite-btn">
-                <!-- Favorite SVG -->
+                <!-- SVG code -->
             </button>
             <button class="action-btn share-btn">
-                <!-- Share SVG -->
+                <!-- SVG code -->
             </button>
         </div>
     `;
     return div;
 }
 
-// Event delegation for stations
+// Event delegation for station actions
 document.getElementById('stationList').addEventListener('click', (e) => {
     const stationItem = e.target.closest('.station-item');
     if (!stationItem) return;
@@ -78,72 +164,52 @@ function playStation(station) {
     
     audio.play()
         .then(() => {
-            updatePlayerArtwork(station.logo);
-            updatePlayerInfo(station.name);
-            updatePlayButton(true);
+            updatePlayerDisplay(station);
             startMetadataFetch();
         })
-        .catch(error => showError('Error playing station. Try another one.'));
+        .catch(error => showError('Error playing station'));
 }
 
 function togglePlayback() {
     if (audio.paused) {
-        audio.play()
-            .then(() => updatePlayButton(true))
-            .catch(error => showError('Resume failed'));
+        audio.play().catch(error => showError('Playback failed'));
+        updatePlayButton(true);
     } else {
         audio.pause();
         updatePlayButton(false);
     }
 }
 
+function updatePlayerDisplay(station) {
+    document.getElementById('playerArtwork').src = station.logo || 'default-artwork.jpg';
+    document.getElementById('playerTitle').textContent = station.name;
+    document.getElementById('playerArtwork').classList.add('playing');
+    updatePlayButton(true);
+}
+
 function updatePlayButton(playing) {
-    const playIcon = document.getElementById('playIcon');
-    const pauseIcon = document.getElementById('pauseIcon');
-    playIcon.style.display = playing ? 'none' : 'block';
-    pauseIcon.style.display = playing ? 'block' : 'none';
-    
+    document.getElementById('playIcon').style.display = playing ? 'none' : 'block';
+    document.getElementById('pauseIcon').style.display = playing ? 'block' : 'none';
     const playerArtwork = document.getElementById('playerArtwork');
-    playing ? playerArtwork.classList.add('playing') : playerArtwork.classList.remove('playing');
-}
-
-function updatePlayerArtwork(logoUrl) {
-    const playerArtwork = document.getElementById('playerArtwork');
-    playerArtwork.src = logoUrl || '/icons/default-artwork.jpg';
-    playerArtwork.classList.add('playing');
-}
-
-function updatePlayerInfo(stationName) {
-    document.getElementById('playerTitle').textContent = stationName;
-    document.getElementById('playerMetadata').textContent = 'Loading metadata...';
-}
-
-// Metadata handling
-function startMetadataFetch() {
-    if (metadataInterval) clearInterval(metadataInterval);
-    metadataInterval = setInterval(fetchMetadata, 5000);
-}
-
-async function fetchMetadata() {
-    try {
-        const response = await fetch(audio.src, { headers: { 'Icy-MetaData': '1' } });
-        const icyMetaInt = response.headers.get('icy-metaint');
-        if (!icyMetaInt) return;
-
-        const reader = response.body.getReader();
-        // ... (metadata parsing logic from previous versions) ...
-    } catch (error) {
-        console.error('Metadata error:', error);
-    }
+    playerArtwork.style.animationPlayState = playing ? 'running' : 'paused';
 }
 
 // Favorites system
 function toggleFavorite(station) {
     const index = favorites.findIndex(fav => fav.url === station.url);
-    index === -1 ? favorites.push(station) : favorites.splice(index, 1);
+    if (index === -1) {
+        favorites.push(station);
+    } else {
+        favorites.splice(index, 1);
+    }
     localStorage.setItem('radioFavorites', JSON.stringify(favorites));
     updateFavoriteButtons();
+    
     if (currentView === 'favorites') showFavorites();
+}
+
+function showFavorites() {
+    renderStations(favorites);
 }
 
 function updateFavoriteButtons() {
@@ -153,22 +219,6 @@ function updateFavoriteButtons() {
     });
 }
 
-// Sleep timer
-document.getElementById('setTimerBtn').addEventListener('click', () => {
-    const minutes = parseInt(document.getElementById('timerSelect').value);
-    minutes > 0 ? setTimer(minutes) : clearTimer();
-    document.getElementById('timerMenu').style.display = 'none';
-});
-
-function setTimer(minutes) {
-    clearTimer();
-    timer = setTimeout(() => {
-        audio.pause();
-        updatePlayButton(false);
-        showError('Sleep timer: Playback stopped');
-    }, minutes * 60 * 1000);
-}
-
 // Initialization
 document.getElementById('playPauseBtn').addEventListener('click', togglePlayback);
 loadStations();
@@ -176,8 +226,16 @@ loadStations();
 // Helper functions
 function showError(message) {
     const errorDiv = document.createElement('div');
-    errorDiv.className = 'error-message';
+    errorDiv.className = 'notification error';
     errorDiv.textContent = message;
-    document.body.prepend(errorDiv);
+    document.body.appendChild(errorDiv);
     setTimeout(() => errorDiv.remove(), 5000);
+}
+
+function showNotification(message) {
+    const notification = document.createElement('div');
+    notification.className = 'notification';
+    notification.textContent = message;
+    document.body.appendChild(notification);
+    setTimeout(() => notification.remove(), 3000);
 }
