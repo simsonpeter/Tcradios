@@ -13,7 +13,6 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <script src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js"></script>
     <style>
         :root {
             --primary: #1DB954;
@@ -73,22 +72,7 @@
             transition: transform 0.2s;
             font-size: 20px;
         }
-        .cast-button {
-            background: var(--surface);
-            border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            margin-left: 8px;
-        }
-        .cast-button.active {
-            color: var(--primary);
-        }
-        .theme-toggle:active, .cast-button:active {
+        .theme-toggle:active {
             transform: scale(0.9);
         }
         .app-container {
@@ -335,19 +319,15 @@
             align-items: center;
             justify-content: center;
         }
+        .timer-menu button i {
+            font-size: 16px;
+        }
     </style>
 </head>
 <body>
     <div class="header">
         <div class="app-title">TC RADIOS</div>
-        <div>
-            <button class="cast-button" id="castButton">
-                <svg width="24" height="24" viewBox="0 0 24 24">
-                    <path fill="currentColor" d="M1 18v3h3c0-1.66-1.34-3-3-3zm0-4v2c2.76 0 5 2.24 5 5h2c0-3.87-3.13-7-7-7zm0-4v2c4.97 0 9 4.03 9 9h2c0-6.08-4.93-11-11-11zm20-7H3c-1.1 0-2 .9-2 2v3h2V5h18v14h-7v2h7c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/>
-                </svg>
-            </button>
-            <button class="theme-toggle" id="themeToggle">🌓</button>
-        </div>
+        <button class="theme-toggle" id="themeToggle">🌓</button>
     </div>
     <div class="app-container">
         <div class="tabs">
@@ -380,7 +360,7 @@
                 <h3>About TC Radios</h3>
                 <p>TC Radio is a passion project dedicated to bringing all Tamil Christian radio stations to listeners worldwide. 
                 Our mission is to create a seamless listening experience across devices while supporting independent radio stations. Developed by JayathaSoft</p>
-                <p>Version: 2.0.0 (Chromecast Enabled)</p>
+                <p>Version: 1.0.0</p>
             </div>
         </div>
         <div class="player-container">
@@ -420,9 +400,8 @@
         </div>
     </div>
     <script>
-        // Radio Stations Data
         const customStations = [
-             {
+           {
         "name": "Amen FM",
         "url": "https://ice7.securenetsystems.net/AMENFM",
         "logo": "https://i.ibb.co/JWW8zWHy/download-1.jpg",
@@ -565,85 +544,124 @@
         "url": "https://radio.pixelinmedia.com/vallamai",
         "logo": "https://i.ibb.co/8DRtQGTJ/cropped-Logo-vallamai-4.png",
         "genre": "Tamil Christian"
-    } 
-            // ... (include all other stations from previous version) ...
+    }  
         ];
 
-        // Audio and State Management
         const audio = new Audio();
         let currentStation = null;
         let favorites = JSON.parse(localStorage.getItem('radioFavorites')) || [];
         let currentView = 'all';
         let timer = null;
-        let castContext, castSession;
 
-        // Chromecast Initialization
-        window.__onGCastApiAvailable = (isAvailable) => {
-            if (isAvailable) initializeCastApi();
-        };
+        // Theme Management
+        const themeToggle = document.getElementById('themeToggle');
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('light-theme');
+            const isLight = document.body.classList.contains('light-theme');
+            localStorage.setItem('theme', isLight ? 'light' : 'dark');
+            themeToggle.textContent = isLight ? '🌙' : '☀️';
+        });
 
-        function initializeCastApi() {
-            const options = {
-                receiverApplicationId: 'CC1AD845',
-                autoJoinPolicy: chrome.cast.AutoJoinPolicy.ORIGIN_SCOPED
-            };
-            castContext = cast.framework.CastContext.getInstance();
-            castContext.setOptions(options);
-
-            // Cast Event Listeners
-            castContext.addEventListener(
-                cast.framework.CastContextEventType.CAST_STATE_CHANGED,
-                (event) => {
-                    document.getElementById('castButton').classList.toggle('active', 
-                        event.castState === 'CONNECTED'
-                    );
-                }
-            );
-
-            castContext.addEventListener(
-                cast.framework.CastContextEventType.SESSION_STATE_CHANGED,
-                (event) => {
-                    switch(event.sessionState) {
-                        case 'SESSION_STARTED':
-                            castSession = castContext.getCurrentSession();
-                            if(currentStation) loadMedia(currentStation);
-                            break;
-                        case 'SESSION_ENDED':
-                            if(!audio.paused) audio.play();
-                            break;
-                    }
-                }
-            );
+        if(localStorage.getItem('theme') === 'light') {
+            document.body.classList.add('light-theme');
+            themeToggle.textContent = '🌙';
         }
 
-        function loadMedia(station) {
-            if(!castSession) return;
-            
-            const mediaInfo = new chrome.cast.media.MediaInfo(station.url, 'audio/mpeg');
-            mediaInfo.metadata = new chrome.cast.media.GenericMediaMetadata();
-            mediaInfo.metadata.title = station.name;
-            mediaInfo.metadata.images = [new chrome.cast.Image(station.logo)];
+        // Tab Management
+        document.getElementById('allTab').addEventListener('click', () => showTab('all'));
+        document.getElementById('favoritesTab').addEventListener('click', () => showTab('favorites'));
+        document.getElementById('aboutTab').addEventListener('click', () => showTab('about'));
 
-            const request = new chrome.cast.media.LoadRequest(mediaInfo);
-            request.autoplay = true;
-
-            castSession.loadMedia(request)
-                .then(() => audio.pause())
-                .catch(console.error);
+        function showTab(tab) {
+            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`${tab}Tab`).classList.add('active');
+            document.getElementById('stationList').style.display = tab === 'about' ? 'none' : 'block';
+            document.getElementById('aboutContent').style.display = tab === 'about' ? 'block' : 'none';
+            document.getElementById('searchInput').style.display = tab === 'about' ? 'none' : 'block';
+            if(tab === 'favorites') showFavorites();
+            else if(tab === 'all') initStations();
         }
 
-        // Core Player Functions
+        // Search Functionality
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            const filtered = customStations.filter(station => 
+                station.name.toLowerCase().includes(query) || 
+                station.genre.toLowerCase().includes(query)
+            );
+            renderStations(filtered);
+        });
+
+        // Station Handling
+        function createStationItem(station) {
+            const item = document.createElement('div');
+            item.className = 'station-item';
+            item.innerHTML = `
+                <img src="${station.logo}" class="station-artwork" alt="${station.name}">
+                <div class="station-info">
+                    <div class="station-name">${station.name}</div>
+                    <div class="station-genre">${station.genre}</div>
+                </div>
+                <div class="station-actions">
+                    <button class="action-btn favorite-btn">
+                        <svg width="24" height="24" viewBox="0 0 24 24">
+                            <path fill="currentColor" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                        </svg>
+                    </button>
+                </div>
+            `;
+
+            item.querySelector('.favorite-btn').addEventListener('click', (e) => {
+                e.stopPropagation();
+                toggleFavorite(station);
+            });
+
+            item.addEventListener('click', () => playStation(station));
+            return item;
+        }
+
+        function renderStations(stations) {
+            const list = document.getElementById('stationList');
+            list.innerHTML = '';
+            stations.forEach(station => {
+                list.appendChild(createStationItem(station));
+            });
+            updateFavoriteButtons();
+        }
+
+        function initStations() {
+            renderStations(customStations);
+        }
+
+        function showFavorites() {
+            renderStations(favorites);
+        }
+
+        // Favorites System
+        function toggleFavorite(station) {
+            const index = favorites.findIndex(f => f.url === station.url);
+            if(index === -1) {
+                favorites.push(station);
+            } else {
+                favorites.splice(index, 1);
+            }
+            localStorage.setItem('radioFavorites', JSON.stringify(favorites));
+            updateFavoriteButtons();
+            if(currentView === 'favorites') showFavorites();
+        }
+
+        function updateFavoriteButtons() {
+            document.querySelectorAll('.favorite-btn').forEach(btn => {
+                const stationName = btn.closest('.station-item').querySelector('.station-name').textContent;
+                const isFavorite = favorites.some(f => f.name === stationName);
+                btn.classList.toggle('active', isFavorite);
+            });
+        }
+
+        // Audio Handling
         function playStation(station) {
-            if(castSession) {
-                loadMedia(station);
-                return;
-            }
-
-            if(currentStation?.url === station.url) {
-                togglePlayback();
-                return;
-            }
-
+            if(currentStation?.url === station.url) return togglePlayback();
+            
             currentStation = station;
             audio.src = station.url;
             audio.play().catch(handleAudioError);
@@ -656,14 +674,14 @@
         }
 
         function togglePlayback() {
-            if(castSession) {
-                castSession.getMediaSession().playerState === 'PLAYING' 
-                    ? castSession.pause()
-                    : castSession.play();
+            if(audio.paused) {
+                audio.play().catch(handleAudioError);
+                document.getElementById('playerArtwork').classList.add('playing');
+                updatePlayButton(true);
             } else {
-                audio.paused ? audio.play() : audio.pause();
-                document.getElementById('playerArtwork').classList.toggle('playing', !audio.paused);
-                updatePlayButton(!audio.paused);
+                audio.pause();
+                document.getElementById('playerArtwork').classList.remove('playing');
+                updatePlayButton(false);
             }
         }
 
@@ -678,7 +696,7 @@
 
         function handleAudioError() {
             console.error('Audio error, reconnecting...');
-            currentStation && setTimeout(() => audio.play(), 5000);
+            if(currentStation) setTimeout(() => audio.play(), 5000);
         }
 
         function handleAudioEnded() {
@@ -686,13 +704,88 @@
             audio.play().catch(handleAudioError);
         }
 
-        // UI and Other Features
-        // ... (include all other functions from previous version: 
-        // theme toggle, tabs, search, favorites, timer, etc.) ...
+        // Timer System
+        const timerIcon = document.getElementById('timerIcon');
+        const timerMenu = document.getElementById('timerMenu');
+        const timerSelect = document.getElementById('timerSelect');
 
-        // Initialize App
+        timerIcon.addEventListener('click', (e) => {
+            e.stopPropagation();
+            timerMenu.style.display = timerMenu.style.display === 'flex' ? 'none' : 'flex';
+        });
+
+        document.addEventListener('click', (e) => {
+            if(!e.target.closest('.floating-timer')) timerMenu.style.display = 'none';
+        });
+
+        document.getElementById('setTimerBtn').addEventListener('click', () => {
+            const minutes = parseInt(timerSelect.value);
+            if(minutes > 0) setTimer(minutes);
+            else clearTimer();
+            timerMenu.style.display = 'none';
+        });
+
+        function setTimer(minutes) {
+            clearTimer();
+            timer = setTimeout(() => {
+                audio.pause();
+                updatePlayButton(false);
+                alert('Sleep timer: Playback stopped');
+            }, minutes * 60000);
+        }
+
+        function clearTimer() {
+            if(timer) clearTimeout(timer);
+        }
+
+        // Initialize
         document.getElementById('playPauseBtn').addEventListener('click', togglePlayback);
         initStations();
+
+        // Draggable Timer
+        let isDragging = false;
+        let offset = { x: 0, y: 0 };
+
+        document.getElementById('floatingTimer').addEventListener('mousedown', startDrag);
+        document.addEventListener('mousemove', drag);
+        document.addEventListener('mouseup', stopDrag);
+        document.getElementById('floatingTimer').addEventListener('touchstart', startDragTouch);
+        document.addEventListener('touchmove', dragTouch);
+        document.addEventListener('touchend', stopDrag);
+
+        function startDrag(e) {
+            isDragging = true;
+            const rect = e.target.getBoundingClientRect();
+            offset.x = e.clientX - rect.left;
+            offset.y = e.clientY - rect.top;
+        }
+
+        function startDragTouch(e) {
+            isDragging = true;
+            const touch = e.touches[0];
+            const rect = e.target.getBoundingClientRect();
+            offset.x = touch.clientX - rect.left;
+            offset.y = touch.clientY - rect.top;
+        }
+
+        function drag(e) {
+            if(!isDragging) return;
+            const timer = document.getElementById('floatingTimer');
+            timer.style.left = `${e.clientX - offset.x}px`;
+            timer.style.top = `${e.clientY - offset.y}px`;
+        }
+
+        function dragTouch(e) {
+            if(!isDragging) return;
+            const touch = e.touches[0];
+            const timer = document.getElementById('floatingTimer');
+            timer.style.left = `${touch.clientX - offset.x}px`;
+            timer.style.top = `${touch.clientY - offset.y}px`;
+        }
+
+        function stopDrag() {
+            isDragging = false;
+        }
     </script>
 </body>
 </html>
