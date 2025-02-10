@@ -322,6 +322,60 @@
         .timer-menu button i {
             font-size: 16px;
         }
+           /* Updated volume controls */
+        .volume-container {
+            position: relative;
+            margin-left: 12px;
+        }
+
+        .volume-button {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.2s;
+        }
+
+        .volume-slider {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%) rotate(-90deg);
+            width: 32px;
+            height: 120px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.2s;
+            background: var(--surface);
+            padding: 12px;
+            border-radius: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            z-index: 1000;
+        }
+
+        .volume-slider.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        input[type="range"] {
+            -webkit-appearance: slider-vertical;
+            width: 120px;
+            height: 32px;
+        }
+
+        /* Adjust timer position */
+        .floating-timer {
+            position: fixed;
+            bottom: 120px;  /* Increased from 80px */
+            right: 20px;
+            z-index: 1001; /* Higher than volume slider */
+        }
     </style>
 </head>
 <body>
@@ -370,6 +424,18 @@
                     <div class="player-title" id="playerTitle">Select a station</div>
                     <div class="player-metadata" id="playerMetadata">No metadata available</div>
                 </div>
+                <div class="volume-container">
+                <button class="volume-button" id="volumeButton">
+                    <i class="fas fa-volume-up"></i>
+                </button>
+                <input type="range" 
+                     min="0" 
+                     max="1" 
+                     step="0.01" 
+                     value="1" 
+                     class="volume-slider" 
+                     id="volumeSlider">
+            </div>
                 <button class="control-button" id="playPauseBtn">
                     <svg width="24" height="24" viewBox="0 0 24 24" id="playIcon">
                         <path fill="currentColor" d="M8 5v14l11-7z"/>
