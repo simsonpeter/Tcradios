@@ -322,6 +322,57 @@
         .timer-menu button i {
             font-size: 16px;
         }
+         /* Add these new styles */
+        .volume-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            margin-left: 12px;
+        }
+
+        .volume-button {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.2s;
+        }
+
+        .volume-button:hover {
+            color: var(--primary);
+        }
+
+        .volume-slider {
+            position: absolute;
+            bottom: 50px;
+            right: -8px;
+            width: 32px;
+            height: 120px;
+            transform: rotate(-90deg);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.2s;
+            background: var(--surface);
+            padding: 12px;
+            border-radius: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .volume-slider.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        input[type="range"] {
+            -webkit-appearance: slider-vertical;
+            width: 120px;
+            height: 32px;
+        }
     </style>
 </head>
 <body>
@@ -378,10 +429,18 @@
                         <path fill="currentColor" d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
                     </svg>
                 </button>
-                 <div class="volume-control">
+                  <div class="volume-container">
+                <button class="volume-button" id="volumeButton">
                     <i class="fas fa-volume-up"></i>
-                    <input type="range" min="0" max="1" step="0.01" value="1" class="volume-slider" id="volumeSlider">
-                </div>
+                </button>
+                <input type="range" 
+                       min="0" 
+                       max="1" 
+                       step="0.01" 
+                       value="1" 
+                       class="volume-slider" 
+                       id="volumeSlider">
+            </div>
             </div>
         </div>
         <div class="floating-timer" id="floatingTimer">
@@ -575,11 +634,45 @@
         let currentView = 'all';
         let timer = null;
 
-         // Volume Control
+          // Add volume control functionality
+        const volumeButton = document.getElementById('volumeButton');
         const volumeSlider = document.getElementById('volumeSlider');
+        let isVolumeOpen = false;
+
+        // Toggle volume slider
+        volumeButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            isVolumeOpen = !isVolumeOpen;
+            volumeSlider.classList.toggle('visible', isVolumeOpen);
+        });
+
+        // Close volume slider when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.volume-container')) {
+                isVolumeOpen = false;
+                volumeSlider.classList.remove('visible');
+            }
+        });
+
+        // Update volume and icon
         volumeSlider.addEventListener('input', (e) => {
             audio.volume = e.target.value;
+            updateVolumeIcon(e.target.value);
         });
+
+        function updateVolumeIcon(volume) {
+            const icon = volumeButton.querySelector('i');
+            if (volume === 0) {
+                icon.className = 'fas fa-volume-mute';
+            } else if (volume < 0.5) {
+                icon.className = 'fas fa-volume-down';
+            } else {
+                icon.className = 'fas fa-volume-up';
+            }
+        }
+
+        // Initialize volume icon
+        updateVolumeIcon(audio.volume);
 
         // Theme Management
         const themeToggle = document.getElementById('themeToggle');
