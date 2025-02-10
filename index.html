@@ -378,6 +378,10 @@
                         <path fill="currentColor" d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
                     </svg>
                 </button>
+                 <div class="volume-control">
+                    <i class="fas fa-volume-up"></i>
+                    <input type="range" min="0" max="1" step="0.01" value="1" class="volume-slider" id="volumeSlider">
+                </div>
             </div>
         </div>
         <div class="floating-timer" id="floatingTimer">
@@ -570,6 +574,12 @@
         let favorites = JSON.parse(localStorage.getItem('radioFavorites')) || [];
         let currentView = 'all';
         let timer = null;
+
+         // Volume Control
+        const volumeSlider = document.getElementById('volumeSlider');
+        volumeSlider.addEventListener('input', (e) => {
+            audio.volume = e.target.value;
+        });
 
         // Theme Management
         const themeToggle = document.getElementById('themeToggle');
