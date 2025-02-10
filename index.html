@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -322,67 +323,6 @@
         .timer-menu button i {
             font-size: 16px;
         }
-       
-     /* Updated volume controls */
-        .volume-container {
-            position: relative;
-            margin-left: 12px;
-            z-index: 999;
-        }
-
-        .volume-button {
-            background: none;
-            border: none;
-            color: var(--text-secondary);
-            cursor: pointer;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: color 0.2s;
-            position: relative;
-            z-index: 1002; /* Higher than slider */
-        }
-
-        .volume-slider {
-            position: absolute;
-            bottom: 50px;
-            left: 50%;
-            transform: translateX(-50%) rotate(-90deg);
-            width: 32px;
-            height: 120px;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.2s;
-            background: var(--surface);
-            padding: 12px;
-            border-radius: 24px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            z-index: 1001;
-            pointer-events: none;
-        }
-
-        .volume-slider.visible {
-            opacity: 1;
-            visibility: visible;
-            pointer-events: auto;
-        }
-
-        input[type="range"] {
-            -webkit-appearance: slider-vertical;
-            width: 120px;
-            height: 32px;
-        }
-
-        /* Timer positioning */
-        .floating-timer {
-            position: fixed;
-            bottom: 120px;
-            right: 20px;
-            z-index: 1000; /* Below volume controls */
-        }
-       
     </style>
 </head>
 <body>
@@ -431,19 +371,7 @@
                     <div class="player-title" id="playerTitle">Select a station</div>
                     <div class="player-metadata" id="playerMetadata">No metadata available</div>
                 </div>
-               
                 <button class="control-button" id="playPauseBtn">
-                   <div class="volume-container">
-                <input type="range" 
-                     min="0" 
-                     max="1" 
-                     step="0.01" 
-                     value="1" 
-                     class="volume-slider" 
-                     id="volumeSlider">
-                <button class="volume-button" id="volumeButton">
-                    <i class="fas fa-volume-up"></i>
-                </button>
                     <svg width="24" height="24" viewBox="0 0 24 24" id="playIcon">
                         <path fill="currentColor" d="M8 5v14l11-7z"/>
                     </svg>
@@ -451,7 +379,6 @@
                         <path fill="currentColor" d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
                     </svg>
                 </button>
-                  
             </div>
         </div>
         <div class="floating-timer" id="floatingTimer">
@@ -644,8 +571,6 @@
         let favorites = JSON.parse(localStorage.getItem('radioFavorites')) || [];
         let currentView = 'all';
         let timer = null;
-       
-  
 
         // Theme Management
         const themeToggle = document.getElementById('themeToggle');
