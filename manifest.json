@@ -3,7 +3,7 @@
   "short_name": "TC Radio",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#1DB954",
+  "background_color": "#FFFFFF",
   "theme_color": "#1DB954",
   "description": "Tamil Christian Radio Stations",
   "icons": [
