@@ -1,5 +1,5 @@
 [
-    {
+           {
         "name": "Amen FM",
         "url": "https://ice7.securenetsystems.net/AMENFM",
         "logo": "https://i.ibb.co/JWW8zWHy/download-1.jpg",
@@ -100,7 +100,13 @@
         "url": "https://stream-158.zeno.fm/y4tx3zpx34zuv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJ5NHR4M3pweDM0enV2IiwiaG9zdCI6InN0cmVhbS0xNTguemVuby5mbSIsInJ0dGwiOjUsImp0aSI6Ikp5aUZ6eDlEVC1LZEdsRkxaYVdWbGciLCJpYXQiOjE3MzkwMDc0MzMsImV4cCI6MTczOTAwNzQ5M30.gv-0PsNl58w4ifkLMEGDpNkm9ZZLHZ5eewhGvggI29U",
         "logo": "https://i.ibb.co/yB7Qz5Vq/Maippanin-Kural-Radio-thumb.jpg",
         "genre": "Tamil Christian"
-    },       
+    }, 
+      {
+        "name": "NJC Bible Radio",
+        "url": "https://stream.zeno.fm/fzx09rnsrp8uv",
+        "logo": "https://i.ibb.co/9mG9kjNy/image.webp",
+        "genre": "Tamil Christian"
+    },             
     {
         "name": "O'Zion",
         "url": "https://s2.radio.co/sd4968cb05/listen",
@@ -111,6 +117,18 @@
         "name": "Sangamum Radio",
         "url": "https://centova71.instainternet.com/proxy/sangamum?mp=/stream",
         "logo": "https://i.ibb.co/LhsrfQ4x/f1693f87337881d9dcd102af94ae8c61.jpg",
+        "genre": "Tamil Christian"
+    },
+     {
+        "name": "Shalom Radio",
+        "url": "https://stream.zeno.fm/0n4z0ta4v7zuv.mp3",
+        "logo": "https://i.ibb.co/SwSxjsbH/shalom-radio-tamil-fm-thumb.webp",
+        "genre": "Tamil Christian"
+    },       
+     {
+        "name": "Sweety FM",
+        "url": "https://rbx2.hnux.com/http://e12392.cloudrad.io:9084/stream/2/",
+        "logo": "https://sweetyfm.com/wp-content/uploads/2023/11/cropped-Sweety-FM.png",
         "genre": "Tamil Christian"
     },
     {
@@ -137,10 +155,16 @@
         "logo": "https://i.ibb.co/fdLCQFzD/vaan-malarfm-thumb.jpg",
         "genre": "Tamil Christian"
     },
+             {
+        "name": "Voice of Trumpet",
+        "url": "https://stream.zeno.fm/pyrbm4khva0uv",
+        "logo": "https://i.ibb.co/n88ww0g5/logo.jpg",
+        "genre": "Tamil Christian"
+    },
     {
         "name": "Waves of Power",
         "url": "https://radio.pixelinmedia.com/vallamai",
         "logo": "https://i.ibb.co/8DRtQGTJ/cropped-Logo-vallamai-4.png",
         "genre": "Tamil Christian"
     }  
-]
+        ]
