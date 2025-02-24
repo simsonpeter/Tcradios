@@ -14,6 +14,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        /* ========== BASE STYLES ========== */
         :root {
             --primary: #1DB954;
             --background: #121212;
@@ -21,18 +22,21 @@
             --text-primary: #FFFFFF;
             --text-secondary: #B3B3B3;
         }
+
         .light-theme {
             --background: #ffffff;
             --surface: #f5f5f5;
             --text-primary: #000000;
             --text-secondary: #666666;
         }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, sans-serif;
         }
+
         body {
             background: var(--background);
             color: var(--text-primary);
@@ -41,6 +45,8 @@
             -webkit-tap-highlight-color: transparent;
             transition: background 0.3s, color 0.3s;
         }
+
+        /* ========== HEADER STYLES ========== */
         .header {
             position: fixed;
             top: 0;
@@ -54,10 +60,12 @@
             background: var(--surface);
             border-bottom: 1px solid rgba(255,255,255,0.1);
         }
+
         .app-title {
             font-size: 20px;
             font-weight: 600;
         }
+
         .theme-toggle {
             background: var(--surface);
             border: none;
@@ -72,9 +80,12 @@
             transition: transform 0.2s;
             font-size: 20px;
         }
+
         .theme-toggle:active {
             transform: scale(0.9);
         }
+
+        /* ========== MAIN CONTAINER ========== */
         .app-container {
             max-width: 500px;
             margin: 0 auto;
@@ -82,6 +93,8 @@
             position: relative;
             padding-top: 80px;
         }
+
+        /* ========== TABS STYLES ========== */
         .tabs {
             display: flex;
             gap: 8px;
@@ -91,6 +104,7 @@
             background: var(--background);
             z-index: 999;
         }
+
         .tab-button {
             flex: 1;
             padding: 12px;
@@ -102,13 +116,17 @@
             cursor: pointer;
             transition: all 0.2s;
         }
+
         .tab-button.active {
             background: var(--primary);
             color: white;
         }
+
+        /* ========== SEARCH BAR ========== */
         .search-bar {
             padding: 0 16px 16px;
         }
+
         .search-bar input {
             width: 100%;
             padding: 12px;
@@ -119,41 +137,15 @@
             font-size: 16px;
             outline: none;
         }
+
+        /* ========== STATION LIST ========== */
         .station-list {
             padding: 0 16px 16px;
             height: calc(100vh - 260px);
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
         }
-        .about-content {
-            padding: 16px;
-            display: none;
-            line-height: 1.6;
-            height: calc(100vh - 220px);
-            overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
-        }
-        .contact-section {
-            background: var(--surface);
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-        }
-        .contact-section h3 {
-            color: var(--primary);
-            margin-bottom: 15px;
-        }
-        .contact-details p {
-            margin: 10px 0;
-        }
-        .social-links a {
-            color: var(--primary);
-            text-decoration: none;
-            margin-right: 15px;
-        }
-        .social-links a:hover {
-            text-decoration: underline;
-        }
+
         .station-item {
             display: flex;
             align-items: center;
@@ -163,9 +155,11 @@
             border-radius: 12px;
             transition: transform 0.2s;
         }
+
         .station-item:active {
             transform: scale(0.98);
         }
+
         .station-artwork {
             width: 60px;
             height: 60px;
@@ -174,23 +168,28 @@
             object-fit: cover;
             box-shadow: 0 4px 12px rgba(0,0,0,0.3);
         }
+
         .station-info {
             flex: 1;
         }
+
         .station-name {
             font-weight: 500;
             margin-bottom: 4px;
         }
+
         .station-genre {
             color: var(--text-secondary);
             font-size: 14px;
         }
+
         .station-actions {
             display: flex;
             gap: 12px;
             margin-left: auto;
             padding-left: 16px;
         }
+
         .action-btn {
             background: none;
             border: none;
@@ -198,9 +197,12 @@
             cursor: pointer;
             transition: color 0.2s;
         }
+
         .action-btn.active {
             color: var(--primary);
         }
+
+        /* ========== PLAYER CONTROLS ========== */
         .player-container {
             position: fixed;
             bottom: 0;
@@ -212,11 +214,13 @@
             box-shadow: 0 -4px 24px rgba(0,0,0,0.3);
             z-index: 100;
         }
+
         .player-content {
             display: flex;
             align-items: center;
             gap: 16px;
         }
+
         .player-artwork {
             width: 56px;
             height: 56px;
@@ -225,23 +229,28 @@
             animation: spin 10s linear infinite;
             animation-play-state: paused;
         }
+
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+
         .player-artwork.playing {
             animation-play-state: running;
         }
+
         .player-info {
             flex: 1;
             min-width: 0;
         }
+
         .player-title {
             font-weight: 500;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
+
         .player-metadata {
             font-size: 14px;
             color: var(--text-secondary);
@@ -249,6 +258,7 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
+
         .control-button {
             width: 48px;
             height: 48px;
@@ -261,6 +271,8 @@
             justify-content: center;
             box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
+
+        /* ========== SLEEP TIMER ========== */
         .floating-timer {
             position: fixed;
             bottom: 80px;
@@ -269,6 +281,7 @@
             cursor: grab;
             user-select: none;
         }
+
         .timer-icon {
             width: 48px;
             height: 48px;
@@ -283,9 +296,11 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
             transition: transform 0.2s;
         }
+
         .timer-icon:active {
             transform: scale(0.9);
         }
+
         .timer-menu {
             position: absolute;
             bottom: 60px;
@@ -298,6 +313,7 @@
             flex-direction: column;
             gap: 8px;
         }
+
         .timer-menu select {
             padding: 8px;
             border-radius: 8px;
@@ -307,6 +323,7 @@
             cursor: pointer;
             outline: none;
         }
+
         .timer-menu button {
             padding: 8px;
             border-radius: 8px;
@@ -319,23 +336,125 @@
             align-items: center;
             justify-content: center;
         }
+
+        /* ========== LOADING OVERLAY ========== */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        /* ========== ABOUT PAGE STYLES ========== */
+        .about-content {
+            padding: 16px;
+            display: none;
+            line-height: 1.6;
+            height: calc(100vh - 220px);
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .contact-section {
+            background: var(--surface);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .contact-section h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .contact-details p {
+            margin: 10px 0;
+        }
+
+        .social-links a {
+            color: var(--primary);
+            text-decoration: none;
+            margin-right: 15px;
+        }
+
+        .social-links a:hover {
+            text-decoration: underline;
+        }
+
+        /* ========== METADATA DISPLAY ========== */
+        .song-progress {
+            height: 3px;
+            background: rgba(255,255,255,0.2);
+            margin-top: 8px;
+            position: relative;
+        }
+
+        .song-progress::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            background: var(--primary);
+            width: var(--progress);
+            transition: width 0.3s ease;
+        }
+
+        #currentSong {
+            font-size: 14px;
+            color: var(--text-secondary);
+            display: block;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
     </style>
 </head>
 <body>
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+    </div>
+    
+    <!-- Header -->
     <div class="header">
         <div class="app-title">TC RADIOS</div>
         <button class="theme-toggle" id="themeToggle">🌓</button>
     </div>
+    
+    <!-- Main Container -->
     <div class="app-container">
+        <!-- Tabs -->
         <div class="tabs">
             <button class="tab-button active" id="allTab">All Stations</button>
             <button class="tab-button" id="favoritesTab">Favorites</button>
             <button class="tab-button" id="aboutTab">About</button>
         </div>
+        
+        <!-- Search -->
         <div class="search-bar">
             <input type="text" id="searchInput" placeholder="Search stations..." />
         </div>
+        
+        <!-- Station List -->
         <div class="station-list" id="stationList"></div>
+        
+        <!-- About Content -->
         <div class="about-content" id="aboutContent">
             <div class="contact-section">
                 <h3>Contact Information</h3>
@@ -355,17 +474,21 @@
             </div>
             <div class="contact-section">
                 <h3>About TC Radios</h3>
-                <p>TC Radio is a passion project dedicated to bringing all Tamil Christian radio stations to listeners worldwide. 
-                Our mission is to create a seamless listening experience across devices while supporting independent radio stations. Developed by JayathaSoft</p>
-                <p>Version: 1.0.0</p>
+                <p>TC Radio is a passion project dedicated to bringing all Tamil Christian radio stations to listeners worldwide.</p>
+                <p>Version: 5.0.0</p>
             </div>
         </div>
+        
+        <!-- Player -->
         <div class="player-container">
             <div class="player-content">
                 <img src="/icons/default-artwork.jpg" class="player-artwork" id="playerArtwork">
                 <div class="player-info">
                     <div class="player-title" id="playerTitle">Select a station</div>
-                    <div class="player-metadata" id="playerMetadata">No metadata available</div>
+                    <div class="player-metadata" id="playerMetadata">
+                        <span id="currentSong">No song info available</span>
+                        <div class="song-progress" id="songProgress"></div>
+                    </div>
                 </div>
                 <button class="control-button" id="playPauseBtn">
                     <svg width="24" height="24" viewBox="0 0 24 24" id="playIcon">
@@ -377,6 +500,8 @@
                 </button>
             </div>
         </div>
+        
+        <!-- Sleep Timer -->
         <div class="floating-timer" id="floatingTimer">
             <div class="timer-icon" id="timerIcon">
                 <i class="fas fa-clock"></i>
@@ -398,30 +523,57 @@
     </div>
 
     <script>
+        // Configuration
         const STATIONS_URL = 'https://raw.githubusercontent.com/simsonpeter/Tcradios/main/stations.json';
         let customStations = [];
         const audio = new Audio();
+        audio.crossOrigin = "anonymous";
         let currentStation = null;
         let favorites = JSON.parse(localStorage.getItem('radioFavorites')) || [];
         let currentView = 'all';
         let timer = null;
+        let metadataInterval;
+        let audioContext, analyser;
 
-        // Load stations from GitHub
+        // Loading States
+        function showLoading(show) {
+            document.getElementById('loadingOverlay').style.display = show ? 'flex' : 'none';
+        }
+
+        // Theme Management
+        const themeToggle = document.getElementById('themeToggle');
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('light-theme');
+            const isLight = document.body.classList.contains('light-theme');
+            localStorage.setItem('theme', isLight ? 'light' : 'dark');
+            themeToggle.textContent = isLight ? '🌙' : '☀️';
+        });
+
+        if(localStorage.getItem('theme') === 'light') {
+            document.body.classList.add('light-theme');
+            themeToggle.textContent = '🌙';
+        }
+
+        // Station Loading
         async function loadStations() {
             try {
+                showLoading(true);
                 const response = await fetch(STATIONS_URL);
                 if (!response.ok) throw new Error('Failed to load stations');
                 customStations = await response.json();
                 localStorage.setItem('cachedStations', JSON.stringify(customStations));
                 initStations();
+                showLoading(false);
             } catch (error) {
                 console.error('Using cached stations:', error);
+                showLoading(false);
                 const cached = localStorage.getItem('cachedStations');
                 if (cached) customStations = JSON.parse(cached);
                 initStations();
             }
         }
 
+        // Station Handling
         function initStations() {
             renderStations(customStations);
         }
@@ -430,7 +582,8 @@
             const item = document.createElement('div');
             item.className = 'station-item';
             item.innerHTML = `
-                <img src="${station.logo}" class="station-artwork" alt="${station.name}">
+                <img src="${station.logo}" class="station-artwork" alt="${station.name}"
+                     onerror="this.src='/icons/default-station.png'">
                 <div class="station-info">
                     <div class="station-name">${station.name}</div>
                     <div class="station-genre">${station.genre}</div>
@@ -462,6 +615,7 @@
             updateFavoriteButtons();
         }
 
+        // Favorites System
         function toggleFavorite(station) {
             const index = favorites.findIndex(f => f.url === station.url);
             if(index === -1) {
@@ -482,29 +636,95 @@
             });
         }
 
+        function showFavorites() {
+            renderStations(favorites);
+        }
+
+        // Audio Handling
+        function initAudioContext() {
+            audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            analyser = audioContext.createAnalyser();
+            const source = audioContext.createMediaElementSource(audio);
+            source.connect(analyser);
+            analyser.connect(audioContext.destination);
+        }
+
+        function updateVisualizer() {
+            analyser.fftSize = 256;
+            const bufferLength = analyser.frequencyBinCount;
+            const dataArray = new Uint8Array(bufferLength);
+            const progressElement = document.getElementById('songProgress');
+
+            function draw() {
+                requestAnimationFrame(draw);
+                analyser.getByteFrequencyData(dataArray);
+                const average = dataArray.reduce((a, b) => a + b) / bufferLength;
+                progressElement.style.setProperty('--progress', `${average}%`);
+            }
+            draw();
+        }
+
+        async function fetchMetadata() {
+            try {
+                const response = await fetch(`https://corsproxy.io/?${encodeURIComponent(currentStation.url)}`, {
+                    headers: { 'Icy-MetaData': '1' }
+                });
+                
+                const metaint = parseInt(response.headers.get('icy-metaint'));
+                if (!metaint) return null;
+
+                const reader = response.body.getReader();
+                await reader.read();
+                const metadata = await reader.read();
+                const decoder = new TextDecoder();
+                return decoder.decode(metadata.value).split('=')[1]?.split(';')[0];
+            } catch (error) {
+                console.error('Metadata fetch error:', error);
+                return null;
+            }
+        }
+
+        function updateMetadataDisplay() {
+            if (audio.metadata) {
+                document.getElementById('currentSong').textContent = 
+                    audio.metadata.StreamTitle || currentStation.genre;
+            } else {
+                fetchMetadata().then(title => {
+                    document.getElementById('currentSong').textContent = 
+                        title || currentStation.genre;
+                });
+            }
+        }
+
         function playStation(station) {
             if(currentStation?.url === station.url) return togglePlayback();
             
             currentStation = station;
             audio.src = station.url;
-            audio.play().catch(handleAudioError);
             
-            document.getElementById('playerArtwork').src = station.logo;
-            document.getElementById('playerTitle').textContent = station.name;
-            document.getElementById('playerMetadata').textContent = station.genre;
-            document.getElementById('playerArtwork').classList.add('playing');
-            updatePlayButton(true);
+            audio.play().then(() => {
+                document.getElementById('playerArtwork').src = station.logo;
+                document.getElementById('playerTitle').textContent = station.name;
+                document.getElementById('playerArtwork').classList.add('playing');
+                updatePlayButton(true);
+                
+                if(!audioContext) initAudioContext();
+                updateVisualizer();
+                metadataInterval = setInterval(updateMetadataDisplay, 5000);
+            }).catch(handleAudioError);
         }
 
         function togglePlayback() {
             if(audio.paused) {
-                audio.play().catch(handleAudioError);
+                audio.play();
                 document.getElementById('playerArtwork').classList.add('playing');
                 updatePlayButton(true);
+                metadataInterval = setInterval(updateMetadataDisplay, 5000);
             } else {
                 audio.pause();
                 document.getElementById('playerArtwork').classList.remove('playing');
                 updatePlayButton(false);
+                clearInterval(metadataInterval);
             }
         }
 
@@ -513,23 +733,9 @@
             document.getElementById('pauseIcon').style.display = playing ? 'block' : 'none';
         }
 
-        function handleAudioError() {
-            console.error('Audio error');
+        function handleAudioError(error) {
+            console.error('Audio error:', error);
             if(currentStation) setTimeout(() => audio.play(), 5000);
-        }
-
-        // Theme Management
-        const themeToggle = document.getElementById('themeToggle');
-        themeToggle.addEventListener('click', () => {
-            document.body.classList.toggle('light-theme');
-            const isLight = document.body.classList.contains('light-theme');
-            localStorage.setItem('theme', isLight ? 'light' : 'dark');
-            themeToggle.textContent = isLight ? '🌙' : '☀️';
-        });
-
-        if(localStorage.getItem('theme') === 'light') {
-            document.body.classList.add('light-theme');
-            themeToggle.textContent = '🌙';
         }
 
         // Tab Management
@@ -538,17 +744,16 @@
         document.getElementById('aboutTab').addEventListener('click', () => showTab('about'));
 
         function showTab(tab) {
+            currentView = tab;
             document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
             document.getElementById(`${tab}Tab`).classList.add('active');
+            
             document.getElementById('stationList').style.display = tab === 'about' ? 'none' : 'block';
             document.getElementById('aboutContent').style.display = tab === 'about' ? 'block' : 'none';
             document.getElementById('searchInput').style.display = tab === 'about' ? 'none' : 'block';
-            if(tab === 'favorites') showFavorites();
-            else if(tab === 'all') initStations();
-        }
-
-        function showFavorites() {
-            renderStations(favorites);
+            
+            if(tab === 'favorites') renderStations(favorites);
+            else if(tab === 'all') renderStations(customStations);
         }
 
         // Search Functionality
@@ -565,7 +770,6 @@
         // Timer System
         const timerIcon = document.getElementById('timerIcon');
         const timerMenu = document.getElementById('timerMenu');
-        const timerSelect = document.getElementById('timerSelect');
 
         timerIcon.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -577,7 +781,7 @@
         });
 
         document.getElementById('setTimerBtn').addEventListener('click', () => {
-            const minutes = parseInt(timerSelect.value);
+            const minutes = parseInt(document.getElementById('timerSelect').value);
             if(minutes > 0) setTimer(minutes);
             else clearTimer();
             timerMenu.style.display = 'none';
@@ -598,6 +802,15 @@
         // Initialize
         loadStations();
         document.getElementById('playPauseBtn').addEventListener('click', togglePlayback);
+
+        // Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => console.log('SW registered:', registration))
+                    .catch(error => console.log('SW registration failed:', error));
+            });
+        }
     </script>
 </body>
 </html>
