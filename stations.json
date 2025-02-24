@@ -4,175 +4,203 @@
         "url": "https://ice7.securenetsystems.net/AMENFM",
         "logo": "https://i.ibb.co/JWW8zWHy/download-1.jpg",
         "genre": "Tamil Christian",
-        "metadata": true  // Add this flag for stations with known metadata
+        "metadata": true  
     },
     {
         "name": "Arulvakku FM",
         "url": "https://stream.arulvakku.com/radio/8000/radio.mp3",
         "logo": "https://i.ibb.co/KYdcq0T/arulvakku-fm.jpg",
-        "genre": "Tamil Christian"
+        "genre": "Tamil Christian",
+               "metadata": true
     },
     {
         "name": "Comforter Radio",
         "url": "https://s4.radio.co/sd9738032b/listen",
         "logo": "https://i.ibb.co/BHpkzR1z/download.webp",
-        "genre": "Tamil Christian"
+        "genre": "Tamil Christian",
+               "metadata": true
     },
     {
         "name": "Devaprasannam Radio",
         "url": "https://devaprasannam-a9media.radioca.st/stream",
         "logo": "https://i.ibb.co/s9nn2W9n/devaprasannam.jpg",
-        "genre": "Tamil Christian"
+        "genre": "Tamil Christian",
+               "metadata": true
     },
     {
         "name": "Fgpc FM",
         "url": "https://dc1.serverse.com/proxy/fgpcfm/stream",
         "logo": "https://i.ibb.co/s9mWj1wD/fgpcfm.jpg",
-        "genre": "Tamil Christian"
+        "genre": "Tamil Christian",
+               "metadata": true
     },
     {
         "name": "FM fmkondattam",
         "url": "https://dc1.serverse.com/proxy/fgpcfm/stream",
         "logo": "https://i.ibb.co/jZwBxd3P/fmkondattam.jpg",
-        "genre": "Tamil Christian"
+        "genre": "Tamil Christian",
+               "metadata": true
     },
     {
         "name": "Galeed FM",
         "url": "https://eu2.fastcast4u.com/proxy/arunmedi?mp=/1",
         "logo": "https://i.ibb.co/ZpYQnpwL/galeed-fm-radio.jpg",
-        "genre": "Tamil Christian"
+        "genre": "Tamil Christian",
+               "metadata": true
     },
     {
         "name": "GBTC",
         "url": "http://s2.voscast.com:10438/listen",
         "logo": "https://i.ibb.co/LDdh50XD/blessing.jpg",
-        "genre": "Tamil Christian"
+        "genre": "Tamil Christian",
+               "metadata": true
     },
     {
         "name": "Good News FM",
         "url": "https://radio.christvisionmedia.com:8500/stream",
         "logo": "https://i.ibb.co/wFKJH6Vr/logo.png",
-        "genre": "Tamil Christian"
+        "genre": "Tamil Christian",
+               "metadata": true
     },
     {
         "name": "HOJ Tamil",
         "url": "https://dc1.serverse.com/proxy/hojtamil/stream",
         "logo": "https://i.ibb.co/jk49VdTX/hand-of-jesus.jpg",
-        "genre": "Tamil Christian"
+        "genre": "Tamil Christian",
+               "metadata": true
     },
     {
         "name": "HOJ Bible",
         "url": "https://dc1.serverse.com/proxy/hojbible/stream",
         "logo": "https://i.ibb.co/jk49VdTX/hand-of-jesus.jpg",
-        "genre": "Tamil Christian"
+        "genre": "Tamil Christian",
+               "metadata": true
     }, 
     {
         "name": "HOJ KIDS",
         "url": "https://dc1.serverse.com/proxy/hojkids/stream",
         "logo": "https://i.ibb.co/jk49VdTX/hand-of-jesus.jpg",
-        "genre": "Tamil Christian"
+        "genre": "Tamil Christian",
+               "metadata": true
     }, 
            
     {
         "name": "Immanuel FM",
         "url": "https://s115.radiolize.com:8020/radio.mp3",
         "logo":  "https://i.ibb.co/Kx8s3m4V/immanuel.png",
-        "genre": "Tamil Christian"
+        "genre": "Tamil Christian",
+               "metadata": true
     },
     {
         "name": "Inbam FM",
         "url": "http://stream.radio.co/sf55ced545/listen",
         "logo": "https://i.ibb.co/v6QtbHL5/download-2.jpg",
-        "genre": "Tamil Christian"
+        "genre": "Tamil Christian",
+               "metadata": true
     },
     {
         "name": "Jehova Rapha",
         "url": "https://c22.radioboss.fm:8532/jehovahrapha?1728418667563",
         "logo": "https://i.ibb.co/9k1dmv7s/jehovarapha-fm-4-01.jpg",
-        "genre": "Tamil Christian"
+        "genre": "Tamil Christian",
+               "metadata": true
     },
     {
         "name": "Kirubai FM",
         "url": "http://s4.voscast.com:7110/;stream.mp3",
         "logo": "https://i.ibb.co/bRWVDRKn/download-3.jpg",
-        "genre": "Tamil Christian"
+        "genre": "Tamil Christian",
+               "metadata": true
     },
     {
         "name": "Lord's Radio",
         "url": "https://lordsradio.radioca.st/stream",
         "logo": "https://i.ibb.co/mrn9b9S6/Lordradio.png",
-        "genre": "Tamil Christian"
+        "genre": "Tamil Christian",
+               "metadata": true
     },
      {
         "name": "Meypanin Kural",
         "url": "https://stream-158.zeno.fm/y4tx3zpx34zuv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJ5NHR4M3pweDM0enV2IiwiaG9zdCI6InN0cmVhbS0xNTguemVuby5mbSIsInJ0dGwiOjUsImp0aSI6Ikp5aUZ6eDlEVC1LZEdsRkxaYVdWbGciLCJpYXQiOjE3MzkwMDc0MzMsImV4cCI6MTczOTAwNzQ5M30.gv-0PsNl58w4ifkLMEGDpNkm9ZZLHZ5eewhGvggI29U",
         "logo": "https://i.ibb.co/yB7Qz5Vq/Maippanin-Kural-Radio-thumb.jpg",
-        "genre": "Tamil Christian"
+        "genre": "Tamil Christian",
+                "metadata": true
     }, 
       {
         "name": "NJC Bible Radio",
         "url": "https://stream.zeno.fm/fzx09rnsrp8uv",
         "logo": "https://i.ibb.co/9mG9kjNy/image.webp",
-        "genre": "Tamil Christian"
+        "genre": "Tamil Christian",
+                 "metadata": true
     },             
     {
         "name": "O'Zion",
         "url": "https://s2.radio.co/sd4968cb05/listen",
         "logo": "https://i.ibb.co/8Dbwfhyf/ozionfm.jpg",
-        "genre": "Tamil Christian"
+        "genre": "Tamil Christian",
+               "metadata": true
     },
     {
         "name": "Sangamum Radio",
         "url": "https://centova71.instainternet.com/proxy/sangamum?mp=/stream",
         "logo": "https://i.ibb.co/LhsrfQ4x/f1693f87337881d9dcd102af94ae8c61.jpg",
-        "genre": "Tamil Christian"
+        "genre": "Tamil Christian",
+               "metadata": true
     },
      {
         "name": "Shalom Radio",
         "url": "https://stream.zeno.fm/0n4z0ta4v7zuv.mp3",
         "logo": "https://i.ibb.co/SwSxjsbH/shalom-radio-tamil-fm-thumb.webp",
-        "genre": "Tamil Christian"
+        "genre": "Tamil Christian",
+                "metadata": true
     },       
      {
         "name": "Sweety FM",
         "url": "https://rbx2.hnux.com/http://e12392.cloudrad.io:9084/stream/2/",
         "logo": "https://sweetyfm.com/wp-content/uploads/2023/11/cropped-Sweety-FM.png",
-        "genre": "Tamil Christian"
+        "genre": "Tamil Christian",
+                "metadata": true
     },
     {
         "name": "Theophony Radio",
         "url": "https://mediatechnica.com:8002/theophony_tamil.mp3",
         "logo": "https://i.ibb.co/Q359qxRV/logo.webp",
-        "genre": "Tamil Christian"
+        "genre": "Tamil Christian",
+               "metadata": true
     },
     {
         "name": "Thuthi Fm",
         "url": "https://streams.radio.co/s790fe269d/listen",
         "logo": "https://i.ibb.co/pvchM6w4/images.jpg",
-        "genre": "Tamil Christian"
+        "genre": "Tamil Christian",
+               "metadata": true
     },
     {
         "name": "Uthamiyee",
         "url": "https://ssl.aloncast.com:1595/",
         "logo": "https://i.ibb.co/qfHdFzv/cropped-600-X600-LOGO-UTHAMIYAE-FM.png",
-        "genre": "Tamil Christian"
+        "genre": "Tamil Christian",
+               "metadata": true
     },
     {
         "name": "Vaanmalar FM",
         "url": "https://dc1.serverse.com/proxy/vaanmalar2/stream",
         "logo": "https://i.ibb.co/fdLCQFzD/vaan-malarfm-thumb.jpg",
-        "genre": "Tamil Christian"
+        "genre": "Tamil Christian",
+               "metadata": true
     },
              {
         "name": "Voice of Trumpet",
         "url": "https://stream.zeno.fm/pyrbm4khva0uv",
         "logo": "https://i.ibb.co/n88ww0g5/logo.jpg",
-        "genre": "Tamil Christian"
+        "genre": "Tamil Christian",
+                        "metadata": true
     },
     {
         "name": "Waves of Power",
         "url": "https://radio.pixelinmedia.com/vallamai",
         "logo": "https://i.ibb.co/8DRtQGTJ/cropped-Logo-vallamai-4.png",
-        "genre": "Tamil Christian"
+        "genre": "Tamil Christian",
+               "metadata": true
     }  
         ]
