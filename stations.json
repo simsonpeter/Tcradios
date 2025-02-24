@@ -64,7 +64,14 @@
         "url": "https://dc1.serverse.com/proxy/hojbible/stream",
         "logo": "https://i.ibb.co/jk49VdTX/hand-of-jesus.jpg",
         "genre": "Tamil Christian"
-    },      
+    }, 
+    {
+        "name": "HOJ KIDS",
+        "url": "https://dc1.serverse.com/proxy/hojkids/stream",
+        "logo": "https://i.ibb.co/jk49VdTX/hand-of-jesus.jpg",
+        "genre": "Tamil Christian"
+    }, 
+           
     {
         "name": "Immanuel FM",
         "url": "https://s115.radiolize.com:8020/radio.mp3",
