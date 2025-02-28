@@ -382,18 +382,10 @@
             margin-bottom: 15px;
         }
 
-        .contact-details p {
-            margin: 10px 0;
-        }
-
         .social-links a {
             color: var(--primary);
             text-decoration: none;
             margin-right: 15px;
-        }
-
-        .social-links a:hover {
-            text-decoration: underline;
         }
 
         /* ========== METADATA DISPLAY ========== */
@@ -523,7 +515,6 @@
     </div>
 
     <script>
-        // Configuration
         const STATIONS_URL = 'https://raw.githubusercontent.com/simsonpeter/Tcradios/main/stations.json';
         let customStations = [];
         const audio = new Audio();
@@ -666,7 +657,8 @@
 
         async function fetchMetadata() {
             try {
-                const response = await fetch(`https://corsproxy.io/?${encodeURIComponent(currentStation.url)}`, {
+                const proxyURL = 'https://api.allorigins.win/raw?url=';
+                const response = await fetch(proxyURL + encodeURIComponent(currentStation.url), {
                     headers: { 'Icy-MetaData': '1' }
                 });
                 
@@ -674,25 +666,47 @@
                 if (!metaint) return null;
 
                 const reader = response.body.getReader();
-                await reader.read();
-                const metadata = await reader.read();
-                const decoder = new TextDecoder();
-                return decoder.decode(metadata.value).split('=')[1]?.split(';')[0];
-            } catch (error) {
-                console.error('Metadata fetch error:', error);
+                let buffer = new Uint8Array();
+                let bytesRead = 0;
+
+                while(true) {
+                    const { done, value } = await reader.read();
+                    if(done) break;
+
+                    const newBuffer = new Uint8Array(buffer.length + value.length);
+                    newBuffer.set(buffer);
+                    newBuffer.set(value, buffer.length);
+                    buffer = newBuffer;
+
+                    while(bytesRead + metaint <= buffer.length) {
+                        const metadataLength = buffer[bytesRead + metaint] * 16;
+                        const metadataStart = bytesRead + metaint + 1;
+                        const metadataEnd = metadataStart + metadataLength;
+
+                        if(metadataEnd > buffer.length) break;
+
+                        const metadataBytes = buffer.subarray(metadataStart, metadataEnd);
+                        const metadata = new TextDecoder().decode(metadataBytes);
+                        const title = metadata.split('StreamTitle=')[1]?.split(';')[0]?.replace(/'/g, '');
+                        
+                        if(title) return title;
+
+                        bytesRead += metaint + 1 + metadataLength;
+                    }
+                }
+            } catch(error) {
+                console.error('Metadata error:', error);
                 return null;
             }
         }
 
-        function updateMetadataDisplay() {
-            if (audio.metadata) {
+        async function updateMetadataDisplay() {
+            try {
+                const title = await fetchMetadata();
                 document.getElementById('currentSong').textContent = 
-                    audio.metadata.StreamTitle || currentStation.genre;
-            } else {
-                fetchMetadata().then(title => {
-                    document.getElementById('currentSong').textContent = 
-                        title || currentStation.genre;
-                });
+                    title || currentStation.genre;
+            } catch {
+                document.getElementById('currentSong').textContent = currentStation.genre;
             }
         }
 
