@@ -400,6 +400,63 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
+        /* ========== DESKTOP RESPONSIVE ADJUSTMENTS ========== */
+@media (min-width: 768px) {
+    .app-container {
+        max-width: 800px;
+        padding-top: 100px;
+    }
+
+    .station-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+        padding: 0 20px 80px;
+        height: auto;
+        max-height: calc(100vh - 280px);
+    }
+
+    .station-item {
+        margin-bottom: 0;
+        padding: 20px;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .station-item:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    }
+
+    .player-container {
+        max-width: 800px;
+        margin: 0 auto;
+        border-radius: 16px;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        right: auto;
+    }
+
+    .header {
+        max-width: 800px;
+        margin: 0 auto;
+        border-radius: 0 0 16px 16px;
+        left: 50%;
+        transform: translateX(-50%);
+        right: auto;
+        width: 100%;
+    }
+
+    .floating-timer {
+        right: calc(50% - 400px + 20px);
+        bottom: 100px;
+    }
+
+    .tabs {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+}
     </style>
 </head>
 <body>
