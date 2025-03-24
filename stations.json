@@ -183,8 +183,15 @@
         "genre": "Tamil Christian",
                "metadata": true
     },
+           {
+        "name": "Shalom Beats Tamil",
+        "url": "https://cast.tunzilla.com/http://rd.shalombeatsradio.com:6090/stream/;",
+        "logo": "https://i.ibb.co/70LzF4n/shalombeats.png",
+        "genre": "Tamil Christian",
+                "metadata": true
+    },       
      {
-        "name": "Shalom Radio",
+        "name": "Shalom Radio FM",
         "url": "https://stream.zeno.fm/0n4z0ta4v7zuv.mp3",
         "logo": "https://i.ibb.co/SwSxjsbH/shalom-radio-tamil-fm-thumb.webp",
         "genre": "Tamil Christian",
