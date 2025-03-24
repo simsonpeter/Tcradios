@@ -5,5 +5,13 @@
         "logo": "https://i.ibb.co/t02hy40/mcn.png",
         "genre": "Malayalam Christian",
         "metadata": true  
+    },
+            {
+        "name": "Psalms Radio",
+        "url": "http://s2.citrus3.com:8046/stream",
+        "logo": "https://i.ibb.co/SXMVkQNt/psalms.jpg",
+        "genre": "Malayalam Christian",
+        "metadata": true  
     }
+           
 ]
