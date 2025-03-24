@@ -12,6 +12,13 @@
         "logo": "https://i.ibb.co/SXMVkQNt/psalms.jpg",
         "genre": "Malayalam Christian",
         "metadata": true  
+    },
+            {
+        "name": "Shalom Beats Radio",
+        "url": "https://malayalamchristianradios.com/stream/shalombeatsradio",
+        "logo": "https://i.ibb.co/70LzF4n/shalombeats.png",
+        "genre": "Malayalam Christian",
+        "metadata": true  
     }
            
 ]
