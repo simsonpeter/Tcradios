@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Multi-Language Radios</title>
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#1DB954">
+    <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/icons/icon-512x512.png">
+    <link rel="apple-touch-icon" href="/icons/icon-192x192.png">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* ========== BASE STYLES ========== */
+        :root {
+            --primary: #1DB954;
+            --background: #121212;
+            --surface: #181818;
+            --text-primary: #FFFFFF;
+            --text-secondary: #B3B3B3;
+        }
+        .light-theme {
+            --background: #ffffff;
+            --surface: #f5f5f5;
+            --text-primary: #000000;
+            --text-secondary: #666666;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+        body {
+            background: var(--background);
+            color: var(--text-primary);
+            height: 100vh;
+            overflow: hidden;
+            -webkit-tap-highlight-color: transparent;
+            transition: background 0.3s, color 0.3s;
+        }
+        /* ========== HEADER STYLES ========== */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 16px;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--surface);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .app-title {
+            font-size: 20px;
+            font-weight: 600;
+        }
+        .header-controls {
+            display: flex;
+            gap: 10px;
+        }
+        .theme-toggle, .language-selector {
+             background: var(--surface);
+             border: none;
+             width: 40px;
+             height: 40px;
+             border-radius: 50%;
+             display: flex;
+             align-items: center;
+             justify-content: center;
+             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+             cursor: pointer;
+             transition: transform 0.2s;
+             font-size: 20px;
+             color: var(--text-primary);
+        }
+        .theme-toggle:active, .language-selector:active {
+            transform: scale(0.9);
+        }
+        .language-dropdown {
+            position: absolute;
+            top: 60px;
+            right: 10px;
+            background: var(--surface);
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            padding: 8px;
+            display: none;
+            flex-direction: column;
+            z-index: 1001;
+        }
+        .language-dropdown.show {
+            display: flex;
+        }
+        .language-option {
+            padding: 8px 12px;
+            border-radius: 4px;
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            text-align: left;
+            cursor: pointer;
+        }
+        .language-option:hover {
+            background: rgba(255,255,255,0.1);
+        }
+        /* ========== MAIN CONTAINER ========== */
+        .app-container {
+            max-width: 500px;
+            margin: 0 auto;
+            height: 100vh;
+            position: relative;
+            padding-top: 80px;
+        }
+        /* ========== TABS STYLES ========== */
+        .tabs {
+            display: flex;
+            gap: 8px;
+            padding: 0 16px 16px;
+            position: sticky;
+            top: 72px;
+            background: var(--background);
+            z-index: 999;
+        }
+        .tab-button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background: var(--surface);
+            color: var(--text-primary);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .tab-button.active {
+            background: var(--primary);
+            color: white;
+        }
+        /* ========== SEARCH BAR ========== */
+        .search-bar {
+            padding: 0 16px 16px;
+        }
+        .search-bar input {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background: var(--surface);
+            color: var(--text-primary);
+            font-size: 16px;
+            outline: none;
+        }
+        /* ========== STATION LIST ========== */
+        .station-list {
+            padding: 0 16px 16px;
+            height: calc(100vh - 260px);
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        .station-item {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            margin-bottom: 12px;
+            background: var(--surface);
+            border-radius: 12px;
+            transition: transform 0.2s;
+        }
+        .station-item:active {
+            transform: scale(0.98);
+        }
+        .station-artwork {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            margin-right: 16px;
+            object-fit: cover;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        .station-info {
+            flex: 1;
+        }
+        .station-name {
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+        .station-genre {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+        .station-actions {
+            display: flex;
+            gap: 12px;
+            margin-left: auto;
+            padding-left: 16px;
+        }
+        .action-btn {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .action-btn.active {
+            color: var(--primary);
+        }
+        /* ========== PLAYER CONTROLS ========== */
+        .player-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--surface);
+            padding: 16px;
+            border-radius: 16px 16px 0 0;
+            box-shadow: 0 -4px 24px rgba(0,0,0,0.3);
+            z-index: 100;
+        }
+        .player-content {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .player-artwork {
+            width: 56px;
+            height: 56px;
+            border-radius: 8px;
+            object-fit: cover;
+            animation: spin 10s linear infinite;
+            animation-play-state: paused;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .player-artwork.playing {
+            animation-play-state: running;
+        }
+        .player-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .player-title {
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .player-metadata {
+            font-size: 14px;
+            color: var(--text-secondary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .control-button {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--primary);
+            border: none;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        /* ========== SLEEP TIMER ========== */
+        .floating-timer {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            z-index: 1000;
+            cursor: grab;
+            user-select: none;
+        }
+        .timer-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s;
+        }
+        .timer-icon:active {
+            transform: scale(0.9);
+        }
+        .timer-menu {
+            position: absolute;
+            bottom: 60px;
+            right: 0;
+            background: var(--surface);
+            padding: 12px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            display: none;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .timer-menu select {
+            padding: 8px;
+            border-radius: 8px;
+            border: 1px solid var(--text-secondary);
+            background: var(--surface);
+            color: var(--text-primary);
+            cursor: pointer;
+            outline: none;
+        }
+        .timer-menu button {
+            padding: 8px;
+            border-radius: 8px;
+            border: none;
+            background: var(--primary);
+            color: white;
+            cursor: pointer;
+            outline: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        /* ========== LOADING OVERLAY ========== */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        /* ========== ABOUT PAGE STYLES ========== */
+        .about-content {
+            padding: 16px;
+            display: none;
+            line-height: 1.6;
+            height: calc(100vh - 220px);
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        .contact-section {
+            background: var(--surface);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+        .contact-section h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+        .social-links a {
+            color: var(--primary);
+            text-decoration: none;
+            margin-right: 15px;
+        }
+        /* ========== METADATA DISPLAY ========== */
+        .song-progress {
+            height: 3px;
+            background: rgba(255,255,255,0.2);
+            margin-top: 8px;
+            position: relative;
+        }
+        .song-progress::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            background: var(--primary);
+            width: var(--progress);
+            transition: width 0.3s ease;
+        }
+        #currentSong {
+            font-size: 14px;
+            color: var(--text-secondary);
+            display: block;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <!-- Header -->
+    <div class="header">
+        <div class="app-title">TC RADIOS</div>
+        <div class="header-controls">
+    <div class="language-selector-container">
+        <button class="language-selector" id="languageSelector">
+            <i class="fas fa-globe" style="color: var(--text-primary);"></i>
+        </button>
+        <div class="language-dropdown" id="languageDropdown">
+            <button class="language-option" data-lang="tamil">Tamil</button>
+            <!--<button class="language-option" data-lang="english">English</button>
+            <button class="language-option" data-lang="hindi">Hindi</button>
+            <button class="language-option" data-lang="telugu">Telugu</button>-->
+            <button class="language-option" data-lang="malayalam">Malayalam</button>
+        </div>
+    </div>
+    <button class="theme-toggle" id="themeToggle">🌓</button>
+</div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="app-container">
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab-button active" id="allTab">All Stations</button>
+            <button class="tab-button" id="favoritesTab">Favorites</button>
+            <button class="tab-button" id="aboutTab">About</button>
+        </div>
+
+        <!-- Search -->
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Search stations..." />
+        </div>
+
+        <!-- Station List -->
+        <div class="station-list" id="stationList"></div>
+
+        <!-- About Content -->
+        <div class="about-content" id="aboutContent">
+            <div class="contact-section">
+                <h3>Contact Information</h3>
+                <div class="contact-details">
+                    <p>📻 Developed by: JayathaSoft</p>
+                    <p>📧 Email: simsonpeter@gmail.com</p>
+                    <p>📍 Address: Antwerp, Belgium</p>
+                </div>
+            </div>
+            <div class="contact-section">
+                <h3>Connect With Us</h3>
+                <div class="social-links">
+                    <a href="https://twitter.com/" target="_blank">Twitter</a>
+                    <a href="https://facebook.com/" target="_blank">Facebook</a>
+                </div>
+            </div>
+            <div class="contact-section">
+                <h3>About Multi Radios</h3>
+                <p>Multi Radio is a passion project dedicated to bringing radio stations in multiple languages to listeners worldwide.</p>
+                <p>Version: 6.0.0</p>
+            </div>
+        </div>
+
+        <!-- Player -->
+        <div class="player-container">
+            <div class="player-content">
+                <img src="/icons/default-artwork.jpg" class="player-artwork" id="playerArtwork">
+                <div class="player-info">
+                    <div class="player-title" id="playerTitle">Select a station</div>
+                    <div class="player-metadata" id="playerMetadata">
+                        <span id="currentSong">No song info available</span>
+                        <div class="song-progress" id="songProgress"></div>
+                    </div>
+                </div>
+                <button class="control-button" id="playPauseBtn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" id="playIcon">
+                        <path fill="currentColor" d="M8 5v14l11-7z"/>
+                    </svg>
+                    <svg width="24" height="24" viewBox="0 0 24 24" id="pauseIcon" style="display: none;">
+                        <path fill="currentColor" d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Sleep Timer -->
+        <div class="floating-timer" id="floatingTimer">
+            <div class="timer-icon" id="timerIcon">
+                <i class="fas fa-clock"></i>
+            </div>
+            <div class="timer-menu" id="timerMenu">
+                <select id="timerSelect">
+                    <option value="0">Off</option>
+                    <option value="5">5 minutes</option>
+                    <option value="10">10 minutes</option>
+                    <option value="15">15 minutes</option>
+                    <option value="30">30 minutes</option>
+                    <option value="60">60 minutes</option>
+                </select>
+                <button id="setTimerBtn">
+                    <i class="fas fa-check"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Language-specific station URLs (hosted on GitHub)
+        const LANGUAGE_STATIONS = {
+            tamil: 'https://raw.githubusercontent.com/simsonpeter/Tcradios/refs/heads/main/stations.json',
+            //english: 'https://raw.githubusercontent.com/simsonpeter/MultiRadios/main/english.json',
+            //hindi: 'https://raw.githubusercontent.com/simsonpeter/MultiRadios/main/hindi.json',
+            //telugu: 'https://raw.githubusercontent.com/simsonpeter/MultiRadios/main/telugu.json',
+            malayalam: 'https://raw.githubusercontent.com/simsonpeter/Tcradios/refs/heads/main/languages/malayalam.json'
+        };
+
+        let customStations = [];
+        const audio = new Audio();
+        audio.crossOrigin = "anonymous";
+        let currentStation = null;
+        let favorites = JSON.parse(localStorage.getItem('radioFavorites')) || [];
+        let currentView = 'all';
+        let timer = null;
+        let metadataInterval;
+        let audioContext, analyser;
+        let currentLanguage = 'tamil'; // Default language
+
+        // Loading States
+        function showLoading(show) {
+            document.getElementById('loadingOverlay').style.display = show ? 'flex' : 'none';
+        }
+
+        // Theme Management
+        const themeToggle = document.getElementById('themeToggle');
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('light-theme');
+            const isLight = document.body.classList.contains('light-theme');
+            localStorage.setItem('theme', isLight ? 'light' : 'dark');
+            themeToggle.textContent = isLight ? '🌙' : '☀️';
+        });
+
+        if(localStorage.getItem('theme') === 'light') {
+            document.body.classList.add('light-theme');
+            themeToggle.textContent = '🌙';
+        }
+
+        // Language Selection
+        const languageSelector = document.getElementById('languageSelector');
+        const languageDropdown = document.getElementById('languageDropdown');
+
+        languageSelector.addEventListener('click', (e) => {
+            e.stopPropagation();
+            languageDropdown.classList.toggle('show');
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.language-selector-container')) {
+                languageDropdown.classList.remove('show');
+            }
+        });
+
+        document.querySelectorAll('.language-option').forEach(option => {
+            option.addEventListener('click', (e) => {
+                const lang = e.target.dataset.lang;
+                currentLanguage = lang;
+                localStorage.setItem('selectedLanguage', lang);
+                languageDropdown.classList.remove('show');
+                loadStations();
+            });
+        });
+
+        // Set initial language if saved
+        if(localStorage.getItem('selectedLanguage')) {
+            currentLanguage = localStorage.getItem('selectedLanguage');
+        }
+
+        // Station Loading
+        async function loadStations() {
+            try {
+                showLoading(true);
+                const response = await fetch(LANGUAGE_STATIONS[currentLanguage]);
+                if (!response.ok) throw new Error('Failed to load stations');
+                customStations = await response.json();
+                localStorage.setItem(`cachedStations_${currentLanguage}`, JSON.stringify(customStations));
+                initStations();
+                showLoading(false);
+            } catch (error) {
+                console.error('Using cached stations:', error);
+                showLoading(false);
+                const cached = localStorage.getItem(`cachedStations_${currentLanguage}`);
+                if (cached) customStations = JSON.parse(cached);
+                initStations();
+            }
+        }
+
+        // Station Handling
+        function initStations() {
+            renderStations(customStations);
+        }
+
+        function createStationItem(station) {
+            const item = document.createElement('div');
+            item.className = 'station-item';
+            item.innerHTML = `
+                <img src="${station.logo}" class="station-artwork" alt="${station.name}" onerror="this.src='/icons/default-station.png'">
+                <div class="station-info">
+                    <div class="station-name">${station.name}</div>
+                    <div class="station-genre">${station.genre}</div>
+                </div>
+                <div class="station-actions">
+                    <button class="action-btn favorite-btn">
+                        <svg width="24" height="24" viewBox="0 0 24 24">
+                            <path fill="currentColor" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                        </svg>
+                    </button>
+                </div>
+            `;
+            item.querySelector('.favorite-btn').addEventListener('click', (e) => {
+                e.stopPropagation();
+                toggleFavorite(station);
+            });
+            item.addEventListener('click', () => playStation(station));
+            return item;
+        }
+
+        function renderStations(stations) {
+            const list = document.getElementById('stationList');
+            list.innerHTML = '';
+            stations.forEach(station => {
+                list.appendChild(createStationItem(station));
+            });
+            updateFavoriteButtons();
+        }
+
+        // Favorites System
+        function toggleFavorite(station) {
+            const index = favorites.findIndex(f => f.url === station.url);
+            if(index === -1) {
+                favorites.push(station);
+            } else {
+                favorites.splice(index, 1);
+            }
+            localStorage.setItem('radioFavorites', JSON.stringify(favorites));
+            updateFavoriteButtons();
+            if(currentView === 'favorites') showFavorites();
+        }
+
+        function updateFavoriteButtons() {
+            document.querySelectorAll('.favorite-btn').forEach(btn => {
+                const stationName = btn.closest('.station-item').querySelector('.station-name').textContent;
+                const isFavorite = favorites.some(f => f.name === stationName);
+                btn.classList.toggle('active', isFavorite);
+            });
+        }
+
+        function showFavorites() {
+            renderStations(favorites);
+        }
+
+        // Audio Handling
+        function initAudioContext() {
+            audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            analyser = audioContext.createAnalyser();
+            const source = audioContext.createMediaElementSource(audio);
+            source.connect(analyser);
+            analyser.connect(audioContext.destination);
+        }
+
+        function updateVisualizer() {
+            analyser.fftSize = 256;
+            const bufferLength = analyser.frequencyBinCount;
+            const dataArray = new Uint8Array(bufferLength);
+            const progressElement = document.getElementById('songProgress');
+            
+            function draw() {
+                requestAnimationFrame(draw);
+                analyser.getByteFrequencyData(dataArray);
+                const average = dataArray.reduce((a, b) => a + b) / bufferLength;
+                progressElement.style.setProperty('--progress', `${average}%`);
+            }
+            draw();
+        }
+
+        async function fetchMetadata() {
+            try {
+                const proxyURL = 'https://api.allorigins.win/raw?url=';
+                const response = await fetch(proxyURL + encodeURIComponent(currentStation.url), {
+                    headers: {
+                        'Icy-MetaData': '1'
+                    }
+                });
+                const metaint = parseInt(response.headers.get('icy-metaint'));
+                if (!metaint) return null;
+                
+                const reader = response.body.getReader();
+                let buffer = new Uint8Array();
+                let bytesRead = 0;
+                
+                while(true) {
+                    const { done, value } = await reader.read();
+                    if(done) break;
+                    
+                    const newBuffer = new Uint8Array(buffer.length + value.length);
+                    newBuffer.set(buffer);
+                    newBuffer.set(value, buffer.length);
+                    buffer = newBuffer;
+                    
+                    while(bytesRead + metaint <= buffer.length) {
+                        const metadataLength = buffer[bytesRead + metaint] * 16;
+                        const metadataStart = bytesRead + metaint + 1;
+                        const metadataEnd = metadataStart + metadataLength;
+                        
+                        if(metadataEnd > buffer.length) break;
+                        
+                        const metadataBytes = buffer.subarray(metadataStart, metadataEnd);
+                        const metadata = new TextDecoder().decode(metadataBytes);
+                        const title = metadata.split('StreamTitle=')[1]?.split(';')[0]?.replace(/'/g, '');
+                        
+                        if(title) return title;
+                        
+                        bytesRead += metaint + 1 + metadataLength;
+                    }
+                }
+            } catch(error) {
+                console.error('Metadata error:', error);
+                return null;
+            }
+        }
+
+        async function updateMetadataDisplay() {
+            try {
+                const title = await fetchMetadata();
+                document.getElementById('currentSong').textContent = title || currentStation.genre;
+            } catch {
+                document.getElementById('currentSong').textContent = currentStation.genre;
+            }
+        }
+
+        function playStation(station) {
+            if(currentStation?.url === station.url) return togglePlayback();
+            
+            currentStation = station;
+            audio.src = station.url;
+            audio.play().then(() => {
+                document.getElementById('playerArtwork').src = station.logo;
+                document.getElementById('playerTitle').textContent = station.name;
+                document.getElementById('playerArtwork').classList.add('playing');
+                updatePlayButton(true);
+                
+                if(!audioContext) initAudioContext();
+                updateVisualizer();
+                
+                metadataInterval = setInterval(updateMetadataDisplay, 5000);
+            }).catch(handleAudioError);
+        }
+
+        function togglePlayback() {
+            if(audio.paused) {
+                audio.play();
+                document.getElementById('playerArtwork').classList.add('playing');
+                updatePlayButton(true);
+                metadataInterval = setInterval(updateMetadataDisplay, 5000);
+            } else {
+                audio.pause();
+                document.getElementById('playerArtwork').classList.remove('playing');
+                updatePlayButton(false);
+                clearInterval(metadataInterval);
+            }
+        }
+
+        function updatePlayButton(playing) {
+            document.getElementById('playIcon').style.display = playing ? 'none' : 'block';
+            document.getElementById('pauseIcon').style.display = playing ? 'block' : 'none';
+        }
+
+        function handleAudioError(error) {
+            console.error('Audio error:', error);
+            if(currentStation) setTimeout(() => audio.play(), 5000);
+        }
+
+        // Tab Management
+        document.getElementById('allTab').addEventListener('click', () => showTab('all'));
+        document.getElementById('favoritesTab').addEventListener('click', () => showTab('favorites'));
+        document.getElementById('aboutTab').addEventListener('click', () => showTab('about'));
+
+        function showTab(tab) {
+            currentView = tab;
+            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`${tab}Tab`).classList.add('active');
+            document.getElementById('stationList').style.display = tab === 'about' ? 'none' : 'block';
+            document.getElementById('aboutContent').style.display = tab === 'about' ? 'block' : 'none';
+            document.getElementById('searchInput').style.display = tab === 'about' ? 'none' : 'block';
+            
+            if(tab === 'favorites') renderStations(favorites);
+            else if(tab === 'all') renderStations(customStations);
+        }
+
+        // Search Functionality
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            const filtered = (currentView === 'favorites' ? favorites : customStations)
+                .filter(station => 
+                    station.name.toLowerCase().includes(query) || 
+                    station.genre.toLowerCase().includes(query)
+                );
+            renderStations(filtered);
+        });
+
+        // Timer System
+        const timerIcon = document.getElementById('timerIcon');
+        const timerMenu = document.getElementById('timerMenu');
+        
+        timerIcon.addEventListener('click', (e) => {
+            e.stopPropagation();
+            timerMenu.style.display = timerMenu.style.display === 'flex' ? 'none' : 'flex';
+        });
+
+        document.addEventListener('click', (e) => {
+            if(!e.target.closest('.floating-timer')) timerMenu.style.display = 'none';
+        });
+
+        document.getElementById('setTimerBtn').addEventListener('click', () => {
+            const minutes = parseInt(document.getElementById('timerSelect').value);
+            if(minutes > 0) setTimer(minutes);
+            else clearTimer();
+            timerMenu.style.display = 'none';
+        });
+
+        function setTimer(minutes) {
+            clearTimer();
+            timer = setTimeout(() => {
+                audio.pause();
+                updatePlayButton(false);
+            }, minutes * 60000);
+        }
+
+        function clearTimer() {
+            if(timer) clearTimeout(timer);
+        }
+
+        // Initialize
+        loadStations();
+        document.getElementById('playPauseBtn').addEventListener('click', togglePlayback);
+
+        // Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => console.log('SW registered:', registration))
+                    .catch(error => console.log('SW registration failed:', error));
+            });
+        }
+    </script>
+</body>
+</html>
