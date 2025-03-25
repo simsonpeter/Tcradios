@@ -1,1 +1,24 @@
-
+[
+           {
+        "name": "Bright FM",
+        "url": "https://str1.hollanddata.eu/proxy/bfm3/stream",
+        "logo": "https://i.ibb.co/qYWj6sNs/bright.jpg",
+        "genre": "Dutch Christian",
+        "metadata": true  
+    },
+  
+          {
+        "name": "Bright FM KIDS",
+        "url": "https://str1.hollanddata.eu/proxy/kids/stream",
+        "logo": "https://i.ibb.co/qYWj6sNs/bright.jpg",
+        "genre": "Dutch Christian",
+        "metadata": true  
+    },
+  {
+        "name": "Bright FM PLUS",
+        "url": "https://str1.hollanddata.eu/proxy/plus/stream",
+        "logo": "https://i.ibb.co/qYWj6sNs/bright.jpg",
+        "genre": "Dutch Christian",
+        "metadata": true  
+    }
+]
