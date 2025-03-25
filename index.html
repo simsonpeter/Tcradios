@@ -400,6 +400,56 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
+
+        /* ========== INSTALL PROMPT ========== */
+.install-prompt {
+    position: fixed;
+    bottom: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--surface);
+    padding: 16px;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    transition: bottom 0.3s ease;
+    z-index: 2000;
+    max-width: 300px;
+    width: 90%;
+    text-align: center;
+}
+
+.install-prompt.show {
+    bottom: 100px;
+}
+
+.install-content p {
+    margin-bottom: 12px;
+    color: var(--text-primary);
+}
+
+.install-buttons {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+}
+
+#installConfirm, #installCancel {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+#installConfirm {
+    background: var(--primary);
+    color: white;
+}
+
+#installCancel {
+    background: var(--background);
+    color: var(--text-primary);
+}
         /* ========== DESKTOP RESPONSIVE ADJUSTMENTS ========== */
 @media (min-width: 768px) {
     .app-container {
@@ -598,6 +648,16 @@
             </div>
         </div>
     </div>
+    <!-- Installation Prompt -->
+<div id="installPrompt" class="install-prompt">
+    <div class="install-content">
+        <p>Install Radio App for better experience?</p>
+        <div class="install-buttons">
+            <button id="installCancel">Not Now</button>
+            <button id="installConfirm">Install</button>
+        </div>
+    </div>
+</div>
 
     <script>
         // Language-specific station URLs (hosted on GitHub)
@@ -937,14 +997,56 @@
         loadStations();
         document.getElementById('playPauseBtn').addEventListener('click', togglePlayback);
 
-        // Service Worker Registration
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js')
-                    .then(registration => console.log('SW registered:', registration))
-                    .catch(error => console.log('SW registration failed:', error));
-            });
+        // PWA Installation Logic
+let deferredPrompt;
+
+window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    
+    // Show install prompt after 30 seconds of usage
+    setTimeout(() => {
+        const installPrompt = document.getElementById('installPrompt');
+        installPrompt.classList.add('show');
+    }, 30000);
+});
+
+document.getElementById('installConfirm').addEventListener('click', async () => {
+    const installPrompt = document.getElementById('installPrompt');
+    installPrompt.classList.remove('show');
+    
+    if(deferredPrompt) {
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        if(outcome === 'accepted') {
+            console.log('User accepted install');
         }
+        deferredPrompt = null;
+    }
+});
+
+document.getElementById('installCancel').addEventListener('click', () => {
+    document.getElementById('installPrompt').classList.remove('show');
+});
+
+        // Service Worker Registration
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+            .then(registration => {
+                console.log('SW registered:', registration);
+                // Show install button after successful SW registration
+                setTimeout(checkInstallable, 10000);
+            })
+            .catch(error => console.log('SW registration failed:', error));
+    });
+}
+
+function checkInstallable() {
+    if(deferredPrompt && !window.matchMedia('(display-mode: standalone)').matches) {
+        document.getElementById('installPrompt').classList.add('show');
+    }
+}
     </script>
 </body>
 </html>
