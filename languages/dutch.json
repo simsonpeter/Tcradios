@@ -21,6 +21,13 @@
         "genre": "Dutch Christian",
         "metadata": true  
     },
+            {
+        "name": "Christelijke Omroep",
+        "url": "https://stream.christelijkeomroep.nl/;",
+        "logo": "https://i.ibb.co/4nPdKMg4/download.png",
+        "genre": "Dutch Christian",
+        "metadata": true  
+    },
            {
         "name": "Groot Nieuws Radio",
         "url": "https://25693.live.streamtheworld.com/GNRAAC.aac",
@@ -28,11 +35,12 @@
         "genre": "Dutch Christian",
         "metadata": true  
     },
-           {
-        "name": "Christelijke Omroep",
-        "url": "https://stream.christelijkeomroep.nl/;",
-        "logo": "https://i.ibb.co/4nPdKMg4/download.png",
+            {
+        "name": "Rebecca Radio",
+        "url": "https://stream.rebeccaradio.nl/listen.mp3",
+        "logo": "https://i.ibb.co/cPWRSPj/download-3.jpg",
         "genre": "Dutch Christian",
         "metadata": true  
     }
+          
 ]
