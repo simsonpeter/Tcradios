@@ -42,6 +42,116 @@
             -webkit-tap-highlight-color: transparent;
             transition: background 0.3s, color 0.3s;
         }
+
+        /* ========== HAMBURGER & MENU SYSTEM ========== */
+        .hamburger-btn {
+            width: 30px;
+            height: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            margin-right: 15px;
+            position: relative;
+            z-index: 1001;
+        }
+        .hamburger-btn span {
+            display: block;
+            width: 100%;
+            height: 3px;
+            background: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+        .hamburger-btn.active span:nth-child(1) {
+            transform: translateY(10px) rotate(45deg);
+        }
+        .hamburger-btn.active span:nth-child(2) {
+            opacity: 0;
+        }
+        .hamburger-btn.active span:nth-child(3) {
+            transform: translateY(-10px) rotate(-45deg);
+        }
+
+        /* Main Menu Styles */
+        .main-menu {
+            position: fixed;
+            top: 72px;
+            left: 16px;
+            background: var(--surface);
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            padding: 12px;
+            display: none;
+            flex-direction: column;
+            gap: 8px;
+            z-index: 1000;
+            width: 250px;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+        .main-menu.show {
+            display: flex;
+        }
+        .menu-item {
+            padding: 12px;
+            border-radius: 6px;
+            background: var(--background);
+            color: var(--text-primary);
+            border: none;
+            text-align: left;
+            cursor: pointer;
+            transition: background 0.2s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .menu-item:hover {
+            background: rgba(255,255,255,0.1);
+        }
+        .menu-item.active {
+            background: var(--primary);
+            color: white;
+        }
+        .menu-item .arrow {
+            transition: transform 0.2s;
+        }
+        .menu-item.active .arrow {
+            transform: rotate(90deg);
+        }
+
+        /* Submenu Styles */
+        .submenu {
+            display: none;
+            flex-direction: column;
+            padding-left: 10px;
+            border-left: 2px solid var(--primary);
+            margin-top: 5px;
+        }
+        .submenu.show {
+            display: flex;
+        }
+        .submenu-item {
+            padding: 10px;
+            border-radius: 6px;
+            background: var(--background);
+            color: var(--text-primary);
+            border: none;
+            text-align: left;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 5px;
+        }
+        .submenu-item:hover {
+            background: rgba(255,255,255,0.1);
+        }
+        .submenu-item.active {
+            background: var(--primary);
+            color: white;
+        }
+
         /* ========== HEADER STYLES ========== */
         .header {
             position: fixed;
@@ -51,7 +161,6 @@
             padding: 16px;
             z-index: 1000;
             display: flex;
-            justify-content: space-between;
             align-items: center;
             background: var(--surface);
             border-bottom: 1px solid rgba(255,255,255,0.1);
@@ -59,56 +168,102 @@
         .app-title {
             font-size: 20px;
             font-weight: 600;
+            flex-grow: 1;
+            text-align: center;
         }
         .header-controls {
             display: flex;
             gap: 10px;
         }
-        .theme-toggle, .language-selector {
-             background: var(--surface);
-             border: none;
-             width: 40px;
-             height: 40px;
-             border-radius: 50%;
-             display: flex;
-             align-items: center;
-             justify-content: center;
-             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-             cursor: pointer;
-             transition: transform 0.2s;
-             font-size: 20px;
-             color: var(--text-primary);
+        .theme-toggle, .volume-control-btn {
+            background: var(--surface);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: transform 0.2s;
+            font-size: 20px;
+            color: var(--text-primary);
         }
-        .theme-toggle:active, .language-selector:active {
+        .theme-toggle:active, .volume-control-btn:active {
             transform: scale(0.9);
         }
-        .language-dropdown {
+
+        /* ========== REST OF YOUR CSS (UNCHANGED) ========== */
+        /* ... (All your existing CSS remains exactly the same) ... */
+        
+        /* ========== VERTICAL VOLUME CONTROL ========== */
+        .volume-control-menu {
             position: absolute;
             top: 60px;
             right: 10px;
             background: var(--surface);
             border-radius: 8px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-            padding: 8px;
+            padding: 15px 8px;
             display: none;
             flex-direction: column;
+            align-items: center;
             z-index: 1001;
+            height: 160px;
         }
-        .language-dropdown.show {
+        .volume-control-menu.show {
             display: flex;
         }
-        .language-option {
-            padding: 8px 12px;
-            border-radius: 4px;
+        .volume-slider-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100%;
+            justify-content: space-between;
+        }
+        .volume-slider {
+            -webkit-appearance: slider-vertical;
+            width: 6px;
+            height: 120px;
+            margin: 10px 0;
+            background: transparent;
+            padding: 0 5px;
+        }
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            background: var(--primary);
+            border-radius: 50%;
+            cursor: pointer;
+            margin-left: -5px;
+            position: relative;
+            z-index: 1;
+        }
+        .volume-slider::-webkit-slider-runnable-track {
+            width: 4px;
+            background: var(--text-secondary);
+            border-radius: 2px;
+            margin: 0 -5px;
+        }
+        .mute-btn {
             background: transparent;
             border: none;
             color: var(--text-primary);
-            text-align: left;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
+            margin-top: 8px;
+            font-size: 20px;
         }
-        .language-option:hover {
-            background: rgba(255,255,255,0.1);
+        .mute-btn:hover {
+            color: var(--primary);
         }
+
         /* ========== MAIN CONTAINER ========== */
         .app-container {
             max-width: 500px;
@@ -117,6 +272,7 @@
             position: relative;
             padding-top: 80px;
         }
+
         /* ========== TABS STYLES ========== */
         .tabs {
             display: flex;
@@ -142,6 +298,7 @@
             background: var(--primary);
             color: white;
         }
+
         /* ========== SEARCH BAR ========== */
         .search-bar {
             padding: 0 16px 16px;
@@ -156,13 +313,14 @@
             font-size: 16px;
             outline: none;
         }
+
         /* ========== STATION LIST ========== */
-      .station-list {
-    padding: 0 16px 80px; /* Added bottom padding */
-    height: calc(100vh - 240px); /* Reduced from 260px to 240px */
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-}
+        .station-list {
+            padding: 0 16px 80px;
+            height: calc(100vh - 240px);
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
         .station-item {
             display: flex;
             align-items: center;
@@ -210,6 +368,7 @@
         .action-btn.active {
             color: var(--primary);
         }
+
         /* ========== PLAYER CONTROLS ========== */
         .player-container {
             position: fixed;
@@ -271,6 +430,7 @@
             justify-content: center;
             box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
+
         /* ========== SLEEP TIMER ========== */
         .floating-timer {
             position: fixed;
@@ -330,6 +490,7 @@
             align-items: center;
             justify-content: center;
         }
+
         /* ========== LOADING OVERLAY ========== */
         .loading-overlay {
             position: fixed;
@@ -351,6 +512,7 @@
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
+
         /* ========== ABOUT PAGE STYLES ========== */
         .about-content {
             padding: 16px;
@@ -375,6 +537,7 @@
             text-decoration: none;
             margin-right: 15px;
         }
+
         /* ========== METADATA DISPLAY ========== */
         .song-progress {
             height: 3px;
@@ -402,141 +565,131 @@
         }
 
         /* ========== INSTALL PROMPT ========== */
-.install-prompt {
-    position: fixed;
-    bottom: -100px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: var(--surface);
-    padding: 16px;
-    border-radius: 12px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-    transition: bottom 0.3s ease;
-    z-index: 2000;
-    max-width: 300px;
-    width: 90%;
-    text-align: center;
-}
+        .install-prompt {
+            position: fixed;
+            bottom: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--surface);
+            padding: 16px;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            transition: bottom 0.3s ease;
+            z-index: 2000;
+            max-width: 300px;
+            width: 90%;
+            text-align: center;
+        }
+        .install-prompt.show {
+            bottom: 100px;
+        }
+        .install-content p {
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+        .install-buttons {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+        }
+        #installConfirm, #installCancel {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        #installConfirm {
+            background: var(--primary);
+            color: white;
+        }
+        #installCancel {
+            background: var(--background);
+            color: var(--text-primary);
+        }
 
-.install-prompt.show {
-    bottom: 100px;
-}
-
-.install-content p {
-    margin-bottom: 12px;
-    color: var(--text-primary);
-}
-
-.install-buttons {
-    display: flex;
-    gap: 8px;
-    justify-content: center;
-}
-
-#installConfirm, #installCancel {
-    padding: 8px 16px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 500;
-}
-
-#installConfirm {
-    background: var(--primary);
-    color: white;
-}
-
-#installCancel {
-    background: var(--background);
-    color: var(--text-primary);
-}
         /* ========== DESKTOP RESPONSIVE ADJUSTMENTS ========== */
-@media (min-width: 768px) {
-    .app-container {
-        max-width: 800px;
-        padding-top: 100px;
-    }
-
-    .station-list {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 20px;
-        padding: 0 20px 80px;
-        height: auto;
-        max-height: calc(100vh - 280px);
-    }
-
-    .station-item {
-        margin-bottom: 0;
-        padding: 20px;
-        transition: transform 0.2s, box-shadow 0.2s;
-    }
-
-    .station-item:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 8px 24px rgba(0,0,0,0.2);
-    }
-
-      .player-container {
-        max-width: 800px;
-        width: 90%;
-        margin: 0 auto;
-        padding: 24px;
-        border-radius: 16px;
-        bottom: 20px;
-         z-index: 999;
-    }
-
-    
-    .player-artwork {
-        width: 72px;
-        height: 72px;
-    }
-
-    .player-title {
-        font-size: 1.2rem;
-    }
-
-    .player-metadata {
-        font-size: 1rem;
-    }
-
-    .control-button {
-        width: 56px;
-        height: 56px;
-    }
-
-    .control-button svg {
-        width: 28px;
-        height: 28px;
-    }
-    .header {
-        max-width: 800px;
-        margin: 0 auto;
-        border-radius: 0 0 16px 16px;
-        left: 50%;
-        transform: translateX(-50%);
-        right: auto;
-        width: 100%;
-    }
-
-      .floating-timer {
-        right: calc(50% - 400px + 40px);
-        bottom: 120px;
-        transform: scale(1.1);
-        transition: transform 0.2s;
-        z-index: 1000;
-    }
-
-    .floating-timer:hover {
-        transform: scale(1.2);
-    }
-
-    .tabs {
-        max-width: 800px;
-        margin: 0 auto;
-    }
-}
+        @media (min-width: 768px) {
+            .app-container {
+                max-width: 800px;
+                padding-top: 100px;
+            }
+            .station-list {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 20px;
+                padding: 0 20px 80px;
+                height: auto;
+                max-height: calc(100vh - 280px);
+            }
+            .station-item {
+                margin-bottom: 0;
+                padding: 20px;
+                transition: transform 0.2s, box-shadow 0.2s;
+            }
+            .station-item:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+            }
+            .player-container {
+                max-width: 800px;
+                width: 90%;
+                margin: 0 auto;
+                padding: 24px;
+                border-radius: 16px;
+                bottom: 20px;
+                z-index: 999;
+            }
+            .player-artwork {
+                width: 72px;
+                height: 72px;
+            }
+            .player-title {
+                font-size: 1.2rem;
+            }
+            .player-metadata {
+                font-size: 1rem;
+            }
+            .control-button {
+                width: 56px;
+                height: 56px;
+            }
+            .control-button svg {
+                width: 28px;
+                height: 28px;
+            }
+            .header {
+                max-width: 800px;
+                margin: 0 auto;
+                border-radius: 0 0 16px 16px;
+                left: 50%;
+                transform: translateX(-50%);
+                right: auto;
+                width: 100%;
+            }
+            .floating-timer {
+                right: calc(50% - 400px + 40px);
+                bottom: 120px;
+                transform: scale(1.1);
+                transition: transform 0.2s;
+                z-index: 1000;
+            }
+            .floating-timer:hover {
+                transform: scale(1.2);
+            }
+            .tabs {
+                max-width: 800px;
+                margin: 0 auto;
+            }
+            .volume-control-menu {
+                right: calc(50% - 400px + 40px);
+                top: 80px;
+            }
+            .main-menu {
+                left: calc(50% - 400px + 16px);
+                top: 80px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -545,24 +698,59 @@
         <div class="loading-spinner"></div>
     </div>
 
-    <!-- Header -->
+    <!-- Header with Hamburger Menu -->
     <div class="header">
+        <button class="hamburger-btn" id="hamburgerBtn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        
+        <!-- Main Menu -->
+        <div class="main-menu" id="mainMenu">
+            <button class="menu-item" id="languageMenuBtn">
+                Radios in other languages
+                <span class="arrow">›</span>
+            </button>
+            <div class="submenu" id="languageSubmenu">
+                <button class="submenu-item" data-lang="tamil">Tamil Stations</button>
+                <button class="submenu-item" data-lang="dutch">Dutch Stations</button>
+                <button class="submenu-item" data-lang="malayalam">Malayalam Stations</button>
+                <!-- Add more languages as needed -->
+            </div>
+            
+            <button class="menu-item" id="settingsMenuBtn">
+                App Settings
+                <span class="arrow">›</span>
+            </button>
+            <div class="submenu" id="settingsSubmenu">
+                <button class="submenu-item" id="themeToggleMenu">Toggle Theme</button>
+                <button class="submenu-item" id="resetFavorites">Reset Favorites</button>
+            </div>
+            
+            <button class="menu-item" id="aboutMenuBtn">
+                About TC Radios
+            </button>
+        </div>
+        
         <div class="app-title">TC RADIOS</div>
         <div class="header-controls">
-    <div class="language-selector-container">
-        <button class="language-selector" id="languageSelector">
-    <i class="fas fa-broadcast-tower" style="color: var(--text-primary);"></i>
-</button>
-        <div class="language-dropdown" id="languageDropdown">
-            <button class="language-option" data-lang="tamil">Tamil</button>
-            <button class="language-option" data-lang="dutch">Dutch</button>
-            <!--<button class="language-option" data-lang="hindi">Hindi</button>
-            <button class="language-option" data-lang="telugu">Telugu</button>-->
-            <button class="language-option" data-lang="malayalam">Malayalam</button>
+            <button class="volume-control-btn" id="volumeControlBtn">
+                <i class="fas fa-volume-up"></i>
+            </button>
+            <div class="volume-control-menu" id="volumeControlMenu">
+                <div class="volume-slider-container">
+                    <i class="fas fa-volume-up"></i>
+                    <input type="range" min="0" max="1" step="0.01" value="1" 
+                           class="volume-slider" id="volumeSlider" orient="vertical">
+                    <i class="fas fa-volume-down"></i>
+                    <button class="mute-btn" id="muteBtn">
+                        <i class="fas fa-volume-mute"></i>
+                    </button>
+                </div>
+            </div>
+            <button class="theme-toggle" id="themeToggle">🌓</button>
         </div>
-    </div>
-    <button class="theme-toggle" id="themeToggle">🌓</button>
-</div>
     </div>
 
     <!-- Main Container -->
@@ -600,8 +788,8 @@
                 </div>
             </div>
             <div class="contact-section">
-                <h3>About Multi Radios</h3>
-                <p>Multi Radio is a passion project dedicated to bringing radio stations in multiple languages to listeners worldwide.</p>
+                <h3>About TC Radios</h3>
+                <p>TC Radios is a passion project dedicated to bringing radio stations in multiple languages to listeners worldwide.</p>
                 <p>Version: 6.0.0</p>
             </div>
         </div>
@@ -648,24 +836,23 @@
             </div>
         </div>
     </div>
+
     <!-- Installation Prompt -->
-<div id="installPrompt" class="install-prompt">
-    <div class="install-content">
-        <p>Install Radio App for better experience?</p>
-        <div class="install-buttons">
-            <button id="installCancel">Not Now</button>
-            <button id="installConfirm">Install</button>
+    <div id="installPrompt" class="install-prompt">
+        <div class="install-content">
+            <p>Install TC Radios App for better experience?</p>
+            <div class="install-buttons">
+                <button id="installCancel">Not Now</button>
+                <button id="installConfirm">Install</button>
+            </div>
         </div>
     </div>
-</div>
 
     <script>
-        // Language-specific station URLs (hosted on GitHub)
+        // Language-specific station URLs
         const LANGUAGE_STATIONS = {
             tamil: 'https://raw.githubusercontent.com/simsonpeter/Tcradios/refs/heads/main/stations.json',
             dutch: 'https://raw.githubusercontent.com/simsonpeter/Tcradios/refs/heads/main/languages/dutch.json',
-            //hindi: 'https://raw.githubusercontent.com/simsonpeter/MultiRadios/main/hindi.json',
-            //telugu: 'https://raw.githubusercontent.com/simsonpeter/MultiRadios/main/telugu.json',
             malayalam: 'https://raw.githubusercontent.com/simsonpeter/Tcradios/refs/heads/main/languages/malayalam.json'
         };
 
@@ -678,7 +865,123 @@
         let timer = null;
         let metadataInterval;
         let audioContext, analyser;
-        let currentLanguage = 'tamil'; // Default language
+        let currentLanguage = 'tamil';
+        let isMuted = false;
+        let lastVolume = 1;
+
+        // Hamburger Menu and Navigation System
+        const hamburgerBtn = document.getElementById('hamburgerBtn');
+        const mainMenu = document.getElementById('mainMenu');
+        const languageMenuBtn = document.getElementById('languageMenuBtn');
+        const languageSubmenu = document.getElementById('languageSubmenu');
+        const settingsMenuBtn = document.getElementById('settingsMenuBtn');
+        const settingsSubmenu = document.getElementById('settingsSubmenu');
+        const aboutMenuBtn = document.getElementById('aboutMenuBtn');
+        const languageOptions = document.querySelectorAll('.submenu-item[data-lang]');
+
+        // Toggle main menu
+        hamburgerBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            this.classList.toggle('active');
+            mainMenu.classList.toggle('show');
+            
+            // Close all submenus when main menu closes
+            if (!mainMenu.classList.contains('show')) {
+                document.querySelectorAll('.submenu').forEach(sub => {
+                    sub.classList.remove('show');
+                });
+                document.querySelectorAll('.menu-item').forEach(item => {
+                    item.classList.remove('active');
+                });
+            }
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.hamburger-btn') && !e.target.closest('.main-menu')) {
+                hamburgerBtn.classList.remove('active');
+                mainMenu.classList.remove('show');
+                document.querySelectorAll('.submenu').forEach(sub => {
+                    sub.classList.remove('show');
+                });
+                document.querySelectorAll('.menu-item').forEach(item => {
+                    item.classList.remove('active');
+                });
+            }
+        });
+
+        // Language menu toggle
+        languageMenuBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            this.classList.toggle('active');
+            languageSubmenu.classList.toggle('show');
+            
+            // Highlight current language
+            languageOptions.forEach(option => {
+                option.classList.toggle('active', option.dataset.lang === currentLanguage);
+            });
+        });
+
+        // Settings menu toggle
+        settingsMenuBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            this.classList.toggle('active');
+            settingsSubmenu.classList.toggle('show');
+        });
+
+        // About menu item
+        aboutMenuBtn.addEventListener('click', function() {
+            showTab('about');
+            hamburgerBtn.classList.remove('active');
+            mainMenu.classList.remove('show');
+        });
+
+        // Language selection
+        languageOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                const selectedLang = this.dataset.lang;
+                if (currentLanguage !== selectedLang) {
+                    currentLanguage = selectedLang;
+                    loadStations();
+                    
+                    // Update active state
+                    languageOptions.forEach(opt => {
+                        opt.classList.toggle('active', opt.dataset.lang === selectedLang);
+                    });
+                }
+            });
+        });
+
+        // Theme toggle from menu
+        document.getElementById('themeToggleMenu').addEventListener('click', function() {
+            document.body.classList.toggle('light-theme');
+            const isLight = document.body.classList.contains('light-theme');
+            localStorage.setItem('theme', isLight ? 'light' : 'dark');
+            themeToggle.textContent = isLight ? '🌙' : '☀️';
+        });
+
+        // Reset favorites
+        document.getElementById('resetFavorites').addEventListener('click', function() {
+            if (confirm('Are you sure you want to reset all favorites?')) {
+                favorites = [];
+                localStorage.setItem('radioFavorites', JSON.stringify(favorites));
+                if (currentView === 'favorites') {
+                    renderStations(favorites);
+                }
+                updateFavoriteButtons();
+            }
+            hamburgerBtn.classList.remove('active');
+            mainMenu.classList.remove('show');
+            settingsSubmenu.classList.remove('show');
+        });
+
+        // Initialize with current language highlighted
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentLangOption = document.querySelector(`.submenu-item[data-lang="${currentLanguage}"]`);
+            if (currentLangOption) {
+                currentLangOption.classList.add('active');
+            }
+        });
 
         // Loading States
         function showLoading(show) {
@@ -699,34 +1002,83 @@
             themeToggle.textContent = '🌙';
         }
 
-        // Language Selection
-        const languageSelector = document.getElementById('languageSelector');
-        const languageDropdown = document.getElementById('languageDropdown');
+        // Volume Control
+        const volumeControlBtn = document.getElementById('volumeControlBtn');
+        const volumeControlMenu = document.getElementById('volumeControlMenu');
+        const volumeSlider = document.getElementById('volumeSlider');
+        const muteBtn = document.getElementById('muteBtn');
 
-        languageSelector.addEventListener('click', (e) => {
+        // Initialize volume
+        if(localStorage.getItem('volume')) {
+            audio.volume = parseFloat(localStorage.getItem('volume'));
+            volumeSlider.value = audio.volume;
+        } else {
+            audio.volume = 1;
+            volumeSlider.value = 1;
+        }
+
+        // Toggle volume menu
+        volumeControlBtn.addEventListener('click', (e) => {
             e.stopPropagation();
-            languageDropdown.classList.toggle('show');
+            volumeControlMenu.classList.toggle('show');
         });
 
+        // Close volume menu when clicking outside
         document.addEventListener('click', (e) => {
-            if (!e.target.closest('.language-selector-container')) {
-                languageDropdown.classList.remove('show');
+            if(!e.target.closest('.volume-control-btn') && !e.target.closest('.volume-control-menu')) {
+                volumeControlMenu.classList.remove('show');
             }
         });
 
-        document.querySelectorAll('.language-option').forEach(option => {
-            option.addEventListener('click', (e) => {
-                const lang = e.target.dataset.lang;
-                currentLanguage = lang;
-                localStorage.setItem('selectedLanguage', lang);
-                languageDropdown.classList.remove('show');
-                loadStations();
-            });
+        // Handle volume change
+        volumeSlider.addEventListener('input', (e) => {
+            const volume = parseFloat(e.target.value);
+            audio.volume = volume;
+            localStorage.setItem('volume', volume);
+            
+            if(volume === 0) {
+                isMuted = true;
+                updateMuteButton();
+            } else if(isMuted) {
+                isMuted = false;
+                updateMuteButton();
+            }
+            
+            updateVolumeIcon(volume);
         });
 
-        // Set initial language if saved
-        if(localStorage.getItem('selectedLanguage')) {
-            currentLanguage = localStorage.getItem('selectedLanguage');
+        // Mute/unmute functionality
+        muteBtn.addEventListener('click', () => {
+            isMuted = !isMuted;
+            
+            if(isMuted) {
+                lastVolume = audio.volume;
+                audio.volume = 0;
+                volumeSlider.value = 0;
+            } else {
+                audio.volume = lastVolume;
+                volumeSlider.value = lastVolume;
+            }
+            
+            updateMuteButton();
+            updateVolumeIcon(audio.volume);
+        });
+
+        function updateMuteButton() {
+            const icon = muteBtn.querySelector('i');
+            icon.className = isMuted ? 'fas fa-volume-up' : 'fas fa-volume-mute';
+        }
+
+        function updateVolumeIcon(volume) {
+            const icon = volumeControlBtn.querySelector('i');
+            
+            if(volume === 0 || isMuted) {
+                icon.className = 'fas fa-volume-mute';
+            } else if(volume < 0.5) {
+                icon.className = 'fas fa-volume-down';
+            } else {
+                icon.className = 'fas fa-volume-up';
+            }
         }
 
         // Station Loading
@@ -998,55 +1350,46 @@
         document.getElementById('playPauseBtn').addEventListener('click', togglePlayback);
 
         // PWA Installation Logic
-let deferredPrompt;
+        let deferredPrompt;
 
-window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
-    
-    // Show install prompt after 30 seconds of usage
-    setTimeout(() => {
-        const installPrompt = document.getElementById('installPrompt');
-        installPrompt.classList.add('show');
-    }, 30000);
-});
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            
+            setTimeout(() => {
+                const installPrompt = document.getElementById('installPrompt');
+                installPrompt.classList.add('show');
+            }, 30000);
+        });
 
-document.getElementById('installConfirm').addEventListener('click', async () => {
-    const installPrompt = document.getElementById('installPrompt');
-    installPrompt.classList.remove('show');
-    
-    if(deferredPrompt) {
-        deferredPrompt.prompt();
-        const { outcome } = await deferredPrompt.userChoice;
-        if(outcome === 'accepted') {
-            console.log('User accepted install');
-        }
-        deferredPrompt = null;
-    }
-});
+        document.getElementById('installConfirm').addEventListener('click', async () => {
+            const installPrompt = document.getElementById('installPrompt');
+            installPrompt.classList.remove('show');
+            
+            if(deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if(outcome === 'accepted') {
+                    console.log('User accepted install');
+                }
+                deferredPrompt = null;
+            }
+        });
 
-document.getElementById('installCancel').addEventListener('click', () => {
-    document.getElementById('installPrompt').classList.remove('show');
-});
+        document.getElementById('installCancel').addEventListener('click', () => {
+            document.getElementById('installPrompt').classList.remove('show');
+        });
 
         // Service Worker Registration
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js')
-            .then(registration => {
-                console.log('SW registered:', registration);
-                // Show install button after successful SW registration
-                setTimeout(checkInstallable, 10000);
-            })
-            .catch(error => console.log('SW registration failed:', error));
-    });
-}
-
-function checkInstallable() {
-    if(deferredPrompt && !window.matchMedia('(display-mode: standalone)').matches) {
-        document.getElementById('installPrompt').classList.add('show');
-    }
-}
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('SW registered:', registration);
+                    })
+                    .catch(error => console.log('SW registration failed:', error));
+            });
+        }
     </script>
 </body>
 </html>
