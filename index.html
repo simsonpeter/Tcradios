@@ -21,12 +21,16 @@
             --surface: #181818;
             --text-primary: #FFFFFF;
             --text-secondary: #B3B3B3;
+            --error: #ff3333;
+            --success: #4CAF50;
         }
         .light-theme {
             --background: #ffffff;
             --surface: #f5f5f5;
             --text-primary: #000000;
             --text-secondary: #666666;
+            --error: #d32f2f;
+            --success: #388E3C;
         }
         * {
             margin: 0;
@@ -194,9 +198,6 @@
             transform: scale(0.9);
         }
 
-        /* ========== REST OF YOUR CSS (UNCHANGED) ========== */
-        /* ... (All your existing CSS remains exactly the same) ... */
-        
         /* ========== VERTICAL VOLUME CONTROL ========== */
         .volume-control-menu {
             position: absolute;
@@ -329,6 +330,10 @@
             background: var(--surface);
             border-radius: 12px;
             transition: transform 0.2s;
+            position: relative;
+        }
+        .station-item.playing {
+            border-left: 4px solid var(--primary);
         }
         .station-item:active {
             transform: scale(0.98);
@@ -367,6 +372,25 @@
         }
         .action-btn.active {
             color: var(--primary);
+        }
+        .now-playing-indicator {
+            position: absolute;
+            right: 16px;
+            top: 16px;
+            width: 8px;
+            height: 8px;
+            background-color: var(--primary);
+            border-radius: 50%;
+            display: none;
+        }
+        .station-item.playing .now-playing-indicator {
+            display: block;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(0.95); opacity: 0.7; }
+            50% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(0.95); opacity: 0.7; }
         }
 
         /* ========== PLAYER CONTROLS ========== */
@@ -490,6 +514,20 @@
             align-items: center;
             justify-content: center;
         }
+        .timer-display {
+            position: absolute;
+            top: -25px;
+            right: 0;
+            background: var(--primary);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            display: none;
+        }
+        .timer-active .timer-display {
+            display: block;
+        }
 
         /* ========== LOADING OVERLAY ========== */
         .loading-overlay {
@@ -608,6 +646,89 @@
             color: var(--text-primary);
         }
 
+        /* ========== ERROR MESSAGES ========== */
+        .error-message {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--error);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            z-index: 2000;
+            animation: fadeInOut 3s forwards;
+            max-width: 80%;
+            text-align: center;
+        }
+        @keyframes fadeInOut {
+            0% { opacity: 0; bottom: 0; }
+            10% { opacity: 1; bottom: 20px; }
+            90% { opacity: 1; bottom: 20px; }
+            100% { opacity: 0; bottom: 0; }
+        }
+
+        /* ========== REFRESH BUTTON ========== */
+        .refresh-btn {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            background: var(--surface);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: transform 0.2s;
+            font-size: 20px;
+            color: var(--text-primary);
+            z-index: 999;
+        }
+        .refresh-btn:active {
+            transform: rotate(360deg);
+        }
+
+        /* ========== HISTORY TAB ========== */
+        .history-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            margin-bottom: 8px;
+            background: var(--surface);
+            border-radius: 8px;
+            transition: transform 0.2s;
+        }
+        .history-item:active {
+            transform: scale(0.98);
+        }
+        .history-time {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-right: 12px;
+            min-width: 50px;
+        }
+
+        /* ========== LANGUAGE LOADING INDICATOR ========== */
+        .language-loading {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--surface);
+            padding: 16px;
+            border-radius: 8px;
+            z-index: 2000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        .language-loading.show {
+            display: block;
+        }
+
         /* ========== DESKTOP RESPONSIVE ADJUSTMENTS ========== */
         @media (min-width: 768px) {
             .app-container {
@@ -689,6 +810,10 @@
                 left: calc(50% - 400px + 16px);
                 top: 80px;
             }
+            .refresh-btn {
+                right: calc(50% - 400px + 40px);
+                top: 80px;
+            }
         }
     </style>
 </head>
@@ -698,9 +823,14 @@
         <div class="loading-spinner"></div>
     </div>
 
+    <!-- Language Loading Indicator -->
+    <div class="language-loading" id="languageLoading">
+        Loading stations...
+    </div>
+
     <!-- Header with Hamburger Menu -->
     <div class="header">
-        <button class="hamburger-btn" id="hamburgerBtn">
+        <button class="hamburger-btn" id="hamburgerBtn" aria-label="Menu">
             <span></span>
             <span></span>
             <span></span>
@@ -726,6 +856,7 @@
             <div class="submenu" id="settingsSubmenu">
                 <button class="submenu-item" id="themeToggleMenu">Toggle Theme</button>
                 <button class="submenu-item" id="resetFavorites">Reset Favorites</button>
+                <button class="submenu-item" id="clearHistory">Clear History</button>
             </div>
             
             <button class="menu-item" id="aboutMenuBtn">
@@ -735,40 +866,49 @@
         
         <div class="app-title">TC RADIOS</div>
         <div class="header-controls">
-            <button class="volume-control-btn" id="volumeControlBtn">
+            <button class="volume-control-btn" id="volumeControlBtn" aria-label="Volume control">
                 <i class="fas fa-volume-up"></i>
             </button>
             <div class="volume-control-menu" id="volumeControlMenu">
                 <div class="volume-slider-container">
                     <i class="fas fa-volume-up"></i>
                     <input type="range" min="0" max="1" step="0.01" value="1" 
-                           class="volume-slider" id="volumeSlider" orient="vertical">
+                           class="volume-slider" id="volumeSlider" orient="vertical" aria-label="Volume slider">
                     <i class="fas fa-volume-down"></i>
-                    <button class="mute-btn" id="muteBtn">
+                    <button class="mute-btn" id="muteBtn" aria-label="Mute">
                         <i class="fas fa-volume-mute"></i>
                     </button>
                 </div>
             </div>
-            <button class="theme-toggle" id="themeToggle">🌓</button>
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">🌓</button>
         </div>
     </div>
 
     <!-- Main Container -->
     <div class="app-container">
+        <!-- Refresh Button -->
+        <button class="refresh-btn" id="refreshBtn" aria-label="Refresh stations">
+            <i class="fas fa-sync-alt"></i>
+        </button>
+
         <!-- Tabs -->
         <div class="tabs">
             <button class="tab-button active" id="allTab">All Stations</button>
             <button class="tab-button" id="favoritesTab">Favorites</button>
+            <button class="tab-button" id="historyTab">History</button>
             <button class="tab-button" id="aboutTab">About</button>
         </div>
 
         <!-- Search -->
         <div class="search-bar">
-            <input type="text" id="searchInput" placeholder="Search stations..." />
+            <input type="text" id="searchInput" placeholder="Search stations..." aria-label="Search stations" />
         </div>
 
         <!-- Station List -->
         <div class="station-list" id="stationList"></div>
+
+        <!-- History List -->
+        <div class="station-list" id="historyList" style="display: none;"></div>
 
         <!-- About Content -->
         <div class="about-content" id="aboutContent">
@@ -783,8 +923,8 @@
             <div class="contact-section">
                 <h3>Connect With Us</h3>
                 <div class="social-links">
-                    <a href="https://twitter.com/" target="_blank">Twitter</a>
-                    <a href="https://facebook.com/" target="_blank">Facebook</a>
+                    <a href="https://twitter.com/" target="_blank" rel="noopener noreferrer">Twitter</a>
+                    <a href="https://facebook.com/" target="_blank" rel="noopener noreferrer">Facebook</a>
                 </div>
             </div>
             <div class="contact-section">
@@ -797,7 +937,7 @@
         <!-- Player -->
         <div class="player-container">
             <div class="player-content">
-                <img src="/icons/default-artwork.jpg" class="player-artwork" id="playerArtwork">
+                <img src="/icons/default-artwork.jpg" class="player-artwork" id="playerArtwork" alt="Now playing">
                 <div class="player-info">
                     <div class="player-title" id="playerTitle">Select a station</div>
                     <div class="player-metadata" id="playerMetadata">
@@ -805,7 +945,7 @@
                         <div class="song-progress" id="songProgress"></div>
                     </div>
                 </div>
-                <button class="control-button" id="playPauseBtn">
+                <button class="control-button" id="playPauseBtn" aria-label="Play/pause">
                     <svg width="24" height="24" viewBox="0 0 24 24" id="playIcon">
                         <path fill="currentColor" d="M8 5v14l11-7z"/>
                     </svg>
@@ -818,11 +958,12 @@
 
         <!-- Sleep Timer -->
         <div class="floating-timer" id="floatingTimer">
-            <div class="timer-icon" id="timerIcon">
+            <div class="timer-display" id="timerDisplay"></div>
+            <div class="timer-icon" id="timerIcon" aria-label="Sleep timer">
                 <i class="fas fa-clock"></i>
             </div>
             <div class="timer-menu" id="timerMenu">
-                <select id="timerSelect">
+                <select id="timerSelect" aria-label="Timer duration">
                     <option value="0">Off</option>
                     <option value="5">5 minutes</option>
                     <option value="10">10 minutes</option>
@@ -830,7 +971,7 @@
                     <option value="30">30 minutes</option>
                     <option value="60">60 minutes</option>
                 </select>
-                <button id="setTimerBtn">
+                <button id="setTimerBtn" aria-label="Set timer">
                     <i class="fas fa-check"></i>
                 </button>
             </div>
@@ -861,15 +1002,17 @@
         audio.crossOrigin = "anonymous";
         let currentStation = null;
         let favorites = JSON.parse(localStorage.getItem('radioFavorites')) || [];
+        let stationHistory = JSON.parse(localStorage.getItem('stationHistory')) || [];
         let currentView = 'all';
         let timer = null;
+        let timerInterval;
         let metadataInterval;
         let audioContext, analyser;
         let currentLanguage = 'tamil';
         let isMuted = false;
         let lastVolume = 1;
 
-        // Hamburger Menu and Navigation System
+        // DOM Elements
         const hamburgerBtn = document.getElementById('hamburgerBtn');
         const mainMenu = document.getElementById('mainMenu');
         const languageMenuBtn = document.getElementById('languageMenuBtn');
@@ -878,40 +1021,164 @@
         const settingsSubmenu = document.getElementById('settingsSubmenu');
         const aboutMenuBtn = document.getElementById('aboutMenuBtn');
         const languageOptions = document.querySelectorAll('.submenu-item[data-lang]');
+        const themeToggle = document.getElementById('themeToggle');
+        const volumeControlBtn = document.getElementById('volumeControlBtn');
+        const volumeControlMenu = document.getElementById('volumeControlMenu');
+        const volumeSlider = document.getElementById('volumeSlider');
+        const muteBtn = document.getElementById('muteBtn');
+        const refreshBtn = document.getElementById('refreshBtn');
+        const timerIcon = document.getElementById('timerIcon');
+        const timerMenu = document.getElementById('timerMenu');
+        const timerSelect = document.getElementById('timerSelect');
+        const timerDisplay = document.getElementById('timerDisplay');
+        const floatingTimer = document.getElementById('floatingTimer');
+        const languageLoading = document.getElementById('languageLoading');
 
-        // Toggle main menu
-        hamburgerBtn.addEventListener('click', function(e) {
+        // Initialize the app
+        function initApp() {
+            setupEventListeners();
+            loadStations();
+            
+            // Check for saved theme
+            if(localStorage.getItem('theme') === 'light') {
+                document.body.classList.add('light-theme');
+                themeToggle.textContent = '🌙';
+            }
+            
+            // Initialize volume
+            if(localStorage.getItem('volume')) {
+                audio.volume = parseFloat(localStorage.getItem('volume'));
+                volumeSlider.value = audio.volume;
+            } else {
+                audio.volume = 1;
+                volumeSlider.value = 1;
+            }
+            
+            // Check if timer was active
+            if(localStorage.getItem('timerEndTime')) {
+                const endTime = parseInt(localStorage.getItem('timerEndTime'));
+                const remaining = Math.round((endTime - Date.now()) / 60000);
+                if(remaining > 0) {
+                    timerSelect.value = remaining;
+                    setTimer(remaining);
+                } else {
+                    localStorage.removeItem('timerEndTime');
+                }
+            }
+            
+            // Register service worker
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('SW registered:', registration);
+                    })
+                    .catch(error => console.log('SW registration failed:', error));
+            }
+        }
+
+        // Setup all event listeners
+        function setupEventListeners() {
+            // Hamburger menu
+            hamburgerBtn.addEventListener('click', toggleMainMenu);
+            document.addEventListener('click', closeMenusOnClickOutside);
+            
+            // Menu items
+            languageMenuBtn.addEventListener('click', toggleLanguageMenu);
+            settingsMenuBtn.addEventListener('click', toggleSettingsMenu);
+            aboutMenuBtn.addEventListener('click', () => {
+                showTab('about');
+                closeMainMenu();
+            });
+            
+            // Language selection
+            languageOptions.forEach(option => {
+                option.addEventListener('click', handleLanguageSelection);
+            });
+            
+            // Settings
+            document.getElementById('themeToggleMenu').addEventListener('click', toggleThemeFromMenu);
+            document.getElementById('resetFavorites').addEventListener('click', resetFavorites);
+            document.getElementById('clearHistory').addEventListener('click', clearHistory);
+            
+            // Theme toggle
+            themeToggle.addEventListener('click', toggleTheme);
+            
+            // Volume control
+            volumeControlBtn.addEventListener('click', toggleVolumeMenu);
+            volumeSlider.addEventListener('input', handleVolumeChange);
+            muteBtn.addEventListener('click', toggleMute);
+            
+            // Refresh button
+            refreshBtn.addEventListener('click', refreshStations);
+            
+            // Tabs
+            document.getElementById('allTab').addEventListener('click', () => showTab('all'));
+            document.getElementById('favoritesTab').addEventListener('click', () => showTab('favorites'));
+            document.getElementById('historyTab').addEventListener('click', () => showTab('history'));
+            document.getElementById('aboutTab').addEventListener('click', () => showTab('about'));
+            
+            // Search
+            document.getElementById('searchInput').addEventListener('input', handleSearch);
+            
+            // Player
+            document.getElementById('playPauseBtn').addEventListener('click', togglePlayback);
+            
+            // Timer
+            timerIcon.addEventListener('click', toggleTimerMenu);
+            document.getElementById('setTimerBtn').addEventListener('click', setTimerFromMenu);
+            
+            // PWA installation
+            window.addEventListener('beforeinstallprompt', handleInstallPrompt);
+            document.getElementById('installConfirm').addEventListener('click', installApp);
+            document.getElementById('installCancel').addEventListener('click', cancelInstall);
+            
+            // Audio events
+            audio.addEventListener('play', handleAudioPlay);
+            audio.addEventListener('pause', handleAudioPause);
+            audio.addEventListener('error', handleAudioError);
+        }
+
+        // Menu functions
+        function toggleMainMenu(e) {
             e.stopPropagation();
             this.classList.toggle('active');
             mainMenu.classList.toggle('show');
             
-            // Close all submenus when main menu closes
             if (!mainMenu.classList.contains('show')) {
-                document.querySelectorAll('.submenu').forEach(sub => {
-                    sub.classList.remove('show');
-                });
-                document.querySelectorAll('.menu-item').forEach(item => {
-                    item.classList.remove('active');
-                });
+                closeAllSubmenus();
             }
-        });
+        }
 
-        // Close menu when clicking outside
-        document.addEventListener('click', function(e) {
+        function closeMainMenu() {
+            hamburgerBtn.classList.remove('active');
+            mainMenu.classList.remove('show');
+            closeAllSubmenus();
+        }
+
+        function closeAllSubmenus() {
+            document.querySelectorAll('.submenu').forEach(sub => {
+                sub.classList.remove('show');
+            });
+            document.querySelectorAll('.menu-item').forEach(item => {
+                item.classList.remove('active');
+            });
+        }
+
+        function closeMenusOnClickOutside(e) {
             if (!e.target.closest('.hamburger-btn') && !e.target.closest('.main-menu')) {
-                hamburgerBtn.classList.remove('active');
-                mainMenu.classList.remove('show');
-                document.querySelectorAll('.submenu').forEach(sub => {
-                    sub.classList.remove('show');
-                });
-                document.querySelectorAll('.menu-item').forEach(item => {
-                    item.classList.remove('active');
-                });
+                closeMainMenu();
             }
-        });
+            
+            if(!e.target.closest('.volume-control-btn') && !e.target.closest('.volume-control-menu')) {
+                volumeControlMenu.classList.remove('show');
+            }
+            
+            if(!e.target.closest('.floating-timer')) {
+                timerMenu.style.display = 'none';
+            }
+        }
 
-        // Language menu toggle
-        languageMenuBtn.addEventListener('click', function(e) {
+        function toggleLanguageMenu(e) {
             e.stopPropagation();
             this.classList.toggle('active');
             languageSubmenu.classList.toggle('show');
@@ -920,118 +1187,56 @@
             languageOptions.forEach(option => {
                 option.classList.toggle('active', option.dataset.lang === currentLanguage);
             });
-        });
+        }
 
-        // Settings menu toggle
-        settingsMenuBtn.addEventListener('click', function(e) {
+        function toggleSettingsMenu(e) {
             e.stopPropagation();
             this.classList.toggle('active');
             settingsSubmenu.classList.toggle('show');
-        });
+        }
 
-        // About menu item
-        aboutMenuBtn.addEventListener('click', function() {
-            showTab('about');
-            hamburgerBtn.classList.remove('active');
-            mainMenu.classList.remove('show');
-        });
+        // Language functions
+        function handleLanguageSelection() {
+            const selectedLang = this.dataset.lang;
+            if (currentLanguage !== selectedLang) {
+                currentLanguage = selectedLang;
+                showLanguageLoading();
+                loadStations();
+                
+                // Update active state
+                languageOptions.forEach(opt => {
+                    opt.classList.toggle('active', opt.dataset.lang === selectedLang);
+                });
+            }
+        }
 
-        // Language selection
-        languageOptions.forEach(option => {
-            option.addEventListener('click', function() {
-                const selectedLang = this.dataset.lang;
-                if (currentLanguage !== selectedLang) {
-                    currentLanguage = selectedLang;
-                    loadStations();
-                    
-                    // Update active state
-                    languageOptions.forEach(opt => {
-                        opt.classList.toggle('active', opt.dataset.lang === selectedLang);
-                    });
-                }
-            });
-        });
+        function showLanguageLoading() {
+            languageLoading.classList.add('show');
+            setTimeout(() => {
+                languageLoading.classList.remove('show');
+            }, 2000);
+        }
 
-        // Theme toggle from menu
-        document.getElementById('themeToggleMenu').addEventListener('click', function() {
+        // Theme functions
+        function toggleTheme() {
             document.body.classList.toggle('light-theme');
             const isLight = document.body.classList.contains('light-theme');
             localStorage.setItem('theme', isLight ? 'light' : 'dark');
             themeToggle.textContent = isLight ? '🌙' : '☀️';
-        });
-
-        // Reset favorites
-        document.getElementById('resetFavorites').addEventListener('click', function() {
-            if (confirm('Are you sure you want to reset all favorites?')) {
-                favorites = [];
-                localStorage.setItem('radioFavorites', JSON.stringify(favorites));
-                if (currentView === 'favorites') {
-                    renderStations(favorites);
-                }
-                updateFavoriteButtons();
-            }
-            hamburgerBtn.classList.remove('active');
-            mainMenu.classList.remove('show');
-            settingsSubmenu.classList.remove('show');
-        });
-
-        // Initialize with current language highlighted
-        document.addEventListener('DOMContentLoaded', function() {
-            const currentLangOption = document.querySelector(`.submenu-item[data-lang="${currentLanguage}"]`);
-            if (currentLangOption) {
-                currentLangOption.classList.add('active');
-            }
-        });
-
-        // Loading States
-        function showLoading(show) {
-            document.getElementById('loadingOverlay').style.display = show ? 'flex' : 'none';
         }
 
-        // Theme Management
-        const themeToggle = document.getElementById('themeToggle');
-        themeToggle.addEventListener('click', () => {
-            document.body.classList.toggle('light-theme');
-            const isLight = document.body.classList.contains('light-theme');
-            localStorage.setItem('theme', isLight ? 'light' : 'dark');
-            themeToggle.textContent = isLight ? '🌙' : '☀️';
-        });
-
-        if(localStorage.getItem('theme') === 'light') {
-            document.body.classList.add('light-theme');
-            themeToggle.textContent = '🌙';
+        function toggleThemeFromMenu() {
+            toggleTheme();
+            closeMainMenu();
         }
 
-        // Volume Control
-        const volumeControlBtn = document.getElementById('volumeControlBtn');
-        const volumeControlMenu = document.getElementById('volumeControlMenu');
-        const volumeSlider = document.getElementById('volumeSlider');
-        const muteBtn = document.getElementById('muteBtn');
-
-        // Initialize volume
-        if(localStorage.getItem('volume')) {
-            audio.volume = parseFloat(localStorage.getItem('volume'));
-            volumeSlider.value = audio.volume;
-        } else {
-            audio.volume = 1;
-            volumeSlider.value = 1;
-        }
-
-        // Toggle volume menu
-        volumeControlBtn.addEventListener('click', (e) => {
+        // Volume functions
+        function toggleVolumeMenu(e) {
             e.stopPropagation();
             volumeControlMenu.classList.toggle('show');
-        });
+        }
 
-        // Close volume menu when clicking outside
-        document.addEventListener('click', (e) => {
-            if(!e.target.closest('.volume-control-btn') && !e.target.closest('.volume-control-menu')) {
-                volumeControlMenu.classList.remove('show');
-            }
-        });
-
-        // Handle volume change
-        volumeSlider.addEventListener('input', (e) => {
+        function handleVolumeChange(e) {
             const volume = parseFloat(e.target.value);
             audio.volume = volume;
             localStorage.setItem('volume', volume);
@@ -1045,10 +1250,9 @@
             }
             
             updateVolumeIcon(volume);
-        });
+        }
 
-        // Mute/unmute functionality
-        muteBtn.addEventListener('click', () => {
+        function toggleMute() {
             isMuted = !isMuted;
             
             if(isMuted) {
@@ -1062,7 +1266,7 @@
             
             updateMuteButton();
             updateVolumeIcon(audio.volume);
-        });
+        }
 
         function updateMuteButton() {
             const icon = muteBtn.querySelector('i');
@@ -1081,7 +1285,7 @@
             }
         }
 
-        // Station Loading
+        // Station functions
         async function loadStations() {
             try {
                 showLoading(true);
@@ -1091,41 +1295,68 @@
                 localStorage.setItem(`cachedStations_${currentLanguage}`, JSON.stringify(customStations));
                 initStations();
                 showLoading(false);
+                showSuccessMessage('Stations loaded successfully');
             } catch (error) {
                 console.error('Using cached stations:', error);
                 showLoading(false);
                 const cached = localStorage.getItem(`cachedStations_${currentLanguage}`);
-                if (cached) customStations = JSON.parse(cached);
-                initStations();
+                if (cached) {
+                    customStations = JSON.parse(cached);
+                    initStations();
+                    showErrorMessage('Using cached stations. Check your connection.');
+                } else {
+                    showErrorMessage('Failed to load stations. Please try again later.');
+                }
             }
         }
 
-        // Station Handling
+        function refreshStations() {
+            // Add rotation animation
+            refreshBtn.style.transform = 'rotate(360deg)';
+            refreshBtn.style.transition = 'transform 0.5s ease';
+            
+            // Reset rotation after animation completes
+            setTimeout(() => {
+                refreshBtn.style.transform = 'rotate(0deg)';
+            }, 500);
+            
+            loadStations();
+        }
+
         function initStations() {
             renderStations(customStations);
+            updateFavoriteButtons();
         }
 
         function createStationItem(station) {
             const item = document.createElement('div');
             item.className = 'station-item';
             item.innerHTML = `
-                <img src="${station.logo}" class="station-artwork" alt="${station.name}" onerror="this.src='/icons/default-station.png'">
+                <div class="now-playing-indicator"></div>
+                <img src="${station.logo}" class="station-artwork" alt="${station.name}" loading="lazy" onerror="this.src='/icons/default-station.png'">
                 <div class="station-info">
                     <div class="station-name">${station.name}</div>
                     <div class="station-genre">${station.genre}</div>
                 </div>
                 <div class="station-actions">
-                    <button class="action-btn favorite-btn">
+                    <button class="action-btn favorite-btn" aria-label="Add to favorites">
                         <svg width="24" height="24" viewBox="0 0 24 24">
                             <path fill="currentColor" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
                         </svg>
                     </button>
                 </div>
             `;
+            
+            // Highlight if currently playing
+            if (currentStation && currentStation.url === station.url) {
+                item.classList.add('playing');
+            }
+            
             item.querySelector('.favorite-btn').addEventListener('click', (e) => {
                 e.stopPropagation();
                 toggleFavorite(station);
             });
+            
             item.addEventListener('click', () => playStation(station));
             return item;
         }
@@ -1133,10 +1364,53 @@
         function renderStations(stations) {
             const list = document.getElementById('stationList');
             list.innerHTML = '';
+            
+            if (stations.length === 0) {
+                const emptyMessage = document.createElement('div');
+                emptyMessage.className = 'station-item';
+                emptyMessage.textContent = currentView === 'favorites' ? 'No favorites yet' : 'No stations found';
+                list.appendChild(emptyMessage);
+                return;
+            }
+            
             stations.forEach(station => {
                 list.appendChild(createStationItem(station));
             });
+            
             updateFavoriteButtons();
+        }
+
+        function renderHistory() {
+            const list = document.getElementById('historyList');
+            list.innerHTML = '';
+            
+            if (stationHistory.length === 0) {
+                const emptyMessage = document.createElement('div');
+                emptyMessage.className = 'station-item';
+                emptyMessage.textContent = 'No history yet';
+                list.appendChild(emptyMessage);
+                return;
+            }
+            
+            stationHistory.forEach(item => {
+                const historyItem = document.createElement('div');
+                historyItem.className = 'history-item';
+                
+                const time = new Date(item.timestamp);
+                const timeString = time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                
+                historyItem.innerHTML = `
+                    <div class="history-time">${timeString}</div>
+                    <img src="${item.station.logo}" class="station-artwork" alt="${item.station.name}" loading="lazy" onerror="this.src='/icons/default-station.png'">
+                    <div class="station-info">
+                        <div class="station-name">${item.station.name}</div>
+                        <div class="station-genre">${item.station.genre}</div>
+                    </div>
+                `;
+                
+                historyItem.addEventListener('click', () => playStation(item.station));
+                list.appendChild(historyItem);
+            });
         }
 
         // Favorites System
@@ -1144,8 +1418,10 @@
             const index = favorites.findIndex(f => f.url === station.url);
             if(index === -1) {
                 favorites.push(station);
+                showSuccessMessage('Added to favorites');
             } else {
                 favorites.splice(index, 1);
+                showSuccessMessage('Removed from favorites');
             }
             localStorage.setItem('radioFavorites', JSON.stringify(favorites));
             updateFavoriteButtons();
@@ -1154,23 +1430,47 @@
 
         function updateFavoriteButtons() {
             document.querySelectorAll('.favorite-btn').forEach(btn => {
-                const stationName = btn.closest('.station-item').querySelector('.station-name').textContent;
+                const stationItem = btn.closest('.station-item');
+                const stationName = stationItem.querySelector('.station-name').textContent;
                 const isFavorite = favorites.some(f => f.name === stationName);
                 btn.classList.toggle('active', isFavorite);
             });
         }
 
-        function showFavorites() {
-            renderStations(favorites);
+        function resetFavorites() {
+            if (confirm('Are you sure you want to reset all favorites?')) {
+                favorites = [];
+                localStorage.setItem('radioFavorites', JSON.stringify(favorites));
+                if (currentView === 'favorites') {
+                    renderStations(favorites);
+                }
+                updateFavoriteButtons();
+                showSuccessMessage('Favorites cleared');
+            }
+            closeMainMenu();
+        }
+
+        function clearHistory() {
+            if (confirm('Are you sure you want to clear your listening history?')) {
+                stationHistory = [];
+                localStorage.setItem('stationHistory', JSON.stringify(stationHistory));
+                if (currentView === 'history') {
+                    renderHistory();
+                }
+                showSuccessMessage('History cleared');
+            }
+            closeMainMenu();
         }
 
         // Audio Handling
         function initAudioContext() {
-            audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            analyser = audioContext.createAnalyser();
-            const source = audioContext.createMediaElementSource(audio);
-            source.connect(analyser);
-            analyser.connect(audioContext.destination);
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                analyser = audioContext.createAnalyser();
+                const source = audioContext.createMediaElementSource(audio);
+                source.connect(analyser);
+                analyser.connect(audioContext.destination);
+            }
         }
 
         function updateVisualizer() {
@@ -1246,19 +1546,64 @@
         function playStation(station) {
             if(currentStation?.url === station.url) return togglePlayback();
             
+            // Add to history
+            addToHistory(station);
+            
             currentStation = station;
             audio.src = station.url;
             audio.play().then(() => {
                 document.getElementById('playerArtwork').src = station.logo;
+                document.getElementById('playerArtwork').alt = `${station.name} logo`;
                 document.getElementById('playerTitle').textContent = station.name;
                 document.getElementById('playerArtwork').classList.add('playing');
                 updatePlayButton(true);
                 
+                // Update now playing indicators
+                document.querySelectorAll('.station-item').forEach(item => {
+                    item.classList.remove('playing');
+                });
+                document.querySelectorAll('.station-item').forEach(item => {
+                    if (item.querySelector('.station-name').textContent === station.name) {
+                        item.classList.add('playing');
+                    }
+                });
+                
                 if(!audioContext) initAudioContext();
                 updateVisualizer();
                 
+                // Clear previous metadata interval
+                clearInterval(metadataInterval);
                 metadataInterval = setInterval(updateMetadataDisplay, 5000);
             }).catch(handleAudioError);
+        }
+
+        function addToHistory(station) {
+            // Check if already in history
+            const existingIndex = stationHistory.findIndex(item => item.station.url === station.url);
+            
+            if (existingIndex !== -1) {
+                // Update timestamp if already exists
+                stationHistory[existingIndex].timestamp = Date.now();
+            } else {
+                // Add new entry
+                stationHistory.unshift({
+                    station: station,
+                    timestamp: Date.now()
+                });
+                
+                // Keep only last 20 items
+                if (stationHistory.length > 20) {
+                    stationHistory.pop();
+                }
+            }
+            
+            // Save to localStorage
+            localStorage.setItem('stationHistory', JSON.stringify(stationHistory));
+            
+            // Update history view if active
+            if (currentView === 'history') {
+                renderHistory();
+            }
         }
 
         function togglePlayback() {
@@ -1280,30 +1625,44 @@
             document.getElementById('pauseIcon').style.display = playing ? 'block' : 'none';
         }
 
+        function handleAudioPlay() {
+            updatePlayButton(true);
+            document.getElementById('playerArtwork').classList.add('playing');
+        }
+
+        function handleAudioPause() {
+            updatePlayButton(false);
+            document.getElementById('playerArtwork').classList.remove('playing');
+        }
+
         function handleAudioError(error) {
             console.error('Audio error:', error);
+            showErrorMessage('Error playing station. Trying again...');
             if(currentStation) setTimeout(() => audio.play(), 5000);
         }
 
         // Tab Management
-        document.getElementById('allTab').addEventListener('click', () => showTab('all'));
-        document.getElementById('favoritesTab').addEventListener('click', () => showTab('favorites'));
-        document.getElementById('aboutTab').addEventListener('click', () => showTab('about'));
-
         function showTab(tab) {
             currentView = tab;
+            
+            // Update active tab button
             document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
             document.getElementById(`${tab}Tab`).classList.add('active');
-            document.getElementById('stationList').style.display = tab === 'about' ? 'none' : 'block';
+            
+            // Show/hide appropriate content
+            document.getElementById('stationList').style.display = (tab === 'about' || tab === 'history') ? 'none' : 'block';
+            document.getElementById('historyList').style.display = tab === 'history' ? 'block' : 'none';
             document.getElementById('aboutContent').style.display = tab === 'about' ? 'block' : 'none';
             document.getElementById('searchInput').style.display = tab === 'about' ? 'none' : 'block';
             
+            // Load appropriate content
             if(tab === 'favorites') renderStations(favorites);
             else if(tab === 'all') renderStations(customStations);
+            else if(tab === 'history') renderHistory();
         }
 
         // Search Functionality
-        document.getElementById('searchInput').addEventListener('input', (e) => {
+        function handleSearch(e) {
             const query = e.target.value.toLowerCase();
             const filtered = (currentView === 'favorites' ? favorites : customStations)
                 .filter(station => 
@@ -1311,48 +1670,89 @@
                     station.genre.toLowerCase().includes(query)
                 );
             renderStations(filtered);
-        });
+        }
 
         // Timer System
-        const timerIcon = document.getElementById('timerIcon');
-        const timerMenu = document.getElementById('timerMenu');
-        
-        timerIcon.addEventListener('click', (e) => {
+        function toggleTimerMenu(e) {
             e.stopPropagation();
             timerMenu.style.display = timerMenu.style.display === 'flex' ? 'none' : 'flex';
-        });
+        }
 
-        document.addEventListener('click', (e) => {
-            if(!e.target.closest('.floating-timer')) timerMenu.style.display = 'none';
-        });
-
-        document.getElementById('setTimerBtn').addEventListener('click', () => {
-            const minutes = parseInt(document.getElementById('timerSelect').value);
+        function setTimerFromMenu() {
+            const minutes = parseInt(timerSelect.value);
             if(minutes > 0) setTimer(minutes);
             else clearTimer();
             timerMenu.style.display = 'none';
-        });
+        }
 
         function setTimer(minutes) {
             clearTimer();
+            
+            const endTime = Date.now() + minutes * 60000;
+            localStorage.setItem('timerEndTime', endTime.toString());
+            
             timer = setTimeout(() => {
                 audio.pause();
                 updatePlayButton(false);
+                showSuccessMessage('Sleep timer stopped playback');
+                clearTimer();
             }, minutes * 60000);
+            
+            // Update timer display
+            floatingTimer.classList.add('timer-active');
+            updateTimerDisplay(minutes * 60);
+            
+            // Update every second
+            timerInterval = setInterval(() => {
+                const remainingSeconds = Math.round((endTime - Date.now()) / 1000);
+                if (remainingSeconds <= 0) {
+                    clearInterval(timerInterval);
+                } else {
+                    updateTimerDisplay(remainingSeconds);
+                }
+            }, 1000);
         }
 
         function clearTimer() {
             if(timer) clearTimeout(timer);
+            if(timerInterval) clearInterval(timerInterval);
+            floatingTimer.classList.remove('timer-active');
+            localStorage.removeItem('timerEndTime');
         }
 
-        // Initialize
-        loadStations();
-        document.getElementById('playPauseBtn').addEventListener('click', togglePlayback);
+        function updateTimerDisplay(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            timerDisplay.textContent = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+        }
 
-        // PWA Installation Logic
+        // Loading States
+        function showLoading(show) {
+            document.getElementById('loadingOverlay').style.display = show ? 'flex' : 'none';
+        }
+
+        // Message display
+        function showErrorMessage(message) {
+            const errorEl = document.createElement('div');
+            errorEl.className = 'error-message';
+            errorEl.textContent = message;
+            document.body.appendChild(errorEl);
+            setTimeout(() => errorEl.remove(), 3000);
+        }
+
+        function showSuccessMessage(message) {
+            const successEl = document.createElement('div');
+            successEl.className = 'error-message';
+            successEl.style.backgroundColor = 'var(--success)';
+            successEl.textContent = message;
+            document.body.appendChild(successEl);
+            setTimeout(() => successEl.remove(), 3000);
+        }
+
+        // PWA Installation
         let deferredPrompt;
 
-        window.addEventListener('beforeinstallprompt', (e) => {
+        function handleInstallPrompt(e) {
             e.preventDefault();
             deferredPrompt = e;
             
@@ -1360,9 +1760,9 @@
                 const installPrompt = document.getElementById('installPrompt');
                 installPrompt.classList.add('show');
             }, 30000);
-        });
+        }
 
-        document.getElementById('installConfirm').addEventListener('click', async () => {
+        async function installApp() {
             const installPrompt = document.getElementById('installPrompt');
             installPrompt.classList.remove('show');
             
@@ -1374,22 +1774,14 @@
                 }
                 deferredPrompt = null;
             }
-        });
-
-        document.getElementById('installCancel').addEventListener('click', () => {
-            document.getElementById('installPrompt').classList.remove('show');
-        });
-
-        // Service Worker Registration
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js')
-                    .then(registration => {
-                        console.log('SW registered:', registration);
-                    })
-                    .catch(error => console.log('SW registration failed:', error));
-            });
         }
+
+        function cancelInstall() {
+            document.getElementById('installPrompt').classList.remove('show');
+        }
+
+        // Initialize the app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initApp);
     </script>
 </body>
 </html>
