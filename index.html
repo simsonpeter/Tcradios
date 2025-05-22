@@ -315,7 +315,7 @@
             outline: none;
         }
 
-        /* ========== STATION LIST ========== */
+        /* ========== STATION LIST - UPDATED FOR BETTER VISIBILITY ========== */
         .station-list {
             padding: 0 16px 80px;
             height: calc(100vh - 240px);
@@ -325,12 +325,13 @@
         .station-item {
             display: flex;
             align-items: center;
-            padding: 16px;
-            margin-bottom: 12px;
+            padding: 18px 16px;
+            margin-bottom: 14px;
             background: var(--surface);
             border-radius: 12px;
             transition: transform 0.2s;
             position: relative;
+            min-height: 80px;
         }
         .station-item.playing {
             border-left: 4px solid var(--primary);
@@ -339,10 +340,10 @@
             transform: scale(0.98);
         }
         .station-artwork {
-            width: 60px;
-            height: 60px;
+            width: 70px;
+            height: 70px;
             border-radius: 8px;
-            margin-right: 16px;
+            margin-right: 20px;
             object-fit: cover;
             box-shadow: 0 4px 12px rgba(0,0,0,0.3);
         }
@@ -351,11 +352,12 @@
         }
         .station-name {
             font-weight: 500;
-            margin-bottom: 4px;
+            margin-bottom: 8px;
+            font-size: 1.2rem;
         }
         .station-genre {
             color: var(--text-secondary);
-            font-size: 14px;
+            font-size: 1rem;
         }
         .station-actions {
             display: flex;
@@ -369,6 +371,11 @@
             color: var(--text-secondary);
             cursor: pointer;
             transition: color 0.2s;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         .action-btn.active {
             color: var(--primary);
@@ -391,6 +398,45 @@
             0% { transform: scale(0.95); opacity: 0.7; }
             50% { transform: scale(1.1); opacity: 1; }
             100% { transform: scale(0.95); opacity: 0.7; }
+        }
+
+        /* Responsive adjustments for station items */
+        @media (max-width: 400px) {
+            .station-item {
+                padding: 16px 12px;
+                min-height: 75px;
+            }
+            
+            .station-name {
+                font-size: 1.1rem;
+            }
+            
+            .station-artwork {
+                width: 65px;
+                height: 65px;
+                margin-right: 16px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .station-item {
+                padding: 14px 10px;
+                min-height: 70px;
+            }
+            
+            .station-name {
+                font-size: 1rem;
+            }
+            
+            .station-genre {
+                font-size: 0.9rem;
+            }
+            
+            .station-artwork {
+                width: 60px;
+                height: 60px;
+                margin-right: 14px;
+            }
         }
 
         /* ========== PLAYER CONTROLS ========== */
@@ -747,10 +793,14 @@
                 margin-bottom: 0;
                 padding: 20px;
                 transition: transform 0.2s, box-shadow 0.2s;
+                min-height: 90px;
             }
             .station-item:hover {
                 transform: translateY(-3px);
                 box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+            }
+            .station-name {
+                font-size: 1.3rem;
             }
             .player-container {
                 max-width: 800px;
