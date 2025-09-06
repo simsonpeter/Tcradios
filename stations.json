@@ -252,5 +252,12 @@
         "logo": "https://i.ibb.co/8DRtQGTJ/cropped-Logo-vallamai-4.png",
         "genre": "Tamil Christian",
                "metadata": true
+    },
+    {
+        "name": "Yeni FM",
+        "url": "https://radio.pixelinmedia.com/vallamai",
+        "logo": "https://i.ibb.co/8DRtQGTJ/cropped-Logo-vallamai-4.png",
+        "genre": "Tamil Christian",
+               "metadata": true
     }  
         ]
