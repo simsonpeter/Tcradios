@@ -204,6 +204,13 @@
         "genre": "Tamil Christian",
                 "metadata": true
     },
+           {
+        "name": "Tamil Bible Radio",
+        "url": "https://gains.reviveradio.net/proxy/tamilbible?mp=/stream",
+        "logo": "https://indiabible.radio/wp-content/uploads/2022/05/Tamil_Bible_Radio_Logo.png",
+        "genre": "Tamil Christian",
+                "metadata": true
+    },
     {
         "name": "Theophony Radio",
         "url": "https://mediatechnica.com:8002/theophony_tamil.mp3",
