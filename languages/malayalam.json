@@ -1,5 +1,12 @@
 [
            {
+        "name": "Malayalam Bible Radio",
+        "url": "https://gains.reviveradio.net/proxy/malayalambible?mp=/stream",
+        "logo": "https://indiabible.radio/wp-content/uploads/2023/07/Malayalam-Bible-Radio-Logo-1000x1000-1.png",
+        "genre": "Malayalam Christian",
+        "metadata": true  
+    },
+           {
         "name": "Malayalam Christian Network Radio",
         "url": "https://s2.radio.co/sf61790a26/listen",
         "logo": "https://i.ibb.co/t02hy40/mcn.png",
