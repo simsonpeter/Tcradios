@@ -48,6 +48,13 @@
         "logo": "https://i.ibb.co/cPWRSPj/download-3.jpg",
         "genre": "Dutch Christian",
         "metadata": true  
+    },
+           {
+        "name": "TLIG RADIO",
+        "url": "https://stream.tligradio.org/listen/dutch/radio.mp3",
+        "logo": "https://ww3.tlig.org/wp-content/uploads/2019/07/tligradio.jpg",
+        "genre": "Dutch Christian",
+        "metadata": true  
     }
           
 ]
