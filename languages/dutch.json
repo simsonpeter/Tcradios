@@ -1,7 +1,7 @@
 [
            {
         "name": "Bright FM",
-        "url": "https://str1.hollanddata.eu/proxy/bfm3/stream",
+        "url": "https://brightfm.hdsserver.net/stream",
         "logo": "https://i.ibb.co/qYWj6sNs/bright.jpg",
         "genre": "Dutch Christian",
         "metadata": true  
@@ -9,14 +9,14 @@
   
           {
         "name": "Bright FM KIDS",
-        "url": "https://str1.hollanddata.eu/proxy/kids/stream",
+        "url": "https://brightfmkids.hdsserver.net/stream",
         "logo": "https://i.ibb.co/qYWj6sNs/bright.jpg",
         "genre": "Dutch Christian",
         "metadata": true  
     },
   {
         "name": "Bright FM PLUS",
-        "url": "https://str1.hollanddata.eu/proxy/plus/stream",
+        "url": "https://brightplus.hdsserver.net/stream",
         "logo": "https://i.ibb.co/qYWj6sNs/bright.jpg",
         "genre": "Dutch Christian",
         "metadata": true  
