@@ -21,6 +21,13 @@
         "genre": "Dutch Christian",
         "metadata": true  
     },
+{
+        "name": "Cariba FM",
+        "url": "https://cloud-faro.beheerstream.com/proxy/caribafm2?mp=/stream;listen.pls",
+        "logo": "https://primary.jwwb.nl/public/i/v/j/temp-jootfimfdxnbjzbfgpbw/pek4yx/image-5.png",
+        "genre": "Dutch Christian",
+        "metadata": true  
+    },
             {
         "name": "Christelijke Omroep",
         "url": "https://stream.christelijkeomroep.nl/;",
