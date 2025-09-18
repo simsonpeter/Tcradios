@@ -13,5 +13,12 @@
         "logo": "https://i.ibb.co/qYWj6sNs/bright.jpg",
         "genre": "English Christian",
         "metadata": true  
+    },
+           {
+        "name": "CBN Classic",
+        "url": "https://streams.cbnradio.com/Classic-Christian-128K",
+        "logo": "https://cbn.com/sites/default/files/styles/480x270_16_9/public/images/Classic-1920x1080.jpg?",
+        "genre": "English Christian",
+        "metadata": true  
     }
 ]
