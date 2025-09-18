@@ -35,5 +35,12 @@
         "logo": "https://cbn.com/sites/default/files/styles/480x270_16_9/public/images/Cross-Country-Christmas-1920x1080.jpg",
         "genre": "English Christian",
         "metadata": true  
+    },
+           {    
+       "name": "CBN Gospel",
+        "url": "https://streams.cbnradio.com/gospel-128K",      
+        "logo": "https://cbn.com/sites/default/files/styles/480x270_16_9/public/images/Gospel-1920x1080.jpg",
+        "genre": "English Christian",
+        "metadata": true  
     }
 ]
