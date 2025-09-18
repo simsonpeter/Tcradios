@@ -28,13 +28,7 @@
         "genre": "English Christian",
         "metadata": true  
     },
-            {
-        "name": "CBN Cross Country",
-        "url": "https://streams.cbnradio.com/country-christmas-128K",
-        "logo": "https://cbn.com/sites/default/files/styles/480x270_16_9/public/images/Cross-Country-1920x1080.jpg",
-        "genre": "English Christian",
-        "metadata": true  
-    },
+    
          {    
        "name": "CBN Cross Country Christmas",
         "url": "https://streams.cbnradio.com/country-christmas-128K",      
