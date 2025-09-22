@@ -53,7 +53,7 @@
 {    
        "name": "Family Radio",
         "url": "https://ais-sa3.cdnstream1.com/2636_64.aac?listenerId=548e5960347e6b47458d90e93d5367d1&aw_0_1st.playerid=esPlayer&aw_0_1st.skey=1758576371&aw_0_req.gdpr=true",      
-        "logo": "https://www.familyradio.org/app/uploads/2018/06/FR_logo_standard_black-blue.svg",
+        "logo": "https://live.mystreamplayer.com/configs/images/fr_album.jpeg",
         "genre": "English Christian",
         "metadata": true  
     },
