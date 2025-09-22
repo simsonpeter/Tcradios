@@ -42,5 +42,12 @@
         "logo": "https://cbn.com/sites/default/files/styles/480x270_16_9/public/images/Gospel-1920x1080.jpg",
         "genre": "English Christian",
         "metadata": true  
+    },
+           {    
+       "name": "Doc Radio",
+        "url": "https://server10.reliastream.com/proxy/docradio/stream",      
+        "logo": "https://docradio.org/images/docradio_logo.png",
+        "genre": "English Christian",
+        "metadata": true  
     }
 ]
