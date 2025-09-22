@@ -84,6 +84,14 @@
         "genre": "Tamil Christian",
                "metadata": true
     },
+
+ {
+        "name": "Hadassah Tamil Radio",
+        "url": "https://stream-178.zeno.fm/wuvyr58deq8uv",
+        "logo": "https://hadassahstore.sajeevavahini.com/i/tamil-christian-music.png",
+        "genre": "Tamil Christian",
+               "metadata": true
+    },
     {
         "name": "HOJ Tamil",
         "url": "https://dc1.serverse.com/proxy/hojtamil/stream",
