@@ -56,5 +56,12 @@
         "logo": "https://moodybible.canto.com/direct/image/scu65kolad5rn5e5fo5hp9a979/gcSuMTJyOljKcBM5VepIWbJrJPc/original?content-type=image%2Fjpeg&name=stationdefault.jpg&w=320&h=150&mode=crop",
         "genre": "English Christian",
         "metadata": true  
+    },
+ {    
+       "name": "Premiere Christian Radio",
+        "url": "https://pcr.streamguys1.com/pcrnational-96k.aac",      
+        "logo": "https://www.premier.org.uk/wp-content/uploads/2020/10/premier-logo-square-on-pink.png",
+        "genre": "English Christian",
+        "metadata": true  
     }
 ]
