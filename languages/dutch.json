@@ -36,6 +36,13 @@
         "metadata": true  
     },
            {
+        "name": "God Radio",
+        "url": "https://stream.wildfm.nl/GOD_Radio;",
+        "logo": "https://i.ibb.co/kscbctjC/images.jpg",
+        "genre": "Dutch Christian",
+        "metadata": true  
+    },
+           {
         "name": "Groot Nieuws Radio",
         "url": "https://25693.live.streamtheworld.com/GNRAAC.aac",
         "logo": "https://i.ibb.co/BJqW3Cr/download-2.jpg",
