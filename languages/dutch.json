@@ -37,7 +37,7 @@
     },
            {
         "name": "God Radio",
-        "url": "https://stream.wildfm.nl/GOD_Radio;",
+        "url": "https://stream.wildfm.nl/GOD_Radio",
         "logo": "https://i.ibb.co/kscbctjC/images.jpg",
         "genre": "Dutch Christian",
         "metadata": true  
