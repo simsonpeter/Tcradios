@@ -1,0 +1,2496 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, viewport-fit=cover"/>
+<title>TC RADIOS</title>
+<!-- PWA essentials -->
+<link rel="manifest" href="/manifest.json">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="TC RADIOS">
+<link rel="apple-touch-icon" href="/icons/icon-192x192.png">
+<link rel="icon" href="/icons/favicon.ico">
+<!-- TWA/Android specific meta tags -->
+<meta name="theme-color" content="#f97316">
+<meta name="msapplication-navbutton-color" content="#f97316">
+<meta name="msapplication-TileColor" content="#111827">
+<meta name="application-name" content="TC RADIOS">
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+/* Modern Elegant Theme System */
+:root{
+  --accent:#f97316;--bg:#111827;--card:#1f2937;--text:#f3f4f6;
+  --border:#374151;--header:#000000;--heart:#f3f4f6;
+  --header-btn:#f3f4f6;--player-height:80px;
+  --gradient-primary:linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+  --gradient-secondary:linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+  --gradient-accent:linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+  --shadow-sm:0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md:0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg:0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl:0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --blur:blur(10px);
+  --transition:all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Light Theme */
+[data-theme="light"]{
+  --bg:#f8fafc;--card:#ffffff;--text:#1e293b;
+  --border:#e2e8f0;--header:#ffffff;--heart:#1e293b;
+  --header-btn:#1e293b;
+  --gradient-primary:linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+  --gradient-secondary:linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+  --gradient-accent:linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+  --shadow-sm:0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md:0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg:0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl:0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+}
+
+/* Ocean Blue Theme */
+[data-theme="ocean"]{
+  --accent:#0ea5e9;--bg:#0f172a;--card:#1e293b;--text:#f1f5f9;
+  --border:#334155;--header:#0f172a;--heart:#f1f5f9;
+  --header-btn:#f1f5f9;
+  --gradient-primary:linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+  --gradient-secondary:linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+  --gradient-accent:linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+}
+
+/* Forest Green Theme */
+[data-theme="forest"]{
+  --accent:#10b981;--bg:#064e3b;--card:#065f46;--text:#ecfdf5;
+  --border:#047857;--header:#064e3b;--heart:#ecfdf5;
+  --header-btn:#ecfdf5;
+  --gradient-primary:linear-gradient(135deg, #10b981 0%, #059669 100%);
+  --gradient-secondary:linear-gradient(135deg, #34d399 0%, #10b981 100%);
+  --gradient-accent:linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+}
+
+/* Sunset Purple Theme */
+[data-theme="sunset"]{
+  --accent:#8b5cf6;--bg:#1e1b4b;--card:#312e81;--text:#f3f4f6;
+  --border:#4c1d95;--header:#1e1b4b;--heart:#f3f4f6;
+  --header-btn:#f3f4f6;
+  --gradient-primary:linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+  --gradient-secondary:linear-gradient(135deg, #a855f7 0%, #9333ea 100%);
+  --gradient-accent:linear-gradient(135deg, #c084fc 0%, #a855f7 100%);
+}
+
+/* Rose Gold Theme */
+[data-theme="rose"]{
+  --accent:#f43f5e;--bg:#1f2937;--card:#374151;--text:#fdf2f8;
+  --border:#4b5563;--header:#1f2937;--heart:#fdf2f8;
+  --header-btn:#fdf2f8;
+  --gradient-primary:linear-gradient(135deg, #f43f5e 0%, #e11d48 100%);
+  --gradient-secondary:linear-gradient(135deg, #fb7185 0%, #f43f5e 100%);
+  --gradient-accent:linear-gradient(135deg, #fda4af 0%, #fb7185 100%);
+}
+
+/* Midnight Blue Theme */
+[data-theme="midnight"]{
+  --accent:#6366f1;--bg:#0c0a09;--card:#1c1917;--text:#fafaf9;
+  --border:#292524;--header:#0c0a09;--heart:#fafaf9;
+  --header-btn:#fafaf9;
+  --gradient-primary:linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+  --gradient-secondary:linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+  --gradient-accent:linear-gradient(135deg, #a855f7 0%, #9333ea 100%);
+}
+
+/* Aurora Theme */
+[data-theme="aurora"]{
+  --accent:#06d6a0;--bg:#0a0e27;--card:#1a1f3a;--text:#e0f2fe;
+  --border:#2d3748;--header:#0a0e27;--heart:#e0f2fe;
+  --header-btn:#e0f2fe;
+  --gradient-primary:linear-gradient(135deg, #06d6a0 0%, #05a085 100%);
+  --gradient-secondary:linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+  --gradient-accent:linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+}
+
+/* Christmas Theme */
+[data-theme="christmas"]{
+  --accent:#dc2626;--bg:#0f1419;--card:#1e293b;--text:#fef2f2;
+  --border:#374151;--header:#0f1419;--heart:#fef2f2;
+  --header-btn:#fef2f2;
+  --gradient-primary:linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+  --gradient-secondary:linear-gradient(135deg, #059669 0%, #047857 100%);
+  --gradient-accent:linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+}
+
+/* Easter Theme */
+[data-theme="easter"]{
+  --accent:#ec4899;--bg:#1e1b4b;--card:#312e81;--text:#fdf2f8;
+  --border:#4c1d95;--header:#1e1b4b;--heart:#fdf2f8;
+  --header-btn:#fdf2f8;
+  --gradient-primary:linear-gradient(135deg, #ec4899 0%, #db2777 100%);
+  --gradient-secondary:linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+  --gradient-accent:linear-gradient(135deg, #10b981 0%, #059669 100%);
+}
+
+/* Premium Gold Theme */
+[data-theme="gold"]{
+  --accent:#f59e0b;--bg:#1c1917;--card:#292524;--text:#fef3c7;
+  --border:#44403c;--header:#1c1917;--heart:#fef3c7;
+  --header-btn:#fef3c7;
+  --gradient-primary:linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  --gradient-secondary:linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+  --gradient-accent:linear-gradient(135deg, #fde047 0%, #facc15 100%);
+}
+
+/* Minimalist Theme */
+[data-theme="minimal"]{
+  --accent:#6b7280;--bg:#ffffff;--card:#f9fafb;--text:#111827;
+  --border:#e5e7eb;--header:#ffffff;--heart:#111827;
+  --header-btn:#111827;
+  --gradient-primary:linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
+  --gradient-secondary:linear-gradient(135deg, #9ca3af 0%, #6b7280 100%);
+  --gradient-accent:linear-gradient(135deg, #d1d5db 0%, #9ca3af 100%);
+}
+
+/* Theme-specific animations */
+.theme-transition-ocean {
+  animation: oceanWave 2s ease-in-out;
+}
+
+.theme-transition-forest {
+  animation: forestGrow 2s ease-in-out;
+}
+
+.theme-transition-sunset {
+  animation: sunsetGlow 2s ease-in-out;
+}
+
+.theme-transition-rose {
+  animation: roseBloom 2s ease-in-out;
+}
+
+.theme-transition-midnight {
+  animation: midnightShift 2s ease-in-out;
+}
+
+.theme-transition-aurora {
+  animation: auroraDance 2s ease-in-out;
+}
+
+.theme-transition-christmas {
+  animation: christmasSparkle 2s ease-in-out;
+}
+
+.theme-transition-easter {
+  animation: easterBloom 2s ease-in-out;
+}
+
+.theme-transition-gold {
+  animation: goldShimmer 2s ease-in-out;
+}
+
+@keyframes oceanWave {
+  0% { background: linear-gradient(45deg, #0f172a, #1e293b); }
+  50% { background: linear-gradient(45deg, #0ea5e9, #0284c7); }
+  100% { background: var(--bg); }
+}
+
+@keyframes forestGrow {
+  0% { background: linear-gradient(45deg, #064e3b, #065f46); }
+  50% { background: linear-gradient(45deg, #10b981, #059669); }
+  100% { background: var(--bg); }
+}
+
+@keyframes sunsetGlow {
+  0% { background: linear-gradient(45deg, #1e1b4b, #312e81); }
+  50% { background: linear-gradient(45deg, #8b5cf6, #7c3aed); }
+  100% { background: var(--bg); }
+}
+
+@keyframes roseBloom {
+  0% { background: linear-gradient(45deg, #1f2937, #374151); }
+  50% { background: linear-gradient(45deg, #f43f5e, #e11d48); }
+  100% { background: var(--bg); }
+}
+
+@keyframes midnightShift {
+  0% { background: linear-gradient(45deg, #0c0a09, #1c1917); }
+  50% { background: linear-gradient(45deg, #6366f1, #4f46e5); }
+  100% { background: var(--bg); }
+}
+
+@keyframes auroraDance {
+  0% { background: linear-gradient(45deg, #0a0e27, #1a1f3a); }
+  50% { background: linear-gradient(45deg, #06d6a0, #0ea5e9); }
+  100% { background: var(--bg); }
+}
+
+@keyframes christmasSparkle {
+  0% { background: linear-gradient(45deg, #0f1419, #1e293b); }
+  50% { background: linear-gradient(45deg, #dc2626, #059669); }
+  100% { background: var(--bg); }
+}
+
+@keyframes easterBloom {
+  0% { background: linear-gradient(45deg, #1e1b4b, #312e81); }
+  50% { background: linear-gradient(45deg, #ec4899, #fbbf24); }
+  100% { background: var(--bg); }
+}
+
+@keyframes goldShimmer {
+  0% { background: linear-gradient(45deg, #1c1917, #292524); }
+  50% { background: linear-gradient(45deg, #f59e0b, #d97706); }
+  100% { background: var(--bg); }
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;height:100vh;height:100dvh;width:100%;overflow:hidden}
+body{display:flex;flex-direction:column;font-family:system-ui;
+     background:var(--bg);color:var(--text);overflow:hidden;
+     /* Ensure fullscreen on mobile */
+     position:fixed;top:0;left:0;right:0;bottom:0;
+     /* Handle safe areas for notched devices */
+     padding-top:env(safe-area-inset-top);
+     padding-bottom:env(safe-area-inset-bottom);
+     padding-left:env(safe-area-inset-left);
+     padding-right:env(safe-area-inset-right)}
+header{background:var(--header);border-bottom:1px solid var(--border);
+       display:flex;justify-content:space-between;align-items:center;
+       padding:1rem 1.2rem;font-size:1.25rem;font-weight:700;min-height:70px;
+       backdrop-filter:var(--blur);position:relative;z-index:100}
+header::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;
+               background:var(--gradient-primary);opacity:0.05;z-index:-1}
+header button{background:none;border:none;font-size:1.4rem;cursor:pointer;
+              padding:0.5rem;border-radius:50%;transition:var(--transition);
+              color:var(--header-btn);position:relative;overflow:hidden}
+header button::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;
+                      background:var(--gradient-primary);opacity:0;transition:var(--transition);
+                      border-radius:50%;z-index:-1}
+header button:hover::before{opacity:0.1}
+header button:hover{transform:scale(1.05);box-shadow:var(--shadow-md)}
+header button:active{transform:scale(0.95)}
+header button i{font-size:1.2rem;color:var(--header-btn);transition:var(--transition)}
+#headerControls{display:flex;align-items:center;gap:0.8rem}
+#themeBox{position:relative}
+#themeSelect{appearance:none;background:var(--card);color:var(--text);
+            border:1px solid var(--border);border-radius:.4rem;
+            padding:.35rem .6rem;font-size:1rem;cursor:pointer;
+            transition:var(--transition);min-width:120px}
+#themeSelect:hover{border-color:var(--accent);box-shadow:var(--shadow-sm)}
+#themeSelect:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(249,115,22,0.1)}
+#langBox{position:relative}
+#langSelect{appearance:none;background:var(--card);color:var(--text);
+            border:1px solid var(--border);border-radius:.4rem;
+            padding:.35rem .6rem;font-size:1rem;cursor:pointer;
+            transition:var(--transition)}
+#langSelect:hover{border-color:var(--accent);box-shadow:var(--shadow-sm)}
+#langSelect:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(249,115,22,0.1)}
+#tabs{display:flex;border-bottom:1px solid var(--border);flex-shrink:0;
+      background:var(--header);position:relative;backdrop-filter:var(--blur)}
+#tabs::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;
+              background:var(--gradient-secondary);opacity:0.03;z-index:-1}
+#tabs span{flex:1;text-align:center;padding:.55rem 0;cursor:pointer;
+           font-weight:600;color:var(--text);transition:var(--transition);
+           position:relative;border-radius:.4rem;margin:0.2rem}
+#tabs span::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;
+                   background:var(--gradient-primary);opacity:0;transition:var(--transition);
+                   border-radius:.4rem;z-index:-1}
+#tabs span:hover::before{opacity:0.1}
+#tabs span.active{background:var(--gradient-primary);color:#fff;box-shadow:var(--shadow-md)}
+#tabs span.active::before{opacity:1}
+#content,#about-panel{flex:1;overflow-y:auto;padding:.75rem 1rem var(--player-height);
+                      display:flex;flex-direction:column}
+#about-panel{
+  display:none;
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-start;
+  padding:2rem 1rem;
+  background:linear-gradient(135deg, var(--bg) 0%, rgba(249,115,22,0.05) 100%);
+  min-height:100vh;
+}
+
+.about-hero{
+  text-align:center;
+  margin-bottom:3rem;
+  max-width:600px;
+}
+
+.about-hero img{
+  width:120px;
+  height:120px;
+  border-radius:50%;
+  object-fit:cover;
+  margin-bottom:1.5rem;
+  box-shadow:0 8px 32px rgba(249,115,22,0.3);
+  border:4px solid var(--accent);
+}
+
+.about-hero h1{
+  font-size:2.5rem;
+  font-weight:700;
+  color:var(--accent);
+  margin-bottom:0.5rem;
+  text-shadow:0 2px 4px rgba(0,0,0,0.1);
+}
+
+.about-hero .tagline{
+  font-size:1.2rem;
+  color:var(--text);
+  opacity:0.8;
+  margin-bottom:2rem;
+  font-weight:300;
+}
+
+.about-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));
+  gap:2rem;
+  max-width:1000px;
+  width:100%;
+}
+
+.about-card{
+  background:var(--card);
+  border-radius:1rem;
+  padding:2rem;
+  box-shadow:0 8px 32px rgba(0,0,0,0.1);
+  border:1px solid var(--border);
+  transition:all 0.3s ease;
+  position:relative;
+  overflow:hidden;
+}
+
+.about-card::before{
+  content:'';
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  height:4px;
+  background:linear-gradient(90deg, var(--accent), #ff6b35);
+}
+
+.about-card:hover{
+  transform:translateY(-5px);
+  box-shadow:0 12px 40px rgba(0,0,0,0.15);
+}
+
+.about-card h2{
+  font-size:1.5rem;
+  color:var(--accent);
+  margin-bottom:1rem;
+  font-weight:600;
+  display:flex;
+  align-items:center;
+  gap:0.5rem;
+}
+
+.about-card h2 i{
+  font-size:1.3rem;
+}
+
+.about-card p{
+  font-size:1rem;
+  line-height:1.6;
+  color:var(--text);
+  margin-bottom:1rem;
+}
+
+.about-card ul{
+  list-style:none;
+  padding:0;
+  margin:0;
+}
+
+.about-card li{
+  padding:0.5rem 0;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  gap:0.75rem;
+}
+
+.about-card li:last-child{
+  border-bottom:none;
+}
+
+.about-card li i{
+  color:var(--accent);
+  width:20px;
+  text-align:center;
+}
+
+.about-card a{
+  color:var(--accent);
+  text-decoration:none;
+  font-weight:500;
+  transition:color 0.2s ease;
+}
+
+.about-card a:hover{
+  color:#ff6b35;
+  text-decoration:underline;
+}
+
+.features-list{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));
+  gap:1rem;
+  margin-top:1rem;
+}
+
+.feature-item{
+  display:flex;
+  align-items:center;
+  gap:0.5rem;
+  padding:0.75rem;
+  background:rgba(249,115,22,0.1);
+  border-radius:0.5rem;
+  font-size:0.9rem;
+}
+
+.feature-item i{
+  color:var(--accent);
+  font-size:1.1rem;
+}
+
+.stats-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(120px, 1fr));
+  gap:1rem;
+  margin-top:1.5rem;
+}
+
+.stat-item{
+  text-align:center;
+  padding:1rem;
+  background:rgba(249,115,22,0.05);
+  border-radius:0.75rem;
+  border:1px solid rgba(249,115,22,0.2);
+}
+
+.stat-number{
+  font-size:2rem;
+  font-weight:700;
+  color:var(--accent);
+  display:block;
+}
+
+.stat-label{
+  font-size:0.8rem;
+  color:var(--text);
+  opacity:0.8;
+  margin-top:0.25rem;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .about-hero h1{
+    font-size:2rem;
+  }
+  
+  .about-hero .tagline{
+    font-size:1rem;
+  }
+  
+  .about-grid{
+    grid-template-columns:1fr;
+    gap:1.5rem;
+  }
+  
+  .about-card{
+    padding:1.5rem;
+  }
+  
+  .features-list{
+    grid-template-columns:1fr;
+  }
+  
+  .stats-grid{
+    grid-template-columns:repeat(2, 1fr);
+  }
+}
+#searchBar{width:100%;margin-bottom:.75rem;padding:.55rem .7rem;border-radius:.4rem;
+           border:1px solid var(--border);background:var(--card);color:var(--text);
+           font-size:1rem}
+#searchBar::placeholder{color:var(--border)}
+.station-list{width:100%;display:flex;flex-direction:column;gap:.4rem}
+.item{display:flex;align-items:center;gap:1rem;padding:1rem;border-radius:.75rem;
+      background:var(--card);box-shadow:var(--shadow-sm);border:1px solid var(--border);
+      transition:var(--transition);cursor:pointer;position:relative;
+      backdrop-filter:var(--blur);margin-bottom:.5rem}
+.item::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;
+              background:var(--gradient-primary);opacity:0;transition:var(--transition);
+              border-radius:.75rem;z-index:-1}
+.item:hover::before{opacity:0.05}
+/* Remove the ::before overlay for favorite items to prevent light tint */
+.item.drag-handle::before{display:none}
+.item:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg);
+            border-color:var(--accent)}
+.item.playing{background:var(--gradient-primary);color:#fff;box-shadow:var(--shadow-lg);
+              border-color:var(--accent);transform:translateY(-2px)}
+.item.playing::before{opacity:1}
+.station-icon{width:60px;height:60px;border-radius:.6rem;object-fit:cover;
+               flex-shrink:0;border:2px solid transparent;transition:var(--transition);
+               box-shadow:var(--shadow-sm)}
+.item:hover .station-icon{border-color:var(--accent);transform:scale(1.05)}
+.item.playing .station-icon{border-color:#fff;transform:scale(1.05);box-shadow:var(--shadow-md)}
+.station-info{flex:1;display:flex;flex-direction:column;text-align:left}
+.station-name{font-weight:600;margin-bottom:.25rem;font-size:1rem;line-height:1.3}
+.station-genre{font-size:.85rem;color:var(--accent);margin-bottom:.25rem;font-weight:500}
+.favorite-button{font-size:1.3rem;color:var(--heart);cursor:pointer}
+.favorite-button i{font-size:1.1rem}
+.favorite-button.on{color:var(--accent)}
+#player{background:var(--header);border-top:1px solid var(--border);
+        display:flex;align-items:center;gap:1rem;padding:1rem 1.2rem;
+        position:fixed;bottom:0;width:100%;flex-shrink:0;z-index:100;
+        box-shadow:var(--shadow-xl);backdrop-filter:var(--blur);
+        position:relative}
+#player::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;
+                background:var(--gradient-primary);opacity:0.05;z-index:-1}
+#player img{width:56px;height:56px;border-radius:50%;
+           animation:spin 3s linear infinite paused;box-shadow:0 2px 8px rgba(0,0,0,0.2)}
+#player.playing img{animation-play-state:running}
+@keyframes spin{to{transform:rotate(360deg)}}
+#player .info{flex:1;display:flex;flex-direction:column;justify-content:center;min-width:0;margin:0 1rem}
+#player .name{white-space:nowrap;overflow:hidden;font-weight:700;font-size:1rem;margin-bottom:0.2rem}
+#player .name span{display:inline-block;padding-right:1rem;
+                   animation:marquee 8s linear infinite}
+@keyframes marquee{0%{transform:translateX(100%)}100%{transform:translateX(-100%)}}
+#player #p-now{font-size:.8rem;color:var(--accent);white-space:nowrap;font-weight:500}
+#player .metadata{margin-top:0.3rem;font-size:0.75rem}
+#player .song-title{color:var(--text);font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:0.1rem}
+#player .artist-name{color:var(--accent);font-weight:400;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;opacity:0.8}
+#p-play,#p-prev,#p-next{background:rgba(249,115,22,0.1);border:none;color:var(--accent);
+                        font-size:1.8rem;cursor:pointer;padding:0.8rem;border-radius:50%;
+                        transition:all 0.2s ease;min-width:48px;min-height:48px;
+                        display:flex;align-items:center;justify-content:center;
+                        box-shadow:0 2px 4px rgba(0,0,0,0.1)}
+#p-play:hover,#p-prev:hover,#p-next:hover{background:rgba(249,115,22,0.2);transform:scale(1.05)}
+#p-play:active,#p-prev:active,#p-next:active{transform:scale(0.95)}
+#p-play i,#p-prev i,#p-next i{font-size:1.3rem}
+/* Mobile responsive adjustments */
+/* Mobile Portrait */
+@media (max-width: 480px) {
+  #player{gap:0.8rem;padding:0.8rem 1rem}
+  #player img{width:48px;height:48px}
+  #player .info{margin:0 0.8rem}
+  #player .name{font-size:0.9rem}
+  #player #p-now{font-size:0.75rem}
+  #player .metadata{font-size:0.7rem}
+  #player .song-title{font-size:0.7rem}
+  #player .artist-name{font-size:0.65rem}
+  #p-play,#p-prev,#p-next{padding:0.6rem;min-width:44px;min-height:44px}
+  #p-play i,#p-prev i,#p-next i{font-size:1.2rem}
+  header{padding:0.8rem 1rem;min-height:60px}
+  #headerControls{gap:0.6rem}
+}
+/* Mobile Landscape */
+@media (max-width: 896px) and (orientation: landscape) {
+  body{padding-bottom:60px}
+  #player{
+    flex-direction:row;
+    padding:0.5rem 1rem;
+    gap:1rem;
+    min-height:60px;
+  }
+  #player img{width:40px;height:40px}
+  #player .info{margin:0 0.5rem}
+  #player .name{font-size:0.85rem;margin-bottom:0.1rem}
+  #player #p-now{font-size:0.7rem}
+  #player .metadata{font-size:0.65rem;margin-top:0.2rem}
+  #player .song-title{font-size:0.65rem}
+  #player .artist-name{font-size:0.6rem}
+  #p-play,#p-prev,#p-next{padding:0.4rem;min-width:40px;min-height:40px}
+  #p-play i,#p-prev i,#p-next i{font-size:1.1rem}
+  header{padding:0.5rem 1rem;min-height:50px}
+  .station-list .item{padding:0.6rem}
+  .station-list .item img{width:32px;height:32px}
+}
+/* Touch-friendly enhancements */
+@media (hover: none) and (pointer: coarse) {
+  .station-list .item{padding:1rem;margin-bottom:0.5rem}
+  .station-list .item:hover{transform:none}
+  .station-list .item:active{transform:scale(0.98)}
+  #p-play,#p-prev,#p-next{min-width:48px;min-height:48px}
+  header button{min-width:44px;min-height:44px}
+  .favorite-button{min-width:44px;min-height:44px}
+}
+/* Widget mode styles */
+.widget-mode {
+  padding: 0;
+  background: transparent;
+}
+.widget-mode header,
+.widget-mode .tabs,
+.widget-mode .station-list {
+  display: none;
+}
+.widget-mode #player {
+  position: relative;
+  border-radius: 12px;
+  margin: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+audio{display:none}
+/* Android Wear / Smartwatch Styles */
+@media (max-width: 400px) and (max-height: 400px) {
+  body {
+    font-size: 12px;
+    padding: 4px;
+  }
+  header {
+    padding: 0.3rem 0.5rem;
+    min-height: 40px;
+    font-size: 0.9rem;
+  }
+  #headerControls {
+    gap: 0.3rem;
+  }
+  header button {
+    min-width: 32px;
+    min-height: 32px;
+    font-size: 1rem;
+    padding: 0.3rem;
+  }
+  #tabs {
+    padding: 0.2rem;
+  }
+  #tabs span {
+    padding: 0.3rem 0.2rem;
+    font-size: 0.8rem;
+  }
+  .station-list .item {
+    padding: 0.4rem;
+    margin-bottom: 0.2rem;
+  }
+  .station-list .item img {
+    width: 24px;
+    height: 24px;
+  }
+  .station-name {
+    font-size: 0.8rem;
+  }
+  .station-genre {
+    font-size: 0.7rem;
+  }
+  #player {
+    padding: 0.4rem 0.6rem;
+    gap: 0.4rem;
+    min-height: 50px;
+  }
+  #player img {
+    width: 32px;
+    height: 32px;
+  }
+  #player .info {
+    margin: 0 0.3rem;
+  }
+  #player .name {
+    font-size: 0.8rem;
+    margin-bottom: 0.1rem;
+  }
+  #player #p-now {
+    font-size: 0.6rem;
+  }
+  #player .metadata {
+    font-size: 0.6rem;
+    margin-top: 0.1rem;
+  }
+  #player .song-title {
+    font-size: 0.6rem;
+  }
+  #player .artist-name {
+    font-size: 0.55rem;
+  }
+  #p-play, #p-prev, #p-next {
+    padding: 0.3rem;
+    min-width: 32px;
+    min-height: 32px;
+    font-size: 1rem;
+  }
+  #p-play i, #p-prev i, #p-next i {
+    font-size: 0.9rem;
+  }
+}
+/* Round screen support for smartwatches */
+@media (max-width: 400px) and (max-height: 400px) and (aspect-ratio: 1/1) {
+  body {
+    border-radius: 50%;
+    overflow: hidden;
+  }
+  #content {
+    border-radius: 50%;
+    padding: 0.5rem;
+  }
+  .station-list .item {
+    border-radius: 8px;
+  }
+  #player {
+    border-radius: 20px;
+  }
+}
+/* Ambient mode for smartwatches */
+@media (prefers-reduced-motion: reduce) {
+  #player img {
+    animation: none;
+  }
+  .station-list .item:hover {
+    transform: none;
+  }
+  .station-list .item:active {
+    transform: scale(0.98);
+  }
+}
+#sleepModal{position:fixed;inset:0;background:rgba(0,0,0,.5);
+           display:none;align-items:center;justify-content:center;z-index:999}
+#sleepModal>div{background:var(--card);padding:1rem;border-radius:.5rem;
+                text-align:center;color:var(--text)}
+#sleepModal button{margin:.3rem;padding:.4rem .8rem;border:1px solid var(--border);
+                   border-radius:.3rem;background:var(--bg);color:var(--text)}
+#sleepModal button:hover{background:var(--accent);color:#fff}
+
+/* Drag and Drop Styles */
+.item.dragging {
+  opacity: 0.5;
+  transform: rotate(5deg);
+  z-index: 1000;
+}
+
+.item.drag-over {
+  border-top: 3px solid var(--accent);
+  transform: translateY(-2px);
+}
+
+.item.drag-handle {
+  cursor: grab;
+  position: relative;
+}
+
+.item.drag-handle:active {
+  cursor: grabbing;
+}
+
+.item.drag-handle::before {
+  content: "⋮⋮";
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--border);
+  font-size: 12px;
+  line-height: 8px;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.item.drag-handle:hover::before {
+  opacity: 1;
+  color: var(--accent);
+}
+
+/* Mobile-specific drag handle styling */
+@media (hover: none) and (pointer: coarse) {
+  .item.drag-handle::before {
+    opacity: 0.9;
+    color: var(--accent);
+    font-size: 16px;
+    font-weight: bold;
+  }
+  
+  .item.drag-handle {
+    padding-left: 45px;
+    position: relative;
+  }
+  
+  .item.drag-handle:active {
+    background-color: rgba(249, 115, 22, 0.1);
+  }
+  
+  .item.dragging {
+    transform: rotate(5deg) scale(1.05);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    border: 2px solid var(--accent);
+  }
+  
+  .item.drag-over {
+    border-top: 3px solid var(--accent);
+    transform: translateY(-2px);
+    background-color: rgba(249, 115, 22, 0.05);
+  }
+}
+
+.favorites-reorder-hint {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px;
+  margin: 8px 0;
+  text-align: center;
+  color: var(--text);
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+.favorites-reorder-hint i {
+  color: var(--accent);
+  margin-right: 8px;
+}
+</style>
+</head>
+<body>
+<header>
+  <span>TC RADIOS</span>
+  <div id="headerControls">
+  <div id="themeBox">
+    <select id="themeSelect">
+      <option value="dark">🌙 Dark</option>
+      <option value="light">☀️ Light</option>
+      <option value="ocean">🌊 Ocean</option>
+      <option value="forest">🌲 Forest</option>
+      <option value="sunset">🌅 Sunset</option>
+      <option value="rose">🌹 Rose</option>
+      <option value="midnight">🌌 Midnight</option>
+      <option value="aurora">🌌 Aurora</option>
+      <option value="christmas">🎄 Christmas</option>
+      <option value="easter">🐰 Easter</option>
+      <option value="gold">✨ Gold</option>
+      <option value="minimal">⚪ Minimal</option>
+    </select>
+  </div>
+  <div id="langBox">
+    <select id="langSelect"></select>
+  </div>
+    <button id="sleepBtn" title="Sleep timer"><i class="fas fa-clock"></i></button>
+    <button id="installBtn" title="Install App" style="display:none"><i class="fas fa-download"></i></button>
+  </div>
+</header>
+<div id="tabs">
+  <span id="tab-all" class="active">All</span>
+  <span id="tab-fav">Favorites</span>
+  <span id="tab-about">About</span>
+</div>
+<div id="content" aria-busy="true">
+  <input id="searchBar" type="search" placeholder="Search stations…" autocomplete="off"/>
+  <div class="station-list"></div>
+</div>
+<div id="about-panel">
+  <!-- Hero Section -->
+  <div class="about-hero">
+    <img src="/icons/icon-512x512.png" alt="TC RADIOS Logo"/>
+    <h1>TC RADIOS</h1>
+    <p class="tagline">Uplifting Christian Music & Messages Worldwide</p>
+  </div>
+
+  <!-- Main Content Grid -->
+  <div class="about-grid">
+    <!-- About Us Card -->
+  <div class="about-card">
+      <h2><i class="fas fa-heart"></i> Our Mission</h2>
+      <p>TC RADIOS is dedicated to spreading the love of Christ through uplifting Christian music and inspirational messages. We believe in the power of music to touch hearts, heal souls, and bring people closer to God.</p>
+      
+      <div class="features-list">
+        <div class="feature-item">
+          <i class="fas fa-music"></i>
+          <span>Multi-language Support</span>
+  </div>
+        <div class="feature-item">
+          <i class="fas fa-mobile-alt"></i>
+          <span>Mobile Optimized</span>
+        </div>
+        <div class="feature-item">
+          <i class="fas fa-heart"></i>
+          <span>Favorites System</span>
+        </div>
+        <div class="feature-item">
+          <i class="fas fa-cloud"></i>
+          <span>Always Available</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Features Card -->
+  <div class="about-card">
+      <h2><i class="fas fa-star"></i> Features</h2>
+      <ul>
+        <li><i class="fas fa-globe"></i> <strong>Global Reach:</strong> Stations from around the world</li>
+        <li><i class="fas fa-language"></i> <strong>Multi-Language:</strong> Tamil, English, Malayalam, Hindi & Dutch</li>
+        <li><i class="fas fa-heart"></i> <strong>Favorites:</strong> Save and reorder your preferred stations</li>
+        <li><i class="fas fa-search"></i> <strong>Search:</strong> Find stations quickly</li>
+        <li><i class="fas fa-moon"></i> <strong>Themes:</strong> Dark and light mode support</li>
+        <li><i class="fas fa-clock"></i> <strong>Sleep Timer:</strong> Auto-stop after set time</li>
+        <li><i class="fas fa-download"></i> <strong>PWA:</strong> Install as native app</li>
+        <li><i class="fas fa-mobile-alt"></i> <strong>Responsive:</strong> Works on all devices</li>
+      </ul>
+  </div>
+
+    <!-- Statistics Card -->
+  <div class="about-card">
+      <h2><i class="fas fa-chart-line"></i> Our Impact</h2>
+      <p>Since our launch, TC RADIOS has been connecting believers worldwide through the power of Christian music.</p>
+      
+      <div class="stats-grid">
+        <div class="stat-item">
+          <span class="stat-number">50+</span>
+          <span class="stat-label">Radio Stations</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">5</span>
+          <span class="stat-label">Languages</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">24/7</span>
+          <span class="stat-label">Availability</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">100%</span>
+          <span class="stat-label">Free</span>
+        </div>
+  </div>
+</div>
+
+    <!-- Contact Card -->
+    <div class="about-card">
+      <h2><i class="fas fa-envelope"></i> Contact Us</h2>
+      <p>We'd love to hear from you! Reach out to us for feedback, suggestions, or partnership opportunities.</p>
+      
+      <ul>
+        <li><i class="fas fa-building"></i> <strong>Company:</strong> JayathaSoft</li>
+        <li><i class="fas fa-envelope"></i> <strong>Email:</strong> <a href="mailto:simsonpeter@gmail.com">simsonpeter@gmail.com</a></li>
+        <li><i class="fas fa-map-marker-alt"></i> <strong>Location:</strong> Antwerp, Belgium</li>
+        <li><i class="fas fa-globe"></i> <strong>Website:</strong> <a href="https://tcradios-new.vercel.app" target="_blank">tcradios-new.vercel.app</a></li>
+      </ul>
+    </div>
+
+    <!-- Technology Card -->
+    <div class="about-card">
+      <h2><i class="fas fa-code"></i> Technology</h2>
+      <p>Built with modern web technologies for the best user experience across all devices.</p>
+      
+      <div class="features-list">
+        <div class="feature-item">
+          <i class="fas fa-mobile-alt"></i>
+          <span>Progressive Web App (PWA)</span>
+        </div>
+        <div class="feature-item">
+          <i class="fas fa-android"></i>
+          <span>Android App Support</span>
+        </div>
+        <div class="feature-item">
+          <i class="fas fa-cloud"></i>
+          <span>Cloud Infrastructure</span>
+        </div>
+        <div class="feature-item">
+          <i class="fas fa-shield-alt"></i>
+          <span>Secure & Reliable</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Support Card -->
+    <div class="about-card">
+      <h2><i class="fas fa-hands-helping"></i> Support</h2>
+      <p>Need help or have questions? We're here to assist you in your spiritual journey through music.</p>
+      
+      <ul>
+        <li><i class="fas fa-question-circle"></i> <strong>FAQ:</strong> Check our help section</li>
+        <li><i class="fas fa-bug"></i> <strong>Report Issues:</strong> Help us improve</li>
+        <li><i class="fas fa-lightbulb"></i> <strong>Suggestions:</strong> Share your ideas</li>
+        <li><i class="fas fa-pray"></i> <strong>Prayer Requests:</strong> We pray for you</li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div id="player">
+  <img id="p-img" src="/icons/default-artwork.jpg" alt="Artwork"/>
+  <div class="info">
+    <div class="name"><span id="p-name"></span></div>
+    <div id="p-now">Live</div>
+    <div id="p-metadata" class="metadata" style="display:none;">
+      <div id="p-song" class="song-title"></div>
+      <div id="p-artist" class="artist-name"></div>
+  </div>
+</div>
+  <button id="p-prev" title="Previous"><i class="fas fa-step-backward"></i></button>
+  <button id="p-play" title="Play/Pause"><i class="fas fa-play"></i></button>
+  <button id="p-next" title="Next"><i class="fas fa-step-forward"></i></button>
+</div>
+<div id="sleepModal">
+  <div>
+    <h3>Sleep Timer</h3>
+    <button data-min="15">15 min</button><button data-min="30">30 min</button>
+    <button data-min="45">45 min</button><button data-min="60">60 min</button><br>
+    <input type="number" id="customMin" placeholder="min" style="width:70px"/>
+    <button id="setCustom">Set</button><br>
+    <button id="cancelSleep">Cancel</button>
+  </div>
+</div>
+<audio id="audio"></audio>
+<script>
+/* ---- CONFIG ---- */
+const LANG_URLS = {
+  tamil:    'https://raw.githubusercontent.com/simsonpeter/Tcradios/refs/heads/main/stations.json',
+  english:  'https://raw.githubusercontent.com/simsonpeter/Tcradios/refs/heads/main/languages/english.json',
+  dutch:    'https://raw.githubusercontent.com/simsonpeter/Tcradios/refs/heads/main/languages/dutch.json',
+  hindi:    'https://raw.githubusercontent.com/simsonpeter/Tcradios/refs/heads/main/languages/hindi.json',
+  malayalam:'https://raw.githubusercontent.com/simsonpeter/Tcradios/refs/heads/main/languages/malayalam.json',
+  sinhala:  'https://raw.githubusercontent.com/simsonpeter/Tcradios/refs/heads/main/languages/sinhala.json'
+  // --- FUTURE LANGUAGES GO HERE ---
+  // spanish: 'https://yourdomain.com/path/to/spanish.json',
+  // french: 'https://yourdomain.com/path/to/french.json'
+};
+/* ---- STATE ---- */
+let stationsPerLang = {};
+let favorites       = JSON.parse(localStorage.getItem('tcr-fav') || '[]');
+let favoritesOrder  = JSON.parse(localStorage.getItem('tcr-fav-order') || '[]'); // Custom order for favorites
+let currentLang     = localStorage.getItem('currentLang') || 'tamil';
+let currentTab      = localStorage.getItem('currentTab') || 'all';
+let currentList     = [];
+let idx             = 0;
+let searchTerm      = '';
+let sleepTimer;
+let lastPlayedStation = JSON.parse(localStorage.getItem('tcr-last-played') || 'null');
+/* ---- ELEMENTS ---- */
+const searchBar   = document.getElementById('searchBar');
+const stationList = document.querySelector('.station-list');
+const audio       = document.getElementById('audio');
+const pImg        = document.getElementById('p-img');
+const pName       = document.getElementById('p-name');
+const pPlay       = document.getElementById('p-play');
+const player      = document.getElementById('player');
+/* ---- LOAD + INIT ---- */
+async function loadAll() {
+  const promises = Object.keys(LANG_URLS).map(async lang => {
+    const res = await fetch(LANG_URLS[lang]);
+    stationsPerLang[lang] = await res.json();
+  });
+  await Promise.allSettled(promises);
+  // Data is now loaded. The calling function will handle UI updates.
+}
+// Clear cache on every app launch
+function clearAllCacheOnLaunch() {
+  console.log('Clearing cache on app launch...');
+  
+  // Clear all caches
+  if ('caches' in window) {
+    caches.keys().then(cacheNames => {
+      cacheNames.forEach(cacheName => {
+        caches.delete(cacheName);
+        console.log('Cleared cache:', cacheName);
+      });
+    });
+  }
+  
+  // Clear session storage
+  sessionStorage.clear();
+  
+  // Clear localStorage except favorites and important settings
+  const fav = localStorage.getItem('tcr-fav');
+  const favOrder = localStorage.getItem('tcr-fav-order');
+  const lastPlayed = localStorage.getItem('tcr-last-played');
+  const theme = localStorage.getItem('currentTheme');
+  const lang = localStorage.getItem('currentLang');
+  const tab = localStorage.getItem('currentTab');
+  
+  localStorage.clear();
+  
+  // Restore important data
+  if (fav) localStorage.setItem('tcr-fav', fav);
+  if (favOrder) localStorage.setItem('tcr-fav-order', favOrder);
+  if (lastPlayed) localStorage.setItem('tcr-last-played', lastPlayed);
+  if (theme) localStorage.setItem('currentTheme', theme);
+  if (lang) localStorage.setItem('currentLang', lang);
+  if (tab) localStorage.setItem('currentTab', tab);
+  
+  console.log('Cache cleared successfully');
+}
+
+// Make the main initialization async
+(async function initApp() {
+  // Clear cache on every app launch
+  clearAllCacheOnLaunch();
+  
+  await loadAll(); // <-- AWAIT the loading to finish
+  // Now that data is loaded, populate UI
+  populateLangSelect();
+  initThemeSystem(); // Initialize theme system
+  // Handle URL parameters for shortcuts
+  const urlParams = new URLSearchParams(window.location.search);
+  const action = urlParams.get('action');
+  const tab = urlParams.get('tab');
+  if (tab) {
+    currentTab = tab;
+    localStorage.setItem('currentTab', currentTab);
+  }
+  switchTab(currentTab);
+  // Auto-play last played station or first station
+  setTimeout(() => {
+    if (action === 'resume') {
+      // Force resume last played station
+      if (lastPlayedStation && lastPlayedStation.lang === currentLang) {
+        const stations = stationsPerLang[currentLang] || [];
+        const lastStation = stations.find(st => st.name === lastPlayedStation.station.name);
+        if (lastStation) {
+          const index = stations.indexOf(lastStation);
+          play(lastStation, index);
+          return;
+        }
+      }
+    } else if (action === 'quickplay') {
+      // Quick play first station
+      const stations = stationsPerLang[currentLang] || [];
+      if (stations.length > 0) {
+        play(stations[0], 0);
+        return;
+      }
+    }
+    autoPlayLastOrFirst();
+  }, 500); // Small delay to ensure UI is ready
+  
+  // Initialize Android Auto integration
+  initAndroidAutoIntegration();
+  
+  console.log('TC RADIOS app initialized with Android Auto support');
+})();
+function autoPlayLastOrFirst() {
+  // Check if there's a last played station
+  if (lastPlayedStation && lastPlayedStation.lang === currentLang) {
+    const stations = stationsPerLang[currentLang] || [];
+    const lastStation = stations.find(st => st.name === lastPlayedStation.station.name);
+    if (lastStation) {
+      const index = stations.indexOf(lastStation);
+      play(lastStation, index);
+      return;
+    }
+  }
+  // If no last played station or it's not found, play first station
+  const stations = stationsPerLang[currentLang] || [];
+  if (stations.length > 0) {
+    play(stations[0], 0);
+  }
+}
+function populateLangSelect() {
+  const sel = document.getElementById('langSelect');
+  sel.innerHTML = '';
+  Object.keys(LANG_URLS).forEach(lang => {
+    const opt = document.createElement('option');
+    opt.value = lang;
+    opt.textContent = lang.charAt(0).toUpperCase() + lang.slice(1);
+    if (lang === currentLang) opt.selected = true;
+    sel.appendChild(opt);
+  });
+  sel.onchange = () => {
+    currentLang = sel.value;
+    localStorage.setItem('currentLang', currentLang);
+    switchTab(currentTab);
+    // Auto-play last played station or first station when language changes
+    setTimeout(() => {
+      autoPlayLastOrFirst();
+    }, 100);
+  };
+}
+
+// Theme Management System
+let currentTheme = localStorage.getItem('currentTheme') || 'dark';
+
+function populateThemeSelect() {
+  const sel = document.getElementById('themeSelect');
+  if (!sel) return;
+  
+  // Set current theme
+  sel.value = currentTheme;
+  
+  sel.onchange = () => {
+    currentTheme = sel.value;
+    localStorage.setItem('currentTheme', currentTheme);
+    applyTheme(currentTheme);
+    
+    // Add visual feedback
+    const body = document.body;
+    body.style.transition = 'all 0.3s ease';
+    setTimeout(() => {
+      body.style.transition = '';
+    }, 300);
+  };
+}
+
+function applyTheme(theme) {
+  const body = document.body;
+  
+  // Remove all theme classes
+  const themes = ['dark', 'light', 'ocean', 'forest', 'sunset', 'rose', 'midnight', 'aurora', 'christmas', 'easter', 'gold', 'minimal'];
+  themes.forEach(t => body.classList.remove(t));
+  
+  // Apply new theme
+  if (theme !== 'dark') {
+    body.setAttribute('data-theme', theme);
+  } else {
+    body.removeAttribute('data-theme');
+  }
+  
+  // Add theme-specific animations
+  addThemeAnimations(theme);
+}
+
+function addThemeAnimations(theme) {
+  const body = document.body;
+  
+  // Remove existing animation classes
+  body.classList.remove('theme-transition-ocean', 'theme-transition-forest', 'theme-transition-sunset', 
+                       'theme-transition-rose', 'theme-transition-midnight', 'theme-transition-aurora',
+                       'theme-transition-christmas', 'theme-transition-easter', 'theme-transition-gold');
+  
+  // Add theme-specific animation class
+  if (theme !== 'dark' && theme !== 'light' && theme !== 'minimal') {
+    body.classList.add(`theme-transition-${theme}`);
+  }
+}
+
+// Initialize theme system
+function initThemeSystem() {
+  populateThemeSelect();
+  applyTheme(currentTheme);
+}
+
+// Cache Management System
+function clearCachePreservingFavorites() {
+  try {
+    // Clear browser cache but preserve localStorage (favorites)
+    if ('caches' in window) {
+      caches.keys().then(function(cacheNames) {
+        cacheNames.forEach(function(cacheName) {
+          caches.delete(cacheName);
+        });
+        console.log('Browser cache cleared successfully');
+      }).catch(function(error) {
+        console.log('Error clearing browser cache:', error);
+      });
+    }
+
+    // Clear session storage (temporary data)
+    if ('sessionStorage' in window) {
+      sessionStorage.clear();
+      console.log('Session storage cleared');
+    }
+
+    // Clear IndexedDB if it exists
+    if ('indexedDB' in window) {
+      indexedDB.databases().then(databases => {
+        databases.forEach(db => {
+          indexedDB.deleteDatabase(db.name);
+        });
+        console.log('IndexedDB cleared');
+      }).catch(error => {
+        console.log('Error clearing IndexedDB:', error);
+      });
+    }
+
+    // Force reload of images and other resources
+    const images = document.querySelectorAll('img');
+    images.forEach(img => {
+      if (img.src) {
+        const url = new URL(img.src);
+        url.searchParams.set('cache_bust', Date.now());
+        img.src = url.toString();
+      }
+    });
+
+    console.log('Cache cleared while preserving favorites');
+  } catch (error) {
+    console.error('Error clearing cache:', error);
+  }
+}
+
+// Clear cache on app startup
+function initCacheClearing() {
+  // Check if this is a fresh app start (not a page refresh)
+  const isFreshStart = !sessionStorage.getItem('app_initialized');
+  
+  if (isFreshStart) {
+    clearCachePreservingFavorites();
+    sessionStorage.setItem('app_initialized', 'true');
+  }
+}
+/* ---- TABS + SEARCH ---- */
+document.getElementById('tab-all').onclick   = () => switchTab('all');
+document.getElementById('tab-fav').onclick   = () => switchTab('fav');
+document.getElementById('tab-about').onclick = () => switchTab('about');
+document.getElementById('content').addEventListener('touchstart', e => touchStartX = e.changedTouches[0].screenX);
+document.getElementById('content').addEventListener('touchend', e => {
+  const th = 50;
+  if (e.changedTouches[0].screenX < touchStartX - th) {
+    const i = ['all','fav','about'].indexOf(currentTab);
+    if (i < 2) switchTab(['all','fav','about'][i+1]);
+  } else if (touchStartX < e.changedTouches[0].screenX - th) {
+    const i = ['all','fav','about'].indexOf(currentTab);
+    if (i > 0) switchTab(['all','fav','about'][i-1]);
+  }
+});
+searchBar.addEventListener('input', e => {
+  searchTerm = e.target.value.trim().toLowerCase();
+  switchTab(currentTab);
+});
+function switchTab(tab) {
+  currentTab = tab;
+  localStorage.setItem('currentTab', tab);
+  document.querySelectorAll('#tabs span').forEach(s => s.classList.remove('active'));
+  document.getElementById(`tab-${tab}`).classList.add('active');
+  if (tab === 'about') {
+    document.getElementById('content').style.display = 'none';
+    document.getElementById('about-panel').style.display = 'flex';
+    searchBar.style.display = 'none';
+  } else {
+    document.getElementById('content').style.display = 'flex';
+    document.getElementById('about-panel').style.display = 'none';
+    searchBar.style.display = '';
+    let base = tab === 'fav'
+      ? getFavoritesInOrder()
+      : stationsPerLang[currentLang] || [];
+    currentList = base.filter(s => !searchTerm || s.name.toLowerCase().includes(searchTerm));
+    render(currentList);
+  }
+}
+/* ---- RENDER ---- */
+function render(list) {
+  stationList.innerHTML = '';
+  
+  // Add reorder hint for favorites tab
+  if (currentTab === 'fav' && list.length > 1) {
+    const hint = document.createElement('div');
+    hint.className = 'favorites-reorder-hint';
+    // Detect if it's a mobile device
+    const isMobile = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+    const hintText = isMobile 
+      ? '<i class="fas fa-hand-rock"></i>Touch and hold to reorder your favorites'
+      : '<i class="fas fa-grip-vertical"></i>Hold and drag to reorder your favorites';
+    hint.innerHTML = hintText;
+    stationList.appendChild(hint);
+  }
+  
+  if (!list || !list.length) {
+    stationList.innerHTML = '<div class="item">No stations found.</div>';
+    return;
+  }
+  
+  list.forEach((st, i) => {
+    const div = document.createElement('div');
+    div.className = 'item';
+    
+    // Check if this station is currently playing
+    const isCurrentlyPlaying = lastPlayedStation && 
+                              lastPlayedStation.station.name === st.name && 
+                              lastPlayedStation.lang === currentLang &&
+                              !audio.paused;
+    
+    if (isCurrentlyPlaying) {
+      div.className += ' playing';
+    }
+    
+    // Add drag handle class for favorites tab
+    if (currentTab === 'fav') {
+      div.className += ' drag-handle';
+      div.draggable = true;
+      div.dataset.index = i;
+      
+      // Drag and drop event listeners (Desktop)
+      div.addEventListener('dragstart', handleDragStart);
+      div.addEventListener('dragover', handleDragOver);
+      div.addEventListener('drop', handleDrop);
+      div.addEventListener('dragend', handleDragEnd);
+      
+      // Touch event listeners (Mobile)
+      div.addEventListener('touchstart', handleTouchStart, { passive: false });
+      div.addEventListener('touchmove', handleTouchMove, { passive: false });
+      div.addEventListener('touchend', handleTouchEnd, { passive: false });
+    }
+    
+    div.innerHTML = `
+      <img src="${st.logo}" alt="" class="station-icon">
+      <div class="station-info">
+        <div class="station-name">${st.name}</div>
+        <div class="station-genre">${st.genre}</div>
+      </div>
+      <div class="favorite-button ${favorites.includes(st.name) ? 'on' : ''}" data-name="${st.name}"><i class="fas fa-heart"></i></div>
+    `;
+    
+    div.onclick = e => { if (!e.target.classList.contains('favorite-button')) play(st, i); };
+    div.querySelector('.favorite-button').onclick = e => {
+      e.stopPropagation(); toggleFav(st.name);
+    };
+    stationList.appendChild(div);
+  });
+}
+/* ---- PLAYER ---- */
+function play(st, i) {
+  idx = i;
+  audio.src = st.url;
+  pImg.src = st.logo || '/icons/default-artwork.jpg';
+  pName.innerHTML = '<span>' + st.name + '</span>';
+  player.classList.add('playing');
+  audio.play().catch(()=>{});
+  updateMediaSession(st);
+  // Update Wear OS media session
+  updateWearOSMediaSession(st);
+  // Start metadata fetching (will show only if metadata is available)
+  startMetadataFetching(st);
+  // Save last played station
+  lastPlayedStation = { station: st, index: i, lang: currentLang };
+  localStorage.setItem('tcr-last-played', JSON.stringify(lastPlayedStation));
+  // Refresh the display to show playing state
+  switchTab(currentTab);
+  // Haptic feedback for mobile
+  hapticFeedback('success');
+  // Request notification permission on first play
+  requestNotificationPermission();
+}
+audio.onplay  = () => { 
+  pPlay.innerHTML = '<i class="fas fa-pause"></i>'; 
+  player.classList.add('playing'); 
+  hapticFeedback('light');
+  updateWidget('playStateUpdate', { playing: true });
+  // Refresh display to show playing state
+  switchTab(currentTab);
+};
+audio.onpause = () => { 
+  pPlay.innerHTML = '<i class="fas fa-play"></i>'; 
+  player.classList.remove('playing'); 
+  hapticFeedback('light');
+  updateWidget('playStateUpdate', { playing: false });
+  // Stop metadata fetching when paused
+  stopMetadataFetching();
+  // Refresh display to remove playing state
+  switchTab(currentTab);
+};
+pPlay.onclick = () => {
+  hapticFeedback('medium');
+  audio.paused ? audio.play() : audio.pause();
+};
+function prevNext(dir) {
+  if (!currentList.length) return;
+  idx = (idx + dir + currentList.length) % currentList.length;
+  play(currentList[idx], idx);
+  hapticFeedback('light');
+}
+document.getElementById('p-prev').onclick = () => prevNext(-1);
+document.getElementById('p-next').onclick = () => prevNext(1);
+/* ---- METADATA FUNCTIONS ---- */
+let metadataInterval;
+let currentMetadata = { song: '', artist: '' };
+let metadataAttempts = 0;
+const MAX_METADATA_ATTEMPTS = 3;
+function updateMetadata(song, artist) {
+  const songElement = document.getElementById('p-song');
+  const artistElement = document.getElementById('p-artist');
+  const metadataContainer = document.getElementById('p-metadata');
+  // Only show metadata if we have actual content
+  if (song && song.trim() && song !== 'Loading metadata...' && song !== 'Metadata not available' && song !== 'Refreshing...') {
+    if (songElement) songElement.textContent = song;
+    if (artistElement) artistElement.textContent = artist || '';
+    if (metadataContainer) metadataContainer.style.display = 'block';
+    currentMetadata = { song, artist };
+    // Update widget with metadata
+    updateWidget('metadataUpdate', { song, artist });
+    // Debug logging
+    console.log('Metadata updated:', { song, artist });
+  } else {
+    // Hide metadata container if no valid metadata
+    if (metadataContainer) metadataContainer.style.display = 'none';
+  }
+}
+function startMetadataFetching(station) {
+  // Clear existing interval
+  if (metadataInterval) {
+    clearInterval(metadataInterval);
+  }
+  // Reset attempts counter
+  metadataAttempts = 0;
+  // Hide metadata initially
+  const metadataContainer = document.getElementById('p-metadata');
+  if (metadataContainer) metadataContainer.style.display = 'none';
+  // Try to fetch metadata from various sources
+  fetchMetadataFromStream(station);
+  // Set up periodic metadata updates
+  metadataInterval = setInterval(() => {
+    metadataAttempts++;
+    if (metadataAttempts >= MAX_METADATA_ATTEMPTS) {
+      // Stop trying after max attempts - don't show any message
+      stopMetadataFetching();
+      return;
+    }
+    fetchMetadataFromStream(station);
+  }, 15000); // Update every 15 seconds
+}
+function fetchMetadataFromStream(station) {
+  console.log('Fetching metadata for:', station.name);
+  // Try multiple metadata sources
+  const metadataSources = [
+    // Icecast metadata endpoint
+    station.url.replace(/\/stream.*$/, '/status-json.xsl'),
+    // Shoutcast metadata endpoint  
+    station.url.replace(/\/stream.*$/, '/stats?json=1'),
+    // Generic metadata endpoint
+    station.url.replace(/\/stream.*$/, '/metadata'),
+    // Alternative Icecast endpoint
+    station.url.replace(/\/stream.*$/, '/status.xsl'),
+    // Alternative endpoints
+    station.url.replace(/\/stream.*$/, '/7.html'),
+    station.url.replace(/\/stream.*$/, '/currentsong'),
+    station.url.replace(/\/stream.*$/, '/nowplaying'),
+    // Direct stream metadata (if supported)
+    station.url
+  ];
+  // Add station-specific metadata sources
+  if (station.name.toLowerCase().includes('shalom')) {
+    metadataSources.push(
+      station.url.replace(/\/stream.*$/, '/shoutcast'),
+      station.url.replace(/\/stream.*$/, '/info'),
+      station.url.replace(/\/stream.*$/, '/title')
+    );
+  }
+  if (station.name.toLowerCase().includes('sweety')) {
+    metadataSources.push(
+      station.url.replace(/\/stream.*$/, '/sweety'),
+      station.url.replace(/\/stream.*$/, '/current'),
+      station.url.replace(/\/stream.*$/, '/playing')
+    );
+  }
+  // Try each source
+  metadataSources.forEach((source, index) => {
+    setTimeout(() => {
+      fetchMetadataFromSource(source, station, index);
+    }, index * 1000); // Stagger requests
+  });
+  // Also try to extract metadata from audio element if available
+  extractMetadataFromAudio();
+  // Try to get metadata from stream headers
+  fetchStreamHeaders(station);
+}
+function fetchMetadataFromSource(url, station, sourceIndex) {
+  console.log(`Trying metadata source ${sourceIndex + 1}:`, url);
+  fetch(url, { 
+    method: 'GET',
+    mode: 'cors',
+    headers: {
+      'Accept': 'application/json, text/plain, */*'
+    },
+    timeout: 5000
+  })
+  .then(response => {
+    if (response.ok) {
+      return response.json();
+    }
+    throw new Error(`HTTP ${response.status}`);
+  })
+  .then(data => {
+    console.log('Metadata response:', data);
+    parseMetadataResponse(data, station);
+  })
+  .catch(error => {
+    console.log(`Metadata fetch failed for source ${sourceIndex + 1}:`, error.message);
+  });
+}
+function parseMetadataResponse(data, station) {
+  let song = '';
+  let artist = '';
+  // Parse different metadata formats
+  if (data.icestats && data.icestats.source) {
+    // Icecast format
+    const source = data.icestats.source;
+    if (source.title) {
+      const parts = source.title.split(' - ');
+      artist = parts[0] || '';
+      song = parts[1] || source.title;
+    }
+  } else if (data.songtitle) {
+    // Shoutcast format
+    song = data.songtitle;
+    artist = data.artist || '';
+  } else if (data.title) {
+    // Generic format
+    const parts = data.title.split(' - ');
+    artist = parts[0] || '';
+    song = parts[1] || data.title;
+  } else if (data.currentsong) {
+    // Alternative format
+    song = data.currentsong;
+    artist = data.artist || '';
+  } else if (data.now_playing) {
+    // Another alternative format
+    song = data.now_playing;
+    artist = data.artist || '';
+  }
+  // Update display if we got valid metadata
+  if (song && song !== currentMetadata.song) {
+    updateMetadata(song, artist);
+    console.log('Successfully parsed metadata:', { song, artist });
+  }
+}
+function extractMetadataFromAudio() {
+  // Try to get metadata from audio element if browser supports it
+  if (audio.mozGetMetadata) {
+    try {
+      const metadata = audio.mozGetMetadata();
+      if (metadata && metadata.title) {
+        const parts = metadata.title.split(' - ');
+        const artist = parts[0] || '';
+        const song = parts[1] || metadata.title;
+        updateMetadata(song, artist);
+        console.log('Extracted metadata from audio:', { song, artist });
+      }
+    } catch (e) {
+      console.log('Audio metadata extraction failed:', e);
+    }
+  }
+  // Try to get metadata from audio events
+  audio.addEventListener('loadedmetadata', () => {
+    if (audio.mozGetMetadata) {
+      try {
+        const metadata = audio.mozGetMetadata();
+        if (metadata && metadata.title) {
+          const parts = metadata.title.split(' - ');
+          const artist = parts[0] || '';
+          const song = parts[1] || metadata.title;
+          updateMetadata(song, artist);
+          console.log('Audio metadata loaded:', { song, artist });
+        }
+      } catch (e) {
+        console.log('Audio metadata load failed:', e);
+      }
+    }
+  });
+}
+function fetchStreamHeaders(station) {
+  // Try to get metadata from stream headers
+  fetch(station.url, {
+    method: 'HEAD',
+    mode: 'cors'
+  })
+  .then(response => {
+    const icyName = response.headers.get('icy-name');
+    const icyDescription = response.headers.get('icy-description');
+    const icyGenre = response.headers.get('icy-genre');
+    const icyTitle = response.headers.get('icy-title');
+    if (icyTitle) {
+      const parts = icyTitle.split(' - ');
+      const artist = parts[0] || '';
+      const song = parts[1] || icyTitle;
+      updateMetadata(song, artist);
+      console.log('Stream header metadata:', { song, artist });
+    } else if (icyName) {
+      updateMetadata(icyName, icyDescription || '');
+      console.log('Stream name metadata:', icyName);
+    }
+  })
+  .catch(error => {
+    console.log('Stream header fetch failed:', error.message);
+  });
+}
+function stopMetadataFetching() {
+  if (metadataInterval) {
+    clearInterval(metadataInterval);
+    metadataInterval = null;
+  }
+  console.log('Metadata fetching stopped');
+}
+/* ---- FAVORITES ---- */
+function toggleFav(name) {
+  const wasFavorite = favorites.includes(name);
+  
+  if (wasFavorite) {
+    // Remove from favorites
+    favorites = favorites.filter(f => f !== name);
+    favoritesOrder = favoritesOrder.filter(f => f !== name);
+  } else {
+    // Add to favorites
+    favorites = [...favorites, name];
+    favoritesOrder = [...favoritesOrder, name];
+  }
+  
+  localStorage.setItem('tcr-fav', JSON.stringify(favorites));
+  localStorage.setItem('tcr-fav-order', JSON.stringify(favoritesOrder));
+  switchTab(currentTab);
+  // Haptic feedback for favorite toggle
+  hapticFeedback(favorites.includes(name) ? 'success' : 'light');
+}
+
+function getFavoritesInOrder() {
+  const allStations = Object.values(stationsPerLang).flat();
+  const favoriteStations = [];
+  
+  // First, add stations in custom order
+  favoritesOrder.forEach(stationName => {
+    const station = allStations.find(s => s.name === stationName);
+    if (station && favorites.includes(stationName)) {
+      favoriteStations.push(station);
+    }
+  });
+  
+  // Then add any new favorites that aren't in the order yet
+  favorites.forEach(stationName => {
+    if (!favoritesOrder.includes(stationName)) {
+      const station = allStations.find(s => s.name === stationName);
+      if (station) {
+        favoriteStations.push(station);
+        favoritesOrder.push(stationName);
+      }
+    }
+  });
+  
+  // Save updated order
+  localStorage.setItem('tcr-fav-order', JSON.stringify(favoritesOrder));
+  
+  return favoriteStations;
+}
+
+function reorderFavorites(fromIndex, toIndex) {
+  if (fromIndex === toIndex) return;
+  
+  // Move item in favoritesOrder array
+  const item = favoritesOrder.splice(fromIndex, 1)[0];
+  favoritesOrder.splice(toIndex, 0, item);
+  
+  // Save new order
+  localStorage.setItem('tcr-fav-order', JSON.stringify(favoritesOrder));
+  
+  // Re-render favorites tab if currently active
+  if (currentTab === 'fav') {
+    switchTab('fav');
+  }
+  
+  // Haptic feedback
+  hapticFeedback('success');
+}
+
+// Drag and Drop Variables
+let draggedElement = null;
+let draggedIndex = null;
+let dragTouchStartY = 0;
+let dragTouchCurrentY = 0;
+let isDragging = false;
+let dragThreshold = 5; // Minimum distance to start drag (reduced for better responsiveness)
+
+// Drag and Drop Event Handlers (Desktop)
+function handleDragStart(e) {
+  draggedElement = e.target;
+  draggedIndex = parseInt(e.target.dataset.index);
+  e.target.classList.add('dragging');
+  e.dataTransfer.effectAllowed = 'move';
+  e.dataTransfer.setData('text/html', e.target.outerHTML);
+}
+
+function handleDragOver(e) {
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+  
+  const afterElement = getDragAfterElement(stationList, e.clientY);
+  const dragging = document.querySelector('.dragging');
+  
+  if (afterElement == null) {
+    stationList.appendChild(dragging);
+  } else {
+    stationList.insertBefore(dragging, afterElement);
+  }
+}
+
+function handleDrop(e) {
+  e.preventDefault();
+  
+  if (draggedElement) {
+    const dropIndex = Array.from(stationList.children).indexOf(e.target);
+    
+    // Only reorder if it's a valid drop and we're in favorites tab
+    if (currentTab === 'fav' && dropIndex >= 0 && dropIndex !== draggedIndex) {
+      reorderFavorites(draggedIndex, dropIndex);
+    }
+  }
+}
+
+function handleDragEnd(e) {
+  e.target.classList.remove('dragging');
+  draggedElement = null;
+  draggedIndex = null;
+  
+  // Remove drag-over class from all items
+  document.querySelectorAll('.item').forEach(item => {
+    item.classList.remove('drag-over');
+  });
+}
+
+// Touch Event Handlers (Mobile)
+function handleTouchStart(e) {
+  if (currentTab !== 'fav') return;
+  
+  const item = e.target.closest('.item');
+  if (!item) return;
+  
+  // Stop propagation to prevent conflicts with other touch handlers
+  e.stopPropagation();
+  
+  dragTouchStartY = e.touches[0].clientY;
+  draggedElement = item;
+  draggedIndex = parseInt(item.dataset.index);
+  isDragging = false;
+  
+  // Don't prevent default immediately - let the touch move determine if it's a drag
+  console.log('Touch start on item:', item.dataset.index);
+}
+
+function handleTouchMove(e) {
+  if (!draggedElement || currentTab !== 'fav') return;
+  
+  // Stop propagation to prevent conflicts
+  e.stopPropagation();
+  
+  dragTouchCurrentY = e.touches[0].clientY;
+  const deltaY = Math.abs(dragTouchCurrentY - dragTouchStartY);
+  
+  // Start dragging if moved enough distance
+  if (deltaY > dragThreshold && !isDragging) {
+    isDragging = true;
+    draggedElement.classList.add('dragging');
+    
+    // Add visual feedback
+    draggedElement.style.transform = 'rotate(5deg)';
+    draggedElement.style.opacity = '0.8';
+    draggedElement.style.zIndex = '1000';
+    
+    // Haptic feedback
+    hapticFeedback('light');
+    
+    console.log('Started dragging item:', draggedIndex);
+  }
+  
+  if (isDragging) {
+    e.preventDefault(); // Prevent scrolling only when actually dragging
+    
+    // Find the element after which to insert
+    const afterElement = getDragAfterElement(stationList, dragTouchCurrentY);
+    
+    if (afterElement == null) {
+      stationList.appendChild(draggedElement);
+    } else {
+      stationList.insertBefore(draggedElement, afterElement);
+    }
+    
+    // Add visual feedback to other items
+    document.querySelectorAll('.item:not(.dragging)').forEach(item => {
+      const rect = item.getBoundingClientRect();
+      const itemCenter = rect.top + rect.height / 2;
+      
+      if (Math.abs(dragTouchCurrentY - itemCenter) < rect.height / 2) {
+        item.classList.add('drag-over');
+      } else {
+        item.classList.remove('drag-over');
+      }
+    });
+  }
+}
+
+function handleTouchEnd(e) {
+  if (!draggedElement || currentTab !== 'fav') return;
+  
+  // Stop propagation to prevent conflicts
+  e.stopPropagation();
+  
+  console.log('Touch end, was dragging:', isDragging);
+  
+  if (isDragging) {
+    // Calculate final position
+    const finalIndex = Array.from(stationList.children).indexOf(draggedElement);
+    
+    console.log('Final position:', finalIndex, 'Original position:', draggedIndex);
+    
+    // Only reorder if position changed
+    if (finalIndex !== draggedIndex && finalIndex >= 0) {
+      reorderFavorites(draggedIndex, finalIndex);
+      hapticFeedback('success');
+      console.log('Reordered favorites from', draggedIndex, 'to', finalIndex);
+    }
+    
+    // Clean up
+    draggedElement.classList.remove('dragging');
+    draggedElement.style.transform = '';
+    draggedElement.style.opacity = '';
+    draggedElement.style.zIndex = '';
+    
+    // Remove drag-over class from all items
+    document.querySelectorAll('.item').forEach(item => {
+      item.classList.remove('drag-over');
+    });
+  }
+  
+  // Reset variables
+  draggedElement = null;
+  draggedIndex = null;
+  isDragging = false;
+  dragTouchStartY = 0;
+  dragTouchCurrentY = 0;
+}
+
+function getDragAfterElement(container, y) {
+  const draggableElements = [...container.querySelectorAll('.item:not(.dragging)')];
+  
+  return draggableElements.reduce((closest, child) => {
+    const box = child.getBoundingClientRect();
+    const offset = y - box.top - box.height / 2;
+    
+    if (offset < 0 && offset > closest.offset) {
+      return { offset: offset, element: child };
+    } else {
+      return closest;
+    }
+  }, { offset: Number.NEGATIVE_INFINITY }).element;
+}
+
+/* ---- THEME ---- */
+// Theme system is handled by the theme select dropdown in the header
+// No additional theme toggle needed as we have the dropdown
+/* ---- SLEEP TIMER ---- */
+const sleepModal = document.getElementById('sleepModal');
+const sleepBtn   = document.getElementById('sleepBtn');
+sleepBtn.onclick = () => sleepModal.style.display = 'flex';
+document.getElementById('cancelSleep').onclick = () => {
+  clearTimeout(sleepTimer);
+  sleepModal.style.display = 'none';
+};
+document.querySelectorAll('#sleepModal button[data-min]').forEach(btn => {
+  btn.onclick = () => setSleep(parseInt(btn.dataset.min));
+});
+document.getElementById('setCustom').onclick = () => {
+  const m = parseInt(document.getElementById('customMin').value);
+  if (m > 0) setSleep(m);
+};
+function setSleep(min) {
+  clearTimeout(sleepTimer);
+  sleepTimer = setTimeout(() => {
+    audio.pause();
+    document.getElementById('p-now').textContent = 'Live';
+    sleepModal.style.display = 'none';
+  }, min * 60000);
+  sleepModal.style.display = 'none';
+}
+/* ---- MEDIA SESSION ---- */
+function updateMediaSession(st) {
+  if ('mediaSession' in navigator) {
+    navigator.mediaSession.metadata = new MediaMetadata({
+      title: st.name,
+      artist: 'TC RADIOS',
+      album: st.genre,
+      artwork: [{
+        src: st.logo || '/icons/icon-512x512.png',
+        sizes: '512x512', type: 'image/png'
+      }]
+    });
+    // Enhanced media session controls for Android Auto
+    navigator.mediaSession.setActionHandler('play', () => {
+      audio.play();
+      showNotification('Playing: ' + st.name);
+      updateWidget('playStateUpdate', { playing: true });
+    });
+    navigator.mediaSession.setActionHandler('pause', () => {
+      audio.pause();
+      showNotification('Paused: ' + st.name);
+      updateWidget('playStateUpdate', { playing: false });
+    });
+    navigator.mediaSession.setActionHandler('previoustrack', () => {
+      prevNext(-1);
+      showNotification('Previous station');
+    });
+    navigator.mediaSession.setActionHandler('nexttrack', () => {
+      prevNext(1);
+      showNotification('Next station');
+    });
+    // Add stop action for better mobile support
+    navigator.mediaSession.setActionHandler('stop', () => {
+      audio.pause();
+      audio.currentTime = 0;
+      showNotification('Stopped');
+      updateWidget('playStateUpdate', { playing: false });
+    });
+    // Android Auto specific handlers
+    navigator.mediaSession.setActionHandler('seekbackward', (details) => {
+      // Skip backward 10 seconds (if supported by stream)
+      showNotification('Seek backward');
+    });
+    navigator.mediaSession.setActionHandler('seekforward', (details) => {
+      // Skip forward 10 seconds (if supported by stream)
+      showNotification('Seek forward');
+    });
+    // Update widget with station info
+    updateWidget('stationUpdate', { station: st });
+  }
+}
+/* ---- ANDROID AUTO VOICE COMMANDS ---- */
+function initAndroidAutoVoiceCommands() {
+  if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const recognition = new SpeechRecognition();
+    
+    recognition.continuous = false;
+    recognition.interimResults = false;
+    recognition.lang = 'en-US';
+    
+    recognition.onresult = function(event) {
+      const command = event.results[0][0].transcript.toLowerCase();
+      console.log('Voice command:', command);
+      
+      // Parse voice commands
+      if (command.includes('play') || command.includes('start')) {
+        if (command.includes('next') || command.includes('next station')) {
+          prevNext(1);
+          showNotification('Next station');
+        } else if (command.includes('previous') || command.includes('last')) {
+          prevNext(-1);
+          showNotification('Previous station');
+        } else if (command.includes('favorite') || command.includes('favourite')) {
+          switchTab('favorites');
+          showNotification('Showing favorites');
+        } else {
+          audio.play();
+          showNotification('Playing');
+        }
+      } else if (command.includes('pause') || command.includes('stop')) {
+        audio.pause();
+        showNotification('Paused');
+      } else if (command.includes('favorite') || command.includes('favourite')) {
+        if (lastPlayedStation) {
+          toggleFav(lastPlayedStation.station);
+        }
+      } else if (command.includes('language') || command.includes('lang')) {
+        if (command.includes('tamil')) {
+          switchLanguage('tamil');
+        } else if (command.includes('english')) {
+          switchLanguage('english');
+        } else if (command.includes('malayalam')) {
+          switchLanguage('malayalam');
+        } else if (command.includes('hindi')) {
+          switchLanguage('hindi');
+        } else if (command.includes('dutch')) {
+          switchLanguage('dutch');
+        } else if (command.includes('sinhala')) {
+          switchLanguage('sinhala');
+        }
+      }
+    };
+    
+    recognition.onerror = function(event) {
+      console.log('Voice recognition error:', event.error);
+    };
+    
+    // Expose recognition for Android Auto
+    window.androidAutoRecognition = recognition;
+  }
+}
+
+/* ---- ANDROID AUTO INTEGRATION ---- */
+function initAndroidAutoIntegration() {
+  // Initialize voice commands
+  initAndroidAutoVoiceCommands();
+  
+  // Enhanced media session for Android Auto
+  if ('mediaSession' in navigator) {
+    // Set up additional Android Auto specific handlers
+    navigator.mediaSession.setActionHandler('seekto', (details) => {
+      console.log('Seek to:', details.seekTime);
+      showNotification('Seek to ' + Math.round(details.seekTime) + 's');
+    });
+    
+    // Update playback state
+    navigator.mediaSession.playbackState = audio.paused ? 'paused' : 'playing';
+  }
+  
+  // Listen for Android Auto events
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      // App is in background - optimize for Android Auto
+      console.log('App in background - Android Auto mode');
+    } else {
+      // App is in foreground
+      console.log('App in foreground');
+    }
+  });
+  
+  // Handle Android Auto specific events
+  window.addEventListener('message', (event) => {
+    if (event.data && event.data.type === 'android-auto') {
+      handleAndroidAutoMessage(event.data);
+    }
+  });
+}
+
+function handleAndroidAutoMessage(data) {
+  console.log('Android Auto message:', data);
+  
+  switch (data.action) {
+    case 'play':
+      audio.play();
+      break;
+    case 'pause':
+      audio.pause();
+      break;
+    case 'next':
+      prevNext(1);
+      break;
+    case 'previous':
+      prevNext(-1);
+      break;
+    case 'toggle-favorite':
+      if (lastPlayedStation) {
+        toggleFav(lastPlayedStation.station);
+      }
+      break;
+    case 'switch-language':
+      if (data.language) {
+        switchLanguage(data.language);
+      }
+      break;
+  }
+}
+
+/* ---- WIDGET COMMUNICATION ---- */
+function updateWidget(type, data) {
+  // Send message to widget iframe
+  const widgetFrame = document.querySelector('iframe[src*="widget-template"]');
+  if (widgetFrame) {
+    widgetFrame.contentWindow.postMessage({ type: type, ...data }, '*');
+  }
+  // Also send to any open widget windows
+  if (window.widgetWindow && !window.widgetWindow.closed) {
+    window.widgetWindow.postMessage({ type: type, ...data }, '*');
+  }
+}
+// Listen for messages from widget
+window.addEventListener('message', (event) => {
+  if (event.data.action) {
+    switch(event.data.action) {
+      case 'play':
+        audio.paused ? audio.play() : audio.pause();
+        break;
+      case 'prev':
+        prevNext(-1);
+        break;
+      case 'next':
+        prevNext(1);
+        break;
+      case 'theme':
+        // Theme is handled by dropdown in header
+        break;
+      case 'timer':
+        document.getElementById('sleepBtn').click();
+        break;
+    }
+  }
+});
+/* ---- ANDROID AUTO SUPPORT ---- */
+function initAndroidAuto() {
+  // Enhanced media session for Android Auto
+  if ('mediaSession' in navigator) {
+    // Set playback state
+    navigator.mediaSession.playbackState = 'none';
+    // Add position state for Android Auto
+    navigator.mediaSession.setPositionState({
+      duration: Infinity, // Radio streams are continuous
+      playbackRate: 1.0,
+      position: 0
+    });
+    // Handle Android Auto specific events
+    navigator.mediaSession.setActionHandler('seekto', (details) => {
+      if (details.seekTime !== undefined) {
+        audio.currentTime = details.seekTime;
+        showNotification('Seek to ' + Math.round(details.seekTime) + 's');
+      }
+    });
+  }
+  // Register for Android Auto
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.addEventListener('message', (event) => {
+      if (event.data.type === 'ANDROID_AUTO_COMMAND') {
+        handleAndroidAutoCommand(event.data.command);
+      }
+    });
+  }
+}
+function handleAndroidAutoCommand(command) {
+  switch(command.action) {
+    case 'PLAY':
+      audio.play();
+      break;
+    case 'PAUSE':
+      audio.pause();
+      break;
+    case 'NEXT':
+      prevNext(1);
+      break;
+    case 'PREVIOUS':
+      prevNext(-1);
+      break;
+    case 'STOP':
+      audio.pause();
+      audio.currentTime = 0;
+      break;
+  }
+}
+/* ---- MOBILE NOTIFICATIONS ---- */
+/* ---- ENHANCED NOTIFICATIONS ---- */
+function showNotification(message, actions = []) {
+  if ('Notification' in window && Notification.permission === 'granted') {
+    const notification = new Notification('TC RADIOS', {
+      body: message,
+      icon: '/icons/icon-192x192.png',
+      badge: '/icons/icon-192x192.png',
+      tag: 'tcradios-control',
+      actions: actions,
+      requireInteraction: true,
+      silent: false
+    });
+    // Handle notification click
+    notification.onclick = () => {
+      window.focus();
+      notification.close();
+    };
+    // Auto-close after 5 seconds unless it has actions
+    if (actions.length === 0) {
+      setTimeout(() => notification.close(), 5000);
+    }
+  }
+}
+function showMediaNotification(station) {
+  if ('Notification' in window && Notification.permission === 'granted') {
+    const actions = [
+      { action: 'play', title: 'Play', icon: '/icons/icon-192x192.png' },
+      { action: 'pause', title: 'Pause', icon: '/icons/icon-192x192.png' },
+      { action: 'next', title: 'Next', icon: '/icons/icon-192x192.png' },
+      { action: 'prev', title: 'Previous', icon: '/icons/icon-192x192.png' }
+    ];
+    showNotification(`Now Playing: ${station.name}`, actions);
+  }
+}
+// Request notification permission on first interaction
+function requestNotificationPermission() {
+  if ('Notification' in window && Notification.permission === 'default') {
+    Notification.requestPermission();
+  }
+}
+/* ---- SWIPE GESTURES ---- */
+let touchStartX = 0;
+let touchStartY = 0;
+let touchEndX = 0;
+let touchEndY = 0;
+document.addEventListener('touchstart', e => {
+  touchStartX = e.changedTouches[0].screenX;
+  touchStartY = e.changedTouches[0].screenY;
+}, false);
+document.addEventListener('touchend', e => {
+  touchEndX = e.changedTouches[0].screenX;
+  touchEndY = e.changedTouches[0].screenY;
+  handleSwipe();
+}, false);
+function handleSwipe() {
+  const deltaX = touchEndX - touchStartX;
+  const deltaY = touchEndY - touchStartY;
+  const minSwipeDistance = 50;
+  // Only handle horizontal swipes
+  if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > minSwipeDistance) {
+    if (deltaX > 0) {
+      // Swipe right - previous station
+      prevNext(-1);
+      showNotification('Previous station');
+    } else {
+      // Swipe left - next station
+      prevNext(1);
+      showNotification('Next station');
+    }
+  }
+}
+/* ---- HAPTIC FEEDBACK ---- */
+function hapticFeedback(type = 'light') {
+  if ('vibrate' in navigator) {
+    switch(type) {
+      case 'light': navigator.vibrate(10); break;
+      case 'medium': navigator.vibrate(50); break;
+      case 'heavy': navigator.vibrate([100, 50, 100]); break;
+      case 'success': navigator.vibrate([50, 50, 50]); break;
+      case 'error': navigator.vibrate([200, 100, 200]); break;
+    }
+  }
+}
+/* ---- SERVICE WORKER (PWA) ---- */
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js');
+  });
+}
+/* ---- PWA INSTALLATION ---- */
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', (e) => {
+  // Prevent the mini-infobar from appearing on mobile
+  e.preventDefault();
+  // Stash the event so it can be triggered later
+  deferredPrompt = e;
+  // Show install button
+  const installBtn = document.getElementById('installBtn');
+  if (installBtn) {
+    installBtn.style.display = 'block';
+  }
+});
+// Handle install button click
+document.getElementById('installBtn').addEventListener('click', async () => {
+  if (deferredPrompt) {
+    // Show the install prompt
+    deferredPrompt.prompt();
+    // Wait for the user to respond to the prompt
+    const { outcome } = await deferredPrompt.userChoice;
+    console.log(`User response to the install prompt: ${outcome}`);
+    // Clear the deferredPrompt variable
+    deferredPrompt = null;
+    // Hide install button
+    document.getElementById('installBtn').style.display = 'none';
+  }
+});
+// Handle app installed event
+window.addEventListener('appinstalled', () => {
+  console.log('PWA was installed');
+  document.getElementById('installBtn').style.display = 'none';
+  showNotification('TC RADIOS installed successfully!');
+});
+/* ---- WEAR OS SUPPORT ---- */
+function initWearOS() {
+  // Detect if running on Wear OS
+  const isWearOS = window.matchMedia('(max-width: 400px) and (max-height: 400px)').matches;
+  if (isWearOS) {
+    document.body.classList.add('wear-os');
+    // Optimize for smartwatch
+    optimizeForWearOS();
+    // Add Wear OS specific event listeners
+    addWearOSListeners();
+  }
+}
+function optimizeForWearOS() {
+  // Reduce animations for battery life
+  document.documentElement.style.setProperty('--animation-duration', '0.2s');
+  // Optimize touch targets for small screens
+  const buttons = document.querySelectorAll('button');
+  buttons.forEach(btn => {
+    btn.style.minWidth = '32px';
+    btn.style.minHeight = '32px';
+  });
+  // Simplify UI for small screen
+  const header = document.querySelector('header');
+  if (header) {
+    header.style.fontSize = '0.9rem';
+    header.style.padding = '0.3rem 0.5rem';
+  }
+}
+function addWearOSListeners() {
+  // Add double-tap gesture for play/pause
+  let lastTap = 0;
+  document.addEventListener('touchend', (e) => {
+    const currentTime = new Date().getTime();
+    const tapLength = currentTime - lastTap;
+    if (tapLength < 500 && tapLength > 0) {
+      // Double tap detected
+      e.preventDefault();
+      audio.paused ? audio.play() : audio.pause();
+      hapticFeedback('medium');
+    }
+    lastTap = currentTime;
+  });
+  // Add long press for next station
+  let longPressTimer;
+  document.addEventListener('touchstart', (e) => {
+    longPressTimer = setTimeout(() => {
+      prevNext(1);
+      hapticFeedback('heavy');
+    }, 800);
+  });
+  document.addEventListener('touchend', () => {
+    clearTimeout(longPressTimer);
+  });
+  // Add swipe gestures for station navigation
+  let startX, startY;
+  document.addEventListener('touchstart', (e) => {
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+  });
+  document.addEventListener('touchend', (e) => {
+    if (!startX || !startY) return;
+    const endX = e.changedTouches[0].clientX;
+    const endY = e.changedTouches[0].clientY;
+    const diffX = startX - endX;
+    const diffY = startY - endY;
+    // Horizontal swipe
+    if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 30) {
+      if (diffX > 0) {
+        // Swipe left - next station
+        prevNext(1);
+        hapticFeedback('light');
+      } else {
+        // Swipe right - previous station
+        prevNext(-1);
+        hapticFeedback('light');
+      }
+    }
+    startX = null;
+    startY = null;
+  });
+}
+// Enhanced media session for Wear OS
+function updateWearOSMediaSession(st) {
+  if ('mediaSession' in navigator) {
+    // Set Wear OS specific metadata
+    navigator.mediaSession.metadata = new MediaMetadata({
+      title: st.name,
+      artist: 'TC RADIOS',
+      album: st.genre || 'Christian Radio',
+      artwork: [
+        {
+          src: st.logo || '/icons/icon-192x192.png',
+          sizes: '192x192',
+          type: 'image/png'
+        },
+        {
+          src: st.logo || '/icons/icon-512x512.png',
+          sizes: '512x512',
+          type: 'image/png'
+        }
+      ]
+    });
+    // Wear OS specific action handlers
+    navigator.mediaSession.setActionHandler('play', () => {
+      audio.play();
+      hapticFeedback('light');
+    });
+    navigator.mediaSession.setActionHandler('pause', () => {
+      audio.pause();
+      hapticFeedback('light');
+    });
+    navigator.mediaSession.setActionHandler('previoustrack', () => {
+      prevNext(-1);
+      hapticFeedback('medium');
+    });
+    navigator.mediaSession.setActionHandler('nexttrack', () => {
+      prevNext(1);
+      hapticFeedback('medium');
+    });
+    navigator.mediaSession.setActionHandler('stop', () => {
+      audio.pause();
+      audio.currentTime = 0;
+      hapticFeedback('heavy');
+    });
+  }
+}
+/* ---- INITIALIZE MOBILE FEATURES ---- */
+window.addEventListener('load', () => {
+  // Initialize Android Auto support
+  initAndroidAuto();
+  // Initialize Wear OS support
+  initWearOS();
+  // Initialize widget support
+  if (window.location.search.includes('widget=true')) {
+    // Widget mode - show minimal interface
+    document.body.classList.add('widget-mode');
+  }
+});
+/* ---- DYNAMIC PLAYER HEIGHT ---- */
+document.documentElement.style.setProperty('--player-height', document.getElementById('player').offsetHeight + 'px');
+</script>
+</body>
+</html>
