@@ -51,21 +51,21 @@
     },
               {
         "name": "Groot Nieuws Blijde Klanken",
-        "url": "https://22733.live.streamtheworld.com/GNRBKAAC.aac?sbmid=2a75871a-a6c9-4f78-9c28-779b1ae894ae",
+        "url": "https://22733.live.streamtheworld.com/GNRBKAAC.aac",
         "logo": "https://static.mytuner.mobi/media/tvos_radios/4g6nksnf9qcv.jpg",
         "genre": "Dutch Christian",
         "metadata": true  
     },
            {
         "name": "Groot Nieuws Nonstop",
-        "url": "https://22593.live.streamtheworld.com/GNRNONSTOPAAC.aac?sbmid=2a75871a-a6c9-4f78-9c28-779b1ae894ae",
+        "url": "https://22593.live.streamtheworld.com/GNRNONSTOPAAC.aac",
         "logo": "https://cdn-profiles.tunein.com/s308883/images/logog.png",
         "genre": "Dutch Christian",
         "metadata": true  
     },
            {
         "name": "Groot Nieuws Seven FM",
-        "url": "https://25243.live.streamtheworld.com/SEVENFM.mp3?sbmid=2a75871a-a6c9-4f78-9c28-779b1ae894ae",
+        "url": "https://25243.live.streamtheworld.com/SEVENFM.mp3",
         "logo": "https://nl.radio.net/300/sevenfmm.png",
         "genre": "Dutch Christian",
         "metadata": true  
