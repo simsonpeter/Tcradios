@@ -49,6 +49,27 @@
         "genre": "Dutch Christian",
         "metadata": true  
     },
+              {
+        "name": "Groot Nieuws Blijde Klanken",
+        "url": "https://22733.live.streamtheworld.com/GNRBKAAC.aac?sbmid=2a75871a-a6c9-4f78-9c28-779b1ae894ae",
+        "logo": "https://api.grootnieuwsradio.nl/cache/i/0/images/6.w96.r1-1.950e878.q90.webp",
+        "genre": "Dutch Christian",
+        "metadata": true  
+    },
+           {
+        "name": "Groot Nieuws Nonstop",
+        "url": "https://22593.live.streamtheworld.com/GNRNONSTOPAAC.aac?sbmid=2a75871a-a6c9-4f78-9c28-779b1ae894ae",
+        "logo": "https://api.grootnieuwsradio.nl/cache/i/0/images/4.w96.r1-1.983930a.q90.webp",
+        "genre": "Dutch Christian",
+        "metadata": true  
+    },
+           {
+        "name": "Groot Nieuws Seven FM",
+        "url": "https://25243.live.streamtheworld.com/SEVENFM.mp3?sbmid=2a75871a-a6c9-4f78-9c28-779b1ae894ae",
+        "logo": "https://api.grootnieuwsradio.nl/cache/i/0/images/8.w96.r1-1.698e1c7.q90.webp",
+        "genre": "Dutch Christian",
+        "metadata": true  
+    },
 {
         "name": "Radio 25",
         "url": "https://stream.radio.co/se21d7c67e/listen",
