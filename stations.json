@@ -1,284 +1,282 @@
 [
-           {
-        "name": "Amen FM",
-        "url": "https://ice7.securenetsystems.net/AMENFM",
-        "logo": "https://i.ibb.co/JWW8zWHy/download-1.jpg",
-        "genre": "Tamil Christian",
-        "metadata": true  
-    },
-    {
-        "name": "Arulvakku FM",
-        "url": "https://stream.arulvakku.com/radio/8000/radio.mp3",
-        "logo": "https://i.ibb.co/KYdcq0T/arulvakku-fm.jpg",
-        "genre": "Tamil Christian",
-               "metadata": true
-    },
-    {
-        "name": "Blessing FM",
-        "url": "https://stream-170.zeno.fm/adm7psvk21zuv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJhZG03cHN2azIxenV2IiwiaG9zdCI6InN0cmVhbS0xNzAuemVuby5mbSIsInJ0dGwiOjUsImp0aSI6InN4RFNPcEdlUTF5b1dqd1ZBR3hQVnciLCJpYXQiOjE3NDA0NDI4MjcsImV4cCI6MTc0MDQ0Mjg4N30.KAcjMroVSuq8FGz2-EBLeiah-PmVSPc_TX5LxsJL4Ng&an-uid=3073547634656769353&dot-uid=0b4f200000a27ccda5b847a1&triton-uid=cookie%3Ab7caab2c-1f03-4c92-8010-0e7225a18756&amb-uid=7915098152553681130&cto-uid=8add5086-14d3-4e6a-adc1-4787823acfec-665b8159-5553&bsw-uid=831477f2-ac35-4647-bcb7-81d07e15f75f&adtonosListenerId=01J9PZGG2P399XH0HZS3CHM5W1&aw_0_req_lsid=201521b2c45747d5e04e8dbea6c9fa8f",
-        "logo": "https://static2.mytuner.mobi/media/tvos_radios/nhf5ax2jgfxz.png",
-        "genre": "Tamil Christian",
-               "metadata": true
-    },
-    {
-        "name": "Blessing Devotion FM",
-        "url": "https://stream.zeno.fm/fhxtx0t57vzuv?dot-uid=0c62200000b0ab09216775e6&amb-uid=6978883036377110501&aw_0_req_lsid=1b331c34cb5c63cc13926d7bd29dd486
-        "logo": "https://zeno.fm/_ipx/_/https://images.zeno.fm/oncSkkHDBhAzDxRq0U7xsCb548kAaMznu4o0mMJmyQ4/rs:fill:2048:512/g:ce:0:0/aHR0cHM6Ly9wcm94eS56ZW5vLmZtL2NvbnRlbnQvc3RhdGlvbnMvYWd4emZucGxibTh0YzNSaGRITnlNZ3NTQ2tGMWRHaERiR2xsYm5RWWdJQ1EwUHVkNUFvTUN4SU9VM1JoZEdsdmJsQnliMlpwYkdVWWdJQ1FrSXFFbEFzTW9nRUVlbVZ1YncvbWljcm9zaXRlL2JhY2tncm91bmRfaW1hZ2UvP3U9MTY2MTYyNTE5MzAwMA.webp",
-        "genre": "Tamil Christian",
-               "metadata": true
-    },
-     { "name": "Comforter Radio",",
-        "url": "https://s4.radio.co/sd9738032b/listen",
-        "logo": "https://i.ibb.co/BHpkzR1z/download.webp",
-        "genre": "Tamil Christian",
-               "metadata": true
-    },
-    {
-        "name": "Devaprasannam Radio",
-        "url": "https://devaprasannam-a9media.radioca.st/stream",
-        "logo": "https://i.ibb.co/s9nn2W9n/devaprasannam.jpg",
-        "genre": "Tamil Christian",
-               "metadata": true
-    },
-    {
-        "name": "Fgpc FM",
-        "url": "https://dc1.serverse.com/proxy/fgpcfm/stream",
-        "logo": "https://i.ibb.co/s9mWj1wD/fgpcfm.jpg",
-        "genre": "Tamil Christian",
-               "metadata": true
-    },
-    {
-        "name": "FM fmkondattam",
-        "url": "https://dc1.serverse.com/proxy/fmkondattam/stream",
-        "logo": "https://i.ibb.co/jZwBxd3P/fmkondattam.jpg",
-        "genre": "Tamil Christian",
-               "metadata": true
-    },
-    {
-        "name": "Galeed FM",
-        "url": "https://eu2.fastcast4u.com/proxy/arunmedi?mp=/1",
-        "logo": "https://i.ibb.co/ZpYQnpwL/galeed-fm-radio.jpg",
-        "genre": "Tamil Christian",
-               "metadata": true
-    },
-    {
-        "name": "GBTC",
-        "url": "http://player.raddio.net/radio_stations/stations/play-stream?id=443498",
-        "logo": "https://i.ibb.co/LDdh50XD/blessing.jpg",
-        "genre": "Tamil Christian",
-               "metadata": true
-    },
-    {
-        "name": "GFan Radio",
-        "url": "https://centova71.instainternet.com/proxy/gfanfm?mp=/stream&1740634909492",
-        "logo": "https://i.ibb.co/k0KFCQS/gfan.png",
-        "genre": "Tamil Christian",
-               "metadata": true
-    },
-           
-    {
-        "name": "Good News FM",
-        "url": "https://radio.christvisionmedia.com:8500/stream",
-        "logo": "https://i.ibb.co/wFKJH6Vr/logo.png",
-        "genre": "Tamil Christian",
-               "metadata": true
-    },
-    {
-        "name": "Grace Tamil FM",
-        "url": "https://stream-176.zeno.fm/p6c35acxvchvv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJwNmMzNWFjeHZjaHZ2IiwiaG9zdCI6InN0cmVhbS0xNzYuemVuby5mbSIsInJ0dGwiOjUsImp0aSI6ImdyWURlYk52UmdlR01pQXk1QlJLMlEiLCJpYXQiOjE3NDA0NDMyNTcsImV4cCI6MTc0MDQ0MzMxN30.aId8C1QKn7OdK8lX4M6yJSnvJ4jUguXdOFDX4RUuDJ4&an-uid=3073547634656769353&dot-uid=0b4f200000a27ccda5b847a1&triton-uid=cookie%3Ab7caab2c-1f03-4c92-8010-0e7225a18756&amb-uid=7915098152553681130&cto-uid=8add5086-14d3-4e6a-adc1-4787823acfec-665b8159-5553&bsw-uid=831477f2-ac35-4647-bcb7-81d07e15f75f",
-        "logo": "https://zeno.fm/_ipx/s_144x144/https://images.zeno.fm/0a_BB0K30OA7b2n8K9EogipcAxnqKvN5BXU1UYdEPLw/rs:fill:288:288/g:ce:0:0/aHR0cHM6Ly9wcm94eS56ZW5vLmZtL2NvbnRlbnQvc3RhdGlvbnMvYWd4emZucGxibTh0YzNSaGRITnlNZ3NTQ2tGMWRHaERiR2xsYm5RWWdJRHd6N1ctbUFnTUN4SU9VM1JoZEdsdmJsQnliMlpwYkdVWWdJQ0k4T0ttZ2dnTW9nRUVlbVZ1YncvaW1hZ2UvP3U9MTY3MDc2MTg0OTAwMA.webp",
-        "genre": "Tamil Christian",
-               "metadata": true
-    },
-
- {
-        "name": "Hadassah Tamil Radio",
-        "url": "https://stream-178.zeno.fm/wuvyr58deq8uv",
-        "logo": "https://hadassahstore.sajeevavahini.com/i/tamil-christian-music.png",
-        "genre": "Tamil Christian",
-               "metadata": true
-    },
-    {
-        "name": "HOJ Tamil",
-        "url": "https://dc1.serverse.com/proxy/hojtamil/stream",
-        "logo": "https://i.ibb.co/jk49VdTX/hand-of-jesus.jpg",
-        "genre": "Tamil Christian",
-               "metadata": true
-    },
-    {
-        "name": "HOJ Bible",
-        "url": "https://dc1.serverse.com/proxy/hojbible/stream",
-        "logo": "https://i.ibb.co/jk49VdTX/hand-of-jesus.jpg",
-        "genre": "Tamil Christian",
-               "metadata": true
-    }, 
-    {
-        "name": "HOJ KIDS",
-        "url": "https://dc1.serverse.com/proxy/hojkids/stream",
-        "logo": "https://i.ibb.co/jk49VdTX/hand-of-jesus.jpg",
-        "genre": "Tamil Christian",
-               "metadata": true
-    }, 
-           
-    {
-        "name": "Immanuel FM",
-        "url": "https://s115.radiolize.com:8020/radio.mp3",
-        "logo":  "https://i.ibb.co/Kx8s3m4V/immanuel.png",
-        "genre": "Tamil Christian",
-               "metadata": true
-    },
-    {
-        "name": "Inbam FM",
-        "url": "http://stream.radio.co/sf55ced545/listen",
-        "logo": "https://i.ibb.co/v6QtbHL5/download-2.jpg",
-        "genre": "Tamil Christian",
-               "metadata": true
-    },
-    {
-        "name": "Jehova Rapha",
-        "url": "https://c22.radioboss.fm:8532/jehovahrapha?1728418667563",
-        "logo": "https://i.ibb.co/9k1dmv7s/jehovarapha-fm-4-01.jpg",
-        "genre": "Tamil Christian",
-               "metadata": true
-    },
-    {
-        "name": "Judah FM",
-        "url": "https://stream-167.zeno.fm/md62txrkky8uv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJtZDYydHhya2t5OHV2IiwiaG9zdCI6InN0cmVhbS0xNjcuemVuby5mbSIsInJ0dGwiOjUsImp0aSI6IldsRnpnc1ZHU19DSlBhMVM0c1dpd0EiLCJpYXQiOjE3NDA0Mzk4MzEsImV4cCI6MTc0MDQzOTg5MX0.ig9i0V7Ve7E9pgEwfPwTI2J5pyiZp7YHdUYlVwqLVGg&an-uid=3073547634656769353&dot-uid=0b4f200000a27ccda5b847a1&triton-uid=cookie%3Ab7caab2c-1f03-4c92-8010-0e7225a18756&amb-uid=7915098152553681130&cto-uid=8add5086-14d3-4e6a-adc1-4787823acfec-665b8159-5553&bsw-uid=831477f2-ac35-4647-bcb7-81d07e15f75f&adtonosListenerId=01J9PZGG2P399XH0HZS3CHM5W1&aw_0_req_lsid=201521b2c45747d5e04e8dbea6c9fa8f",
-        "logo": "https://zeno.fm/_ipx/s_144x144/https://images.zeno.fm/n8z4VCt_L0r_O7YiVokfpY1ygCRNBu9S3RtwJYdkmtw/rs:fill:288:288/g:ce:0:0/aHR0cHM6Ly9wcm94eS56ZW5vLmZtL2NvbnRlbnQvc3RhdGlvbnMvYWd4emZucGxibTh0YzNSaGRITnlNZ3NTQ2tGMWRHaERiR2xsYm5RWWdJQ3d3WnFmOVFnTUN4SU9VM1JoZEdsdmJsQnliMlpwYkdVWWdJQ3ducW13akFvTW9nRUVlbVZ1YncvaW1hZ2UvP3U9MTczMTA1NTMyNjAwMA.webp",
-        "genre": "Tamil Christian",
-               "metadata": true
-    },
-    {
-        "name": "Kalappai Radio",
-        "url": "https://stream-175.zeno.fm/bfx69n8avuhvv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJiZng2OW44YXZ1aHZ2IiwiaG9zdCI6InN0cmVhbS0xNzUuemVuby5mbSIsInJ0dGwiOjUsImp0aSI6IkJBVG4yQ3dzU042MEZaQlZpQVFtbWciLCJpYXQiOjE3NDA0NDM2MTYsImV4cCI6MTc0MDQ0MzY3Nn0.cpPB2tIrG6nU58X8qiqgiPO5PHYDABWMtJ6J57xTBj4&an-uid=3073547634656769353&dot-uid=0b4f200000a27ccda5b847a1&triton-uid=cookie%3Ab7caab2c-1f03-4c92-8010-0e7225a18756&amb-uid=7915098152553681130&cto-uid=8add5086-14d3-4e6a-adc1-4787823acfec-665b8159-5553&bsw-uid=831477f2-ac35-4647-bcb7-81d07e15f75f&aw_0_req_lsid=201521b2c45747d5e04e8dbea6c9fa8f",
-        "logo": "https://zeno.fm/_ipx/s_144x144/https://images.zeno.fm/GGqg3ge9YKA6WuuxCPNnS7IghWsWqaWpNsiMKRzfYAw/rs:fill:288:288/g:ce:0:0/aHR0cHM6Ly9wcm94eS56ZW5vLmZtL2NvbnRlbnQvc3RhdGlvbnMvYWd4emZucGxibTh0YzNSaGRITnlNZ3NTQ2tGMWRHaERiR2xsYm5RWWdJREkxTHE4X1FvTUN4SU9VM1JoZEdsdmJsQnliMlpwYkdVWWdJREkxSnpReUFzTW9nRUVlbVZ1YncvaW1hZ2UvP3U9MTY2MTc4Mjg1MDAwMA.webp",
-        "genre": "Tamil Christian",
-               "metadata": true
-    },
-    {
-        "name": "Kirubai FM",
-        "url": "http://s4.voscast.com:7110/;stream",
-        "logo": "https://i.ibb.co/bRWVDRKn/download-3.jpg",
-        "genre": "Tamil Christian",
-               "metadata": true
-    },
-    {
-        "name": "Lord's Radio",
-        "url": "https://lordsradio.radioca.st/stream",
-        "logo": "https://i.ibb.co/mrn9b9S6/Lordradio.png",
-        "genre": "Tamil Christian",
-               "metadata": true
-    },
-     {
-        "name": "Meypanin Kural",
-        "url": "https://stream-158.zeno.fm/y4tx3zpx34zuv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJ5NHR4M3pweDM0enV2IiwiaG9zdCI6InN0cmVhbS0xNTguemVuby5mbSIsInJ0dGwiOjUsImp0aSI6Ikp5aUZ6eDlEVC1LZEdsRkxaYVdWbGciLCJpYXQiOjE3MzkwMDc0MzMsImV4cCI6MTczOTAwNzQ5M30.gv-0PsNl58w4ifkLMEGDpNkm9ZZLHZ5eewhGvggI29U",
-        "logo": "https://i.ibb.co/yB7Qz5Vq/Maippanin-Kural-Radio-thumb.jpg",
-        "genre": "Tamil Christian",
-                "metadata": true
-    }, 
-      {
-        "name": "NJC Bible Radio",
-        "url": "https://stream.zeno.fm/fzx09rnsrp8uv",
-        "logo": "https://i.ibb.co/9mG9kjNy/image.webp",
-        "genre": "Tamil Christian",
-                 "metadata": true
-    },             
-    {
-        "name": "O'Zion",
-        "url": "https://s2.radio.co/sd4968cb05/listen",
-        "logo": "https://i.ibb.co/8Dbwfhyf/ozionfm.jpg",
-        "genre": "Tamil Christian",
-               "metadata": true
-    },
-    {
-        "name": "Sangamum Radio",
-        "url": "https://centova71.instainternet.com/proxy/sangamum?mp=/stream",
-        "logo": "https://i.ibb.co/LhsrfQ4x/f1693f87337881d9dcd102af94ae8c61.jpg",
-        "genre": "Tamil Christian",
-               "metadata": true
-    },
-           {
-        "name": "Shalom Beats Tamil",
-        "url": "https://cast.tunzilla.com/http://rd.shalombeatsradio.com:6090/stream/;",
-        "logo": "https://i.ibb.co/70LzF4n/shalombeats.png",
-        "genre": "Tamil Christian",
-                "metadata": true
-    },       
-     {
-        "name": "Shalom Radio FM",
-        "url": "https://stream.zeno.fm/0n4z0ta4v7zuv.mp3",
-        "logo": "https://i.ibb.co/SwSxjsbH/shalom-radio-tamil-fm-thumb.webp",
-        "genre": "Tamil Christian",
-                "metadata": true
-    },       
-     {
-        "name": "Sweety FM",
-        "url": "https://rbx2.hnux.com/http://e12392.cloudrad.io:9084/stream/2/",
-        "logo": "https://sweetyfm.com/wp-content/uploads/2023/11/cropped-Sweety-FM.png",
-        "genre": "Tamil Christian",
-                "metadata": true
-    },
-           {
-        "name": "Tamil Bible Radio",
-        "url": "https://gains.reviveradio.net/proxy/tamilbible?mp=/stream",
-        "logo": "https://indiabible.radio/wp-content/uploads/2022/05/Tamil_Bible_Radio_Logo.png",
-        "genre": "Tamil Christian",
-                "metadata": true
-    },
-    {
-        "name": "Theophony Radio",
-        "url": "https://mediatechnica.com:8002/theophony_tamil.mp3",
-        "logo": "https://i.ibb.co/Q359qxRV/logo.webp",
-        "genre": "Tamil Christian",
-               "metadata": true
-    },
-    {
-        "name": "Thuthi Fm",
-        "url": "https://streams.radio.co/s790fe269d/listen",
-        "logo": "https://i.ibb.co/pvchM6w4/images.jpg",
-        "genre": "Tamil Christian",
-               "metadata": true
-    },
-            {
-        "name": "TWR Tamil",
-        "url": "https://fm.radio882.com/radio/8010/tamil.mp3",
-        "logo": "https://i.ibb.co/2YyBVJtH/twr.png",
-        "genre": "Tamil Christian",
-               "metadata": true
-    },
-    {
-        "name": "Uthamiyee",
-        "url": "https://ssl.aloncast.com:1595/",
-        "logo": "https://i.ibb.co/qfHdFzv/cropped-600-X600-LOGO-UTHAMIYAE-FM.png",
-        "genre": "Tamil Christian",
-               "metadata": true
-    },
-    {
-        "name": "Vaanmalar FM",
-        "url": "https://dc1.serverse.com/proxy/vaanmalar2/stream",
-        "logo": "https://i.ibb.co/fdLCQFzD/vaan-malarfm-thumb.jpg",
-        "genre": "Tamil Christian",
-               "metadata": true
-    },
-             {
-        "name": "Voice of Trumpet",
-        "url": "https://stream.zeno.fm/pyrbm4khva0uv",
-        "logo": "https://i.ibb.co/n88ww0g5/logo.jpg",
-        "genre": "Tamil Christian",
-                        "metadata": true
-    },
-    {
-        "name": "Waves of Power",
-        "url": "https://radio.pixelinmedia.com/vallamai",
-        "logo": "https://i.ibb.co/8DRtQGTJ/cropped-Logo-vallamai-4.png",
-        "genre": "Tamil Christian",
-               "metadata": true
-    },
-    {
-        "name": "Yeni FM",
-        "url": "https://stream.zeno.fm/x6xgzvnpuzzuv",
-        "logo": "https://i.ibb.co/9mVyD2J1/a-HR0c-HM6-Ly9wcm94e-S56-ZW5v-Lm-Zt-L2-Nvbn-Rlbn-Qvc3-Rhd-Glvbn-Mv-YWd4em-Zuc-Gxib-Th0-Yz-NSa-GRITnl.webp",
-        "genre": "Tamil Christian",
-               "metadata": true
-    }  
-        ]
+  {
+    "name": "Amen FM",
+    "url": "https://ice7.securenetsystems.net/AMENFM",
+    "logo": "https://i.ibb.co/JWW8zWHy/download-1.jpg",
+    "genre": "Tamil Christian",
+    "metadata": true
+  },
+  {
+    "name": "Arulvakku FM",
+    "url": "https://stream.arulvakku.com/radio/8000/radio.mp3",
+    "logo": "https://i.ibb.co/KYdcq0T/arulvakku-fm.jpg",
+    "genre": "Tamil Christian",
+    "metadata": true
+  },
+  {
+    "name": "Blessing FM",
+    "url": "https://stream-170.zeno.fm/adm7psvk21zuv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJhZG03cHN2azIxenV2IiwiaG9zdCI6InN0cmVhbS0xNzAuemVuby5mbSIsInJ0dGwiOjUsImp0aSI6InN4RFNPcEdlUTF5b1dqd1ZBR3hQVnciLCJpYXQiOjE3NDA0NDI4MjcsImV4cCI6MTc0MDQ0Mjg4N30.KAcjMroVSuq8FGz2-EBLeiah-PmVSPc_TX5LxsJL4Ng&an-uid=3073547634656769353&dot-uid=0b4f200000a27ccda5b847a1&triton-uid=cookie%3Ab7caab2c-1f03-4c92-8010-0e7225a18756&amb-uid=7915098152553681130&cto-uid=8add5086-14d3-4e6a-adc1-4787823acfec-665b8159-5553&bsw-uid=831477f2-ac35-4647-bcb7-81d07e15f75f&adtonosListenerId=01J9PZGG2P399XH0HZS3CHM5W1&aw_0_req_lsid=201521b2c45747d5e04e8dbea6c9fa8f",
+    "logo": "https://static2.mytuner.mobi/media/tvos_radios/nhf5ax2jgfxz.png",
+    "genre": "Tamil Christian",
+    "metadata": true
+  },
+  {
+    "name": "Blessing Devotion FM",
+    "url": "https://stream.zeno.fm/fhxtx0t57vzuv?dot-uid=0c62200000b0ab09216775e6&amb-uid=6978883036377110501&aw_0_req_lsid=1b331c34cb5c63cc13926d7bd29dd486",
+    "logo": "https://zeno.fm/_ipx/_/https://images.zeno.fm/oncSkkHDBhAzDxRq0U7xsCb548kAaMznu4o0mMJmyQ4/rs:fill:2048:512/g:ce:0:0/aHR0cHM6Ly9wcm94eS56ZW5vLmZtL2NvbnRlbnQvc3RhdGlvbnMvYWd4emZucGxibTh0YzNSaGRITnlNZ3NTQ2tGMWRHaERiR2xsYm5RWWdJQ1EwUHVkNUFvTUN4SU9VM1JoZEdsdmJsQnliMlpwYkdVWWdJQ1FrSXFFbEFzTW9nRUVlbVZ1YncvbWljcm9zaXRlL2JhY2tncm91bmRfaW1hZ2UvP3U9MTY2MTYyNTE5MzAwMA.webp",
+    "genre": "Tamil Christian",
+    "metadata": true
+  },
+  {
+    "name": "Comforter Radio",
+    "url": "https://s4.radio.co/sd9738032b/listen",
+    "logo": "https://i.ibb.co/BHpkzR1z/download.webp",
+    "genre": "Tamil Christian",
+    "metadata": true
+  },
+  {
+    "name": "Devaprasannam Radio",
+    "url": "https://devaprasannam-a9media.radioca.st/stream",
+    "logo": "https://i.ibb.co/s9nn2W9n/devaprasannam.jpg",
+    "genre": "Tamil Christian",
+    "metadata": true
+  },
+  {
+    "name": "Fgpc FM",
+    "url": "https://dc1.serverse.com/proxy/fgpcfm/stream",
+    "logo": "https://i.ibb.co/s9mWj1wD/fgpcfm.jpg",
+    "genre": "Tamil Christian",
+    "metadata": true
+  },
+  {
+    "name": "FM fmkondattam",
+    "url": "https://dc1.serverse.com/proxy/fmkondattam/stream",
+    "logo": "https://i.ibb.co/jZwBxd3P/fmkondattam.jpg",
+    "genre": "Tamil Christian",
+    "metadata": true
+  },
+  {
+    "name": "Galeed FM",
+    "url": "https://eu2.fastcast4u.com/proxy/arunmedi?mp=/1",
+    "logo": "https://i.ibb.co/ZpYQnpwL/galeed-fm-radio.jpg",
+    "genre": "Tamil Christian",
+    "metadata": true
+  },
+  {
+    "name": "GBTC",
+    "url": "http://player.raddio.net/radio_stations/stations/play-stream?id=443498",
+    "logo": "https://i.ibb.co/LDdh50XD/blessing.jpg",
+    "genre": "Tamil Christian",
+    "metadata": true
+  },
+  {
+    "name": "GFan Radio",
+    "url": "https://centova71.instainternet.com/proxy/gfanfm?mp=/stream&1740634909492",
+    "logo": "https://i.ibb.co/k0KFCQS/gfan.png",
+    "genre": "Tamil Christian",
+    "metadata": true
+  },
+  {
+    "name": "Good News FM",
+    "url": "https://radio.christvisionmedia.com:8500/stream",
+    "logo": "https://i.ibb.co/wFKJH6Vr/logo.png",
+    "genre": "Tamil Christian",
+    "metadata": true
+  },
+  {
+    "name": "Grace Tamil FM",
+    "url": "https://stream-176.zeno.fm/p6c35acxvchvv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJwNmMzNWFjeHZjaHZ2IiwiaG9zdCI6InN0cmVhbS0xNzYuemVuby5mbSIsInJ0dGwiOjUsImp0aSI6ImdyWURlYk52UmdlR01pQXk1QlJLMlEiLCJpYXQiOjE3NDA0NDMyNTcsImV4cCI6MTc0MDQ0MzMxN30.aId8C1QKn7OdK8lX4M6yJSnvJ4jUguXdOFDX4RUuDJ4&an-uid=3073547634656769353&dot-uid=0b4f200000a27ccda5b847a1&triton-uid=cookie%3Ab7caab2c-1f03-4c92-8010-0e7225a18756&amb-uid=7915098152553681130&cto-uid=8add5086-14d3-4e6a-adc1-4787823acfec-665b8159-5553&bsw-uid=831477f2-ac35-4647-bcb7-81d07e15f75f",
+    "logo": "https://zeno.fm/_ipx/s_144x144/https://images.zeno.fm/0a_BB0K30OA7b2n8K9EogipcAxnqKvN5BXU1UYdEPLw/rs:fill:288:288/g:ce:0:0/aHR0cHM6Ly9wcm94eS56ZW5vLmZtL2NvbnRlbnQvc3RhdGlvbnMvYWd4emZucGxibTh0YzNSaGRITnlNZ3NTQ2tGMWRHaERiR2xsYm5RWWdJRHd6N1ctbUFnTUN4SU9VM1JoZEdsdmJsQnliMlpwYkdVWWdJQ0k4T0ttZ2dnTW9nRUVlbVZ1YncvaW1hZ2UvP3U9MTY3MDc2MTg0OTAwMA.webp",
+    "genre": "Tamil Christian",
+    "metadata": true
+  },
+  {
+    "name": "Hadassah Tamil Radio",
+    "url": "https://stream-178.zeno.fm/wuvyr58deq8uv",
+    "logo": "https://hadassahstore.sajeevavahini.com/i/tamil-christian-music.png",
+    "genre": "Tamil Christian",
+    "metadata": true
+  },
+  {
+    "name": "HOJ Tamil",
+    "url": "https://dc1.serverse.com/proxy/hojtamil/stream",
+    "logo": "https://i.ibb.co/jk49VdTX/hand-of-jesus.jpg",
+    "genre": "Tamil Christian",
+    "metadata": true
+  },
+  {
+    "name": "HOJ Bible",
+    "url": "https://dc1.serverse.com/proxy/hojbible/stream",
+    "logo": "https://i.ibb.co/jk49VdTX/hand-of-jesus.jpg",
+    "genre": "Tamil Christian",
+    "metadata": true
+  },
+  {
+    "name": "HOJ KIDS",
+    "url": "https://dc1.serverse.com/proxy/hojkids/stream",
+    "logo": "https://i.ibb.co/jk49VdTX/hand-of-jesus.jpg",
+    "genre": "Tamil Christian",
+    "metadata": true
+  },
+  {
+    "name": "Immanuel FM",
+    "url": "https://s115.radiolize.com:8020/radio.mp3",
+    "logo": "https://i.ibb.co/Kx8s3m4V/immanuel.png",
+    "genre": "Tamil Christian",
+    "metadata": true
+  },
+  {
+    "name": "Inbam FM",
+    "url": "http://stream.radio.co/sf55ced545/listen",
+    "logo": "https://i.ibb.co/v6QtbHL5/download-2.jpg",
+    "genre": "Tamil Christian",
+    "metadata": true
+  },
+  {
+    "name": "Jehova Rapha",
+    "url": "https://c22.radioboss.fm:8532/jehovahrapha?1728418667563",
+    "logo": "https://i.ibb.co/9k1dmv7s/jehovarapha-fm-4-01.jpg",
+    "genre": "Tamil Christian",
+    "metadata": true
+  },
+  {
+    "name": "Judah FM",
+    "url": "https://stream-167.zeno.fm/md62txrkky8uv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJtZDYydHhya2t5OHV2IiwiaG9zdCI6InN0cmVhbS0xNjcuemVuby5mbSIsInJ0dGwiOjUsImp0aSI6IldsRnpnc1ZHU19DSlBhMVM0c1dpd0EiLCJpYXQiOjE3NDA0Mzk4MzEsImV4cCI6MTc0MDQzOTg5MX0.ig9i0V7Ve7E9pgEwfPwTI2J5pyiZp7YHdUYlVwqLVGg&an-uid=3073547634656769353&dot-uid=0b4f200000a27ccda5b847a1&triton-uid=cookie%3Ab7caab2c-1f03-4c92-8010-0e7225a18756&amb-uid=7915098152553681130&cto-uid=8add5086-14d3-4e6a-adc1-4787823acfec-665b8159-5553&bsw-uid=831477f2-ac35-4647-bcb7-81d07e15f75f&adtonosListenerId=01J9PZGG2P399XH0HZS3CHM5W1&aw_0_req_lsid=201521b2c45747d5e04e8dbea6c9fa8f",
+    "logo": "https://zeno.fm/_ipx/s_144x144/https://images.zeno.fm/n8z4VCt_L0r_O7YiVokfpY1ygCRNBu9S3RtwJYdkmtw/rs:fill:288:288/g:ce:0:0/aHR0cHM6Ly9wcm94eS56ZW5vLmZtL2NvbnRlbnQvc3RhdGlvbnMvYWd4emZucGxibTh0YzNSaGRITnlNZ3NTQ2tGMWRHaERiR2xsYm5RWWdJQ3d3WnFmOVFnTUN4SU9VM1JoZEdsdmJsQnliMlpwYkdVWWdJQ3ducW13akFvTW9nRUVlbVZ1YncvaW1hZ2UvP3U9MTczMTA1NTMyNjAwMA.webp",
+    "genre": "Tamil Christian",
+    "metadata": true
+  },
+  {
+    "name": "Kalappai Radio",
+    "url": "https://stream-175.zeno.fm/bfx69n8avuhvv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJiZng2OW44YXZ1aHZ2IiwiaG9zdCI6InN0cmVhbS0xNzUuemVuby5mbSIsInJ0dGwiOjUsImp0aSI6IkJBVG4yQ3dzU042MEZaQlZpQVFtbWciLCJpYXQiOjE3NDA0NDM2MTYsImV4cCI6MTc0MDQ0MzY3Nn0.cpPB2tIrG6nU58X8qiqgiPO5PHYDABWMtJ6J57xTBj4&an-uid=3073547634656769353&dot-uid=0b4f200000a27ccda5b847a1&triton-uid=cookie%3Ab7caab2c-1f03-4c92-8010-0e7225a18756&amb-uid=7915098152553681130&cto-uid=8add5086-14d3-4e6a-adc1-4787823acfec-665b8159-5553&bsw-uid=831477f2-ac35-4647-bcb7-81d07e15f75f&aw_0_req_lsid=201521b2c45747d5e04e8dbea6c9fa8f",
+    "logo": "https://zeno.fm/_ipx/s_144x144/https://images.zeno.fm/GGqg3ge9YKA6WuuxCPNnS7IghWsWqaWpNsiMKRzfYAw/rs:fill:288:288/g:ce:0:0/aHR0cHM6Ly9wcm94eS56ZW5vLmZtL2NvbnRlbnQvc3RhdGlvbnMvYWd4emZucGxibTh0YzNSaGRITnlNZ3NTQ2tGMWRHaERiR2xsYm5RWWdJREkxTHE4X1FvTUN4SU9VM1JoZEdsdmJsQnliMlpwYkdVWWdJREkxSnpReUFzTW9nRUVlbVZ1YncvaW1hZ2UvP3U9MTY2MTc4Mjg1MDAwMA.webp",
+    "genre": "Tamil Christian",
+    "metadata": true
+  },
+  {
+    "name": "Kirubai FM",
+    "url": "http://s4.voscast.com:7110/;stream",
+    "logo": "https://i.ibb.co/bRWVDRKn/download-3.jpg",
+    "genre": "Tamil Christian",
+    "metadata": true
+  },
+  {
+    "name": "Lord's Radio",
+    "url": "https://lordsradio.radioca.st/stream",
+    "logo": "https://i.ibb.co/mrn9b9S6/Lordradio.png",
+    "genre": "Tamil Christian",
+    "metadata": true
+  },
+  {
+    "name": "Meypanin Kural",
+    "url": "https://stream-158.zeno.fm/y4tx3zpx34zuv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJ5NHR4M3pweDM0enV2IiwiaG9zdCI6InN0cmVhbS0xNTguemVuby5mbSIsInJ0dGwiOjUsImp0aSI6Ikp5aUZ6eDlEVC1LZEdsRkxaYVdWbGciLCJpYXQiOjE3MzkwMDc0MzMsImV4cCI6MTczOTAwNzQ5M30.gv-0PsNl58w4ifkLMEGDpNkm9ZZLHZ5eewhGvggI29U",
+    "logo": "https://i.ibb.co/yB7Qz5Vq/Maippanin-Kural-Radio-thumb.jpg",
+    "genre": "Tamil Christian",
+    "metadata": true
+  },
+  {
+    "name": "NJC Bible Radio",
+    "url": "https://stream.zeno.fm/fzx09rnsrp8uv",
+    "logo": "https://i.ibb.co/9mG9kjNy/image.webp",
+    "genre": "Tamil Christian",
+    "metadata": true
+  },
+  {
+    "name": "O'Zion",
+    "url": "https://s2.radio.co/sd4968cb05/listen",
+    "logo": "https://i.ibb.co/8Dbwfhyf/ozionfm.jpg",
+    "genre": "Tamil Christian",
+    "metadata": true
+  },
+  {
+    "name": "Sangamum Radio",
+    "url": "https://centova71.instainternet.com/proxy/sangamum?mp=/stream",
+    "logo": "https://i.ibb.co/LhsrfQ4x/f1693f87337881d9dcd102af94ae8c61.jpg",
+    "genre": "Tamil Christian",
+    "metadata": true
+  },
+  {
+    "name": "Shalom Beats Tamil",
+    "url": "https://cast.tunzilla.com/http://rd.shalombeatsradio.com:6090/stream/;",
+    "logo": "https://i.ibb.co/70LzF4n/shalombeats.png",
+    "genre": "Tamil Christian",
+    "metadata": true
+  },
+  {
+    "name": "Shalom Radio FM",
+    "url": "https://stream.zeno.fm/0n4z0ta4v7zuv.mp3",
+    "logo": "https://i.ibb.co/SwSxjsbH/shalom-radio-tamil-fm-thumb.webp",
+    "genre": "Tamil Christian",
+    "metadata": true
+  },
+  {
+    "name": "Sweety FM",
+    "url": "https://rbx2.hnux.com/http://e12392.cloudrad.io:9084/stream/2/",
+    "logo": "https://sweetyfm.com/wp-content/uploads/2023/11/cropped-Sweety-FM.png",
+    "genre": "Tamil Christian",
+    "metadata": true
+  },
+  {
+    "name": "Tamil Bible Radio",
+    "url": "https://gains.reviveradio.net/proxy/tamilbible?mp=/stream",
+    "logo": "https://indiabible.radio/wp-content/uploads/2022/05/Tamil_Bible_Radio_Logo.png",
+    "genre": "Tamil Christian",
+    "metadata": true
+  },
+  {
+    "name": "Theophony Radio",
+    "url": "https://mediatechnica.com:8002/theophony_tamil.mp3",
+    "logo": "https://i.ibb.co/Q359qxRV/logo.webp",
+    "genre": "Tamil Christian",
+    "metadata": true
+  },
+  {
+    "name": "Thuthi Fm",
+    "url": "https://streams.radio.co/s790fe269d/listen",
+    "logo": "https://i.ibb.co/pvchM6w4/images.jpg",
+    "genre": "Tamil Christian",
+    "metadata": true
+  },
+  {
+    "name": "TWR Tamil",
+    "url": "https://fm.radio882.com/radio/8010/tamil.mp3",
+    "logo": "https://i.ibb.co/2YyBVJtH/twr.png",
+    "genre": "Tamil Christian",
+    "metadata": true
+  },
+  {
+    "name": "Uthamiyee",
+    "url": "https://ssl.aloncast.com:1595/",
+    "logo": "https://i.ibb.co/qfHdFzv/cropped-600-X600-LOGO-UTHAMIYAE-FM.png",
+    "genre": "Tamil Christian",
+    "metadata": true
+  },
+  {
+    "name": "Vaanmalar FM",
+    "url": "https://dc1.serverse.com/proxy/vaanmalar2/stream",
+    "logo": "https://i.ibb.co/fdLCQFzD/vaan-malarfm-thumb.jpg",
+    "genre": "Tamil Christian",
+    "metadata": true
+  },
+  {
+    "name": "Voice of Trumpet",
+    "url": "https://stream.zeno.fm/pyrbm4khva0uv",
+    "logo": "https://i.ibb.co/n88ww0g5/logo.jpg",
+    "genre": "Tamil Christian",
+    "metadata": true
+  },
+  {
+    "name": "Waves of Power",
+    "url": "https://radio.pixelinmedia.com/vallamai",
+    "logo": "https://i.ibb.co/8DRtQGTJ/cropped-Logo-vallamai-4.png",
+    "genre": "Tamil Christian",
+    "metadata": true
+  },
+  {
+    "name": "Yeni FM",
+    "url": "https://stream.zeno.fm/x6xgzvnpuzzuv",
+    "logo": "https://i.ibb.co/9mVyD2J1/a-HR0c-HM6-Ly9wcm94e-S56-ZW5v-Lm-Zt-L2-Nvbn-Rlbn-Qvc3-Rhd-Glvbn-Mv-YWd4em-Zuc-Gxib-Th0-Yz-NSa-GRITnl.webp",
+    "genre": "Tamil Christian",
+    "metadata": true
+  }
+]
