@@ -163,7 +163,7 @@
   },
   {
     "name": "Kirubai FM",
-    "url": "http://s4.voscast.com:7110/listen;",
+    "url": "http://s4.voscast.com:7110/;",
     "logo": "https://i.ibb.co/bRWVDRKn/download-3.jpg",
     "genre": "Tamil Christian",
     "metadata": true
