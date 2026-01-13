@@ -1,4 +1,11 @@
 [
+             {
+        "name": "Ephphatha Radio",
+        "url": "https://ephphatha.radioca.st/stream?type=http&nocache=15206",
+        "logo": "https://ephphatharadio.com/images/logo.png",
+        "genre": "Malayalam Christian",
+        "metadata": true  
+    },
            {
         "name": "Malayalam Bible Radio",
         "url": "https://gains.reviveradio.net/proxy/malayalambible?mp=/stream",
