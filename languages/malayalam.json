@@ -27,6 +27,13 @@
         "genre": "Malayalam Christian",
         "metadata": true  
     },
+             {
+        "name": "Manna Radio",
+        "url": "https://stream.zeno.fm/qzdjp6za4jnuv",
+        "logo": "https://zeno.fm/_ipx/_/https://images.zeno.fm/BZtmYXP-L8h-BvgOY6dfRenz64Sm7Av7pk_RFdMUAak/rs:fill:288:288/g:ce:0:0/aHR0cHM6Ly9wcm94eS56ZW5vLmZtL2NvbnRlbnQvc3RhdGlvbnMvNGE5ODVjOTAtN2NhMC00NjkxLWFkNmUtODcwY2FjMDQ4NWFkL2ltYWdlLz91PTE3Mjk5MzgyOTMwMDA.webp",
+        "genre": "Malayalam Christian",
+        "metadata": true  
+    },
             {
         "name": "Psalms Radio",
         "url": "http://s2.citrus3.com:8046/stream",
