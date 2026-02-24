@@ -1,5 +1,12 @@
 [
            {
+        "name": "HOJ Telugu",
+        "url": "https://dc1.serverse.com/proxy/hojtelugu/stream",
+        "logo": "https://tamilradios.net/webpimg/kerala/radio_39070_Hand-Of-Jesus-%E2%80%93-Telugu.webp",
+        "genre": "Telegu Christian",
+        "metadata": true  
+    },
+           {
         "name": "Telugu Bible Radio",
         "url": "https://gains.reviveradio.net/proxy/teluguradio?mp=/stream",
         "logo": "https://telugubibleradio.com/wp-content/uploads/2022/06/LOGO-WEB1.png",
