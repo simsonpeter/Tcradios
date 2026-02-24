@@ -13,6 +13,13 @@
         "genre": "Telegu Christian",
         "metadata": true  
     },
+            {
+        "name": "Neeswaram Telugu FM",
+        "url": "http://neeswaram.riggrodigital.com:8035/stream;stream.mp3",
+        "logo": "https://radiosindia.com/images/neeswaram.jpg",
+        "genre": "Telegu Christian",
+        "metadata": true  
+    },
            {
         "name": "Sweety FM",
         "url": "https://stream-178.zeno.fm/zr71879tn7zuv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJ6cjcxODc5dG43enV2IiwiaG9zdCI6InN0cmVhbS0xNzguemVuby5mbSIsInJ0dGwiOjUsImp0aSI6IlJacVZfMFV5UzYydEsyT25iX3hIV2ciLCJpYXQiOjE3NzE5NjQwOTcsImV4cCI6MTc3MTk2NDE1N30.K_CiF774_bQXfMbX8Ua7DecDpBXQJ-Kq8dC27UO-RJU",
