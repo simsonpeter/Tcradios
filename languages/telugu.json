@@ -14,6 +14,13 @@
         "metadata": true  
     },
            {
+        "name": "Sweety FM",
+        "url": "https://stream-178.zeno.fm/zr71879tn7zuv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJ6cjcxODc5dG43enV2IiwiaG9zdCI6InN0cmVhbS0xNzguemVuby5mbSIsInJ0dGwiOjUsImp0aSI6IlJacVZfMFV5UzYydEsyT25iX3hIV2ciLCJpYXQiOjE3NzE5NjQwOTcsImV4cCI6MTc3MTk2NDE1N30.K_CiF774_bQXfMbX8Ua7DecDpBXQJ-Kq8dC27UO-RJU",
+        "logo": "https://sweetyfm.com/wp-content/uploads/2023/12/Sweety-FM-Telugu.png",
+        "genre": "Telugu Christian",
+        "metadata": true  
+    },
+           {
         "name": "Telugu Bible Radio",
         "url": "https://gains.reviveradio.net/proxy/teluguradio?mp=/stream",
         "logo": "https://telugubibleradio.com/wp-content/uploads/2022/06/LOGO-WEB1.png",
