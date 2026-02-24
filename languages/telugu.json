@@ -3,14 +3,14 @@
         "name": "Telugu Bible Radio",
         "url": "https://gains.reviveradio.net/proxy/teluguradio?mp=/stream",
         "logo": "https://telugubibleradio.com/wp-content/uploads/2022/06/LOGO-WEB1.png",
-        "genre": "English Christian",
+        "genre": "Telugu Christian",
         "metadata": true  
     },
   {
-        "name": "CBN Christmas",
-        "url": "https://streams.cbnradio.com/christmas-128K",
-        "logo": "https://cbn.com/sites/default/files/styles/480x270_16_9/public/images/Christmas-1920x1080.jpg",
-        "genre": "English Christian",
+        "name": "Telugu Christian Radio",
+        "url": "https://centova71.instainternet.com/proxy/teluguchristainradio?mp=/stream",
+        "logo": "https://www.teluguradios.org/wp-content/uploads/2025/10/Telugu-Christian-Radio.jpg",
+        "genre": "Telegu Christian",
         "metadata": true  
     }
   
