@@ -5,8 +5,14 @@
         "logo": "https://tamilradios.net/webpimg/kerala/radio_39070_Hand-Of-Jesus-%E2%80%93-Telugu.webp",
         "genre": "Kannada Christian",
         "metadata": true  
+    },
+            {
+        "name": "Kannada Bible Radio",
+        "url": "https://gains.reviveradio.net/proxy/kannadabible?mp=/stream",
+        "logo": "https://indiabible.radio/wp-content/uploads/2022/05/default-2.png",
+        "genre": "Kannada Christian",
+        "metadata": true  
     }
-            
 
   
         
