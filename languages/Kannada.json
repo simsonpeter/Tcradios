@@ -19,8 +19,14 @@
         "logo": "https://indiabible.radio/wp-content/uploads/2022/05/default-2.png",
         "genre": "Kannada Christian",
         "metadata": true  
+    },
+ {
+        "name": "Shalom Bears Radio",
+        "url": "http://rd.shalombeatsradio.com:8090/;",
+        "logo": "https://d371i8ihhgym7w.cloudfront.net/73875279.jpg",
+        "genre": "Kannada Christ    "logo": "daian",
+        "metadata": true  
     }
-
  
         
 ]
