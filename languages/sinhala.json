@@ -13,6 +13,13 @@
         "genre": "Sinhala Christian",
         "metadata": true  
     },
+        {
+        "name": "Jesus Coming FM",
+        "url": "https://live.jesuscomingfm.com/proxy/sinhala/stream.aac",
+        "logo": "https://static-media.streema.com/media/cache/e0/05/e0055f1d09d7cbe84c6187f1a6e50823.jpg",
+        "genre": "Kannada Christian",
+        "metadata": true  
+    },
   
           {
         "name": "Judah Sinhala Bible",
