@@ -2,18 +2,12 @@
            {
         "name": "HOJ Kannada",
         "url": "https://dc1.serverse.com/proxy/hojkannada/stream",
-        "logo": "https://tamilradios.net/webpimg/kerala/radio_10006_elim-ministries.webp",
-        "genre": "Telegu Christian",
-        "metadata": true  
-    },
-            
-  {
-        "name": "Telugu Christian Radio",
-        "url": "https://centova71.instainternet.com/proxy/teluguchristainradio?mp=/stream",
-        "logo": "https://www.teluguradios.org/wp-content/uploads/2025/10/Telugu-Christian-Radio.jpg",
-        "genre": "Telegu Christian",
+        "logo": "https://tamilradios.net/webpimg/kerala/radio_39070_Hand-Of-Jesus-%E2%80%93-Telugu.webp",
+        "genre": "Kannada Christian",
         "metadata": true  
     }
+            
+
   
         
 ]
